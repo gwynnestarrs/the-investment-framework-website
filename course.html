@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Investment Framework — Course Portal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A84C; --gold-light: #E8D08A; --gold-dim: #8B6914;
+      --black: #080808; --s1: #0F0F0F; --s2: #141414; --s3: #1C1C1C;
+      --border: #1E1E1E; --border2: #2A2A2A;
+      --tp: #F0EDE6; --ts: #8A8880; --tm: #4A4A48;
+      --sidebar: 268px; --nav: 56px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--black); color: var(--tp);
+      font-family: 'Montserrat', sans-serif;
+      -webkit-font-smoothing: antialiased; overflow-x: hidden;
+    }
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none;
+      z-index: 9000; opacity: 0.22;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+    .serif { font-family: 'Playfair Display', serif; }
+
+    /* ---- TOP NAV ---- */
+    #top-nav {
+      position: fixed; top: 0; left: 0; right: 0; height: var(--nav);
+      background: rgba(8,8,8,0.97); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(20px); z-index: 800;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 24px;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .progress-pill {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--tm);
+      background: var(--s1); border: 1px solid var(--border);
+      padding: 5px 14px;
+    }
+    .progress-bar-wrap { width: 140px; height: 2px; background: var(--border); }
+    .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold-dim), var(--gold)); transition: width 0.5s ease; }
+
+    /* ---- SIDEBAR ---- */
+    #sidebar {
+      position: fixed; top: var(--nav); left: 0; bottom: 0; width: var(--sidebar);
+      background: var(--s1); border-right: 1px solid var(--border);
+      overflow-y: auto; z-index: 700;
+      scrollbar-width: thin; scrollbar-color: #222 var(--s1);
+    }
+    #sidebar::-webkit-scrollbar { width: 3px; }
+    #sidebar::-webkit-scrollbar-track { background: var(--s1); }
+    #sidebar::-webkit-scrollbar-thumb { background: #222; }
+
+    .sidebar-header {
+      padding: 20px 20px 12px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--tm);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mod-btn {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px; background: transparent; border: none; cursor: pointer;
+      text-align: left; border-bottom: 1px solid var(--border);
+      transition: background 0.2s ease;
+    }
+    .mod-btn:hover { background: rgba(201,168,76,0.04); }
+    .mod-btn.active-mod { background: rgba(201,168,76,0.06); }
+    .mod-num { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; color: var(--gold); flex-shrink: 0; margin-right: 10px; }
+    .mod-title { font-size: 11px; font-weight: 600; color: var(--tp); line-height: 1.35; text-align: left; flex: 1; }
+    .mod-chevron { color: var(--tm); font-size: 10px; transition: transform 0.25s ease; flex-shrink: 0; margin-left: 6px; }
+    .mod-btn.open .mod-chevron { transform: rotate(90deg); }
+
+    .lesson-list { display: none; }
+    .lesson-list.open { display: block; }
+
+    .lesson-btn {
+      width: 100%; display: flex; align-items: center; gap: 10px;
+      padding: 9px 20px 9px 38px; background: transparent; border: none;
+      border-bottom: 1px solid rgba(30,30,30,0.5);
+      cursor: pointer; text-align: left; transition: background 0.2s ease;
+    }
+    .lesson-btn:hover { background: rgba(201,168,76,0.04); }
+    .lesson-btn.active {
+      background: rgba(201,168,76,0.08);
+      border-left: 2px solid var(--gold);
+      padding-left: 36px;
+    }
+    .lesson-num { font-size: 9px; color: var(--tm); font-weight: 600; flex-shrink: 0; }
+    .lesson-title-sb { font-size: 11px; color: var(--ts); font-weight: 500; line-height: 1.3; flex: 1; }
+    .lesson-btn.active .lesson-title-sb { color: var(--gold); }
+    .check { width: 12px; height: 12px; flex-shrink: 0; opacity: 0; transition: opacity 0.3s ease; }
+    .check.done { opacity: 1; }
+
+    /* ---- MAIN CONTENT ---- */
+    #main {
+      margin-left: var(--sidebar); padding-top: var(--nav);
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+    #lesson-view { flex: 1; padding: 56px 72px 80px; max-width: 860px; }
+
+    .lesson-label { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .lesson-title { font-size: clamp(26px, 3.5vw, 40px); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; color: var(--tp); margin-bottom: 28px; }
+    .lesson-divider { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); width: 64px; margin-bottom: 36px; }
+    .lesson-body p { font-size: 15px; line-height: 1.88; color: var(--ts); margin-bottom: 20px; }
+    .lesson-body strong, .lesson-body b { color: var(--tp); font-weight: 600; }
+    .lesson-body .gold { color: var(--gold); }
+
+    .callout {
+      margin: 32px 0; padding: 28px 28px 28px 24px;
+      background: var(--s1); border-left: 2px solid var(--gold);
+    }
+    .callout-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .callout p { font-size: 14px; line-height: 1.82; color: var(--ts); margin: 0; }
+    .callout.example { border-left-color: #3A3A3A; }
+    .callout.example .callout-label { color: var(--tm); }
+
+    .takeaways { margin-top: 36px; padding: 32px; background: var(--s1); border: 1px solid var(--border); }
+    .takeaways-title { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+    .takeaways li { font-size: 13px; line-height: 1.75; color: var(--ts); margin-bottom: 10px; padding-left: 16px; position: relative; }
+    .takeaways li::before { content: ''; position: absolute; left: 0; top: 9px; width: 5px; height: 5px; background: var(--gold); }
+
+    /* ---- BOTTOM NAV ---- */
+    #bottom-nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 72px; border-top: 1px solid var(--border);
+      background: var(--s1);
+    }
+    .nav-btn {
+      display: flex; align-items: center; gap: 12px; background: transparent;
+      border: 1px solid var(--border2); padding: 12px 24px; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--ts);
+      text-decoration: none; transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .nav-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+    .nav-btn:disabled { opacity: 0.2; pointer-events: none; }
+    .nav-btn.primary {
+      background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
+      color: #080808; border: none;
+      box-shadow: 0 4px 20px rgba(201,168,76,0.2);
+    }
+    .nav-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(201,168,76,0.35); color: #080808; }
+
+    /* ---- INTRO SCREEN ---- */
+    #intro-screen {
+      display: flex; flex-direction: column; align-items: flex-start;
+      justify-content: center; padding: 72px; min-height: calc(100vh - var(--nav));
+      max-width: 780px;
+    }
+    .intro-label { font-size: 9px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .intro-title { font-size: clamp(34px, 4vw, 54px); font-weight: 700; line-height: 1.08; letter-spacing: -0.03em; color: var(--tp); margin-bottom: 36px; }
+    .intro-script { font-size: 16px; line-height: 1.92; color: var(--ts); margin-bottom: 52px; }
+    .intro-script p { margin-bottom: 20px; }
+    .btn-begin {
+      display: inline-block;
+      background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
+      color: #080808; font-family: 'Montserrat', sans-serif; font-weight: 700;
+      letter-spacing: 0.13em; text-transform: uppercase; font-size: 12px;
+      padding: 18px 56px; border: none; cursor: pointer;
+      box-shadow: 0 4px 24px rgba(201,168,76,0.22);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease;
+    }
+    .btn-begin:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(201,168,76,0.38); }
+
+    /* ---- MOBILE ---- */
+    #sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:699; }
+    #mobile-toggle {
+      display: none; background: none; border: none; cursor: pointer;
+      padding: 8px; color: var(--gold);
+    }
+    @media (max-width: 900px) {
+      :root { --sidebar: 0px; }
+      #sidebar { transform: translateX(-268px); width: 268px; transition: transform 0.3s ease; }
+      #sidebar.open { transform: translateX(0); }
+      #sidebar-overlay.open { display: block; }
+      #mobile-toggle { display: flex; align-items: center; }
+      #lesson-view { padding: 36px 24px 60px; }
+      #bottom-nav { padding: 20px 24px; }
+      #intro-screen { padding: 36px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== TOP NAV ===================== -->
+<nav id="top-nav">
+  <div style="display:flex;align-items:center;gap:16px;">
+    <button id="mobile-toggle" onclick="toggleSidebar()" aria-label="Menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <a href="index.html" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
+        <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="1"/>
+        <text x="20" y="27" font-family="Playfair Display,serif" font-size="16" font-weight="700" fill="#C9A84C" text-anchor="middle">IF</text>
+      </svg>
+      <div style="line-height:1.3;display:flex;flex-direction:column;">
+        <span style="font-size:8px;font-weight:700;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase;">The Investment</span>
+        <span style="font-size:8px;font-weight:700;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase;">Framework</span>
+      </div>
+    </a>
+  </div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+      <span class="progress-pill" id="progress-text">0 / 9 Modules</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+    </div>
+    <a href="index.html" style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#3A3A38;text-decoration:none;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#3A3A38'">← Home</a>
+  </div>
+</nav>
+
+<!-- ===================== SIDEBAR ===================== -->
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar">
+  <div class="sidebar-header">Course Modules</div>
+  <div id="module-list"><!-- JS renders this --></div>
+</aside>
+
+<!-- ===================== MAIN ===================== -->
+<main id="main">
+  <!-- Intro screen shown first -->
+  <div id="intro-screen">
+    <div class="intro-label">Welcome to the Course</div>
+    <h1 class="serif intro-title">Markets as They<br>Actually Are.</h1>
+    <div class="intro-script">
+      <p>"Let me be honest with you about something most finance courses will never say.</p>
+      <p>Everything you've been taught about markets is either incomplete, slightly wrong, or optimized to make you feel safe rather than to make you sharp.</p>
+      <p>The Efficient Market Hypothesis tells you prices reflect all available information. That's partially true — and the partial truth is what kills you. Because markets are efficient most of the time, which means the edge lives in the exceptions.</p>
+      <p>This course exists to fill in what's missing. Not with more formulas. Not with more definitions. But with the actual mental frameworks that professionals use when capital is on the line.</p>
+      <p>We're going to understand how the financial system is actually wired. We're going to learn how to read a business — not its financial statements, but the business itself. We're going to develop macro awareness. And we're going to build a decision-making framework that works under real uncertainty.</p>
+      <p>By the end, you won't think like a student of finance. You'll think like someone who manages money professionally — permanently skeptical of consensus, obsessed with the gap between price and value, and deeply aware that the market is a machine for transferring money from the impatient to the patient.</p>
+      <p>Welcome. Let's begin."</p>
+    </div>
+    <button class="btn-begin" onclick="startCourse()">Begin Course →</button>
+  </div>
+
+  <!-- Lesson view (hidden until a lesson is selected) -->
+  <div id="lesson-view" style="display:none;">
+    <div class="lesson-label" id="lv-label"></div>
+    <h2 class="serif lesson-title" id="lv-title"></h2>
+    <div class="lesson-divider"></div>
+    <div class="lesson-body" id="lv-body"></div>
+  </div>
+
+  <!-- Bottom nav -->
+  <div id="bottom-nav" style="display:none;">
+    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15,18 9,12 15,6"/></svg>
+      Previous
+    </button>
+    <div style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#3A3A38;" id="lesson-counter"></div>
+    <button class="nav-btn primary" id="btn-next" onclick="navigate(1)">
+      Next
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9,18 15,12 9,6"/></svg>
+    </button>
+  </div>
+</main>
+
+
+<script>
+// ============================================================
+// COURSE DATA
+// ============================================================
+const COURSE = [
+  {
+    num: 1, title: "Financial System Foundations",
+    subtitle: "How Money Moves and Who Controls the Flow",
+    lessons: [
+      {
+        num: "1.1", title: "The Three Functions of Financial Markets",
+        body: [
+          "Most people think of financial markets as places where stocks go up and down. That's like describing a city as a place where cars drive around — technically true and completely missing the point.",
+          "Markets do three things: they <strong>allocate capital</strong>, provide <strong>price discovery</strong>, and <strong>transfer risk</strong>. Capital allocation is the most important. Society has a finite amount of savings at any given moment. Someone must decide where it goes. In market economies, price signals make that decision — companies that generate high returns on capital attract funding; those that can't, don't.",
+          "Price discovery is the process by which markets aggregate all available information into a single number: the price. Every buyer and seller brings different information, different time horizons, different risk tolerances. The price on a screen is the instantaneous consensus of all those people. It is not 'correct' — it is the market's best current guess. <span class='gold'>The gap between that guess and reality is where investment opportunity lives.</span>",
+          "Risk transfer is underappreciated. When an airline buys fuel futures, they transfer the risk of oil price spikes to a speculator who believes oil will fall. When a bank packages mortgages into bonds, they transfer credit risk to bond investors. Every financial transaction involves risk moving from someone who doesn't want it to someone who does — or misprices it."
+        ],
+        hfp: "Professional investors think about which of these three functions is broken or inefficient in any given market. A market with poor price discovery — thin trading, few analysts, illiquid — is one where mispricing is more likely. That's opportunity. The edge lives in finding where the aggregation mechanism has failed.",
+        rwe: "In March 2020, retail investors panic-sold equities. Simultaneously, sophisticated funds stepped in aggressively. Those who sold at the bottom were largely retail investors. Those who bought were professionals with longer time horizons and the analytical framework to recognize that a temporary demand shock didn't permanently impair the value of most businesses.",
+        takeaways: [
+          "Financial markets allocate capital, discover prices, and transfer risk — all three functions can be inefficient, and inefficiency creates opportunity.",
+          "The price you see is the market's best guess, not the correct answer. The gap between price and value is where investing lives.",
+          "Different participants have radically different constraints and time horizons — these differences drive short-term price movements more than fundamentals do."
+        ]
+      },
+      {
+        num: "1.2", title: "The Participants — Who's Actually Playing",
+        body: [
+          "The participants in financial markets are not a homogeneous mass of 'investors.' They have radically different objectives, time horizons, constraints, and information. Understanding the ecosystem is critical.",
+          "<strong>Retail investors</strong> typically have long time horizons but limited information and high emotional reactivity. They tend to buy high and sell low — not because they're unintelligent, but because their emotions are synchronized with market movements. They panic when prices fall and get excited when prices rise.",
+          "<strong>Institutional investors</strong> — pension funds, endowments, mutual funds — manage trillions with specific mandates. A pension fund must meet actuarial liabilities. An endowment must generate 5% annually to fund operations. These constraints force decisions that may not be optimal from a pure return standpoint, which creates exploitable patterns.",
+          "<strong>Hedge funds</strong> are the most flexible participants. No mandated benchmarks (in theory), they can short stocks, use leverage, trade derivatives, go global. This flexibility is both advantage and source of pressure — they face regular redemptions and career risk. A manager who underperforms for two quarters faces withdrawals, forcing selling, which may further depress prices. <span class='gold'>This dynamic creates opportunities for investors without those constraints.</span>",
+          "<strong>Central banks</strong> are not profit-seeking but enormously powerful. They control the money supply, set interest rates, and can intervene directly. Understanding central bank behavior is foundational macro literacy."
+        ],
+        hfp: "Hedge funds specifically analyze institutional constraints to find forced selling opportunities. When a bond gets downgraded below investment grade, pension funds that can only hold investment-grade paper must sell — regardless of price. That forced selling creates mispricing that unconstrained capital can exploit.",
+        rwe: "In 2008, when Lehman Brothers collapsed, money market funds 'broke the buck' — their NAV fell below $1. Institutional investors withdrew en masse from money market funds, creating a credit freeze. Understanding that institutions had mandates preventing them from holding sub-$1 NAV funds explains why a seemingly manageable event cascaded into a systemic crisis.",
+        takeaways: [
+          "Market participants have different constraints, objectives, and time horizons — this creates the mispricings that skilled investors exploit.",
+          "Institutional mandates create forced buying and selling that is disconnected from fundamental value — these are opportunities.",
+          "Central bank policy is not a background factor but a primary driver of asset prices. Understanding their framework is non-negotiable."
+        ]
+      },
+      {
+        num: "1.3", title: "Primary vs. Secondary Markets",
+        body: [
+          "This distinction matters more than most beginners realize.",
+          "The <strong>primary market</strong> is where new securities are created and sold for the first time. When a company does an IPO, it issues new shares to the public and receives cash. That cash goes to the company. Capital is being deployed into the real economy.",
+          "The <strong>secondary market</strong> is where those shares then trade among investors. When you buy Apple stock on the NYSE, Apple receives nothing. You're buying from another investor. The secondary market provides liquidity and price discovery — but it doesn't directly fund the company.",
+          "Why does this matter? Because the narrative around stock prices often confuses secondary market activity with economic impact. When a stock drops 20%, the company hasn't lost that money — existing shareholders have. <span class='gold'>The business keeps operating.</span> This distinction becomes critical in valuation: what a stock does in the secondary market short-term is often noise; what the underlying business does operationally is signal.",
+          "The major secondary markets: stock exchanges (NYSE, NASDAQ), bond markets (mostly over-the-counter, dealer-driven), derivatives markets, and foreign exchange markets — Forex is the largest by volume at $7 trillion daily."
+        ],
+        hfp: "Most retail capital is deployed in the secondary market with no edge in analyzing the primary market. Hedge funds with IPO access, pre-IPO investments, or credit market exposure often find better risk/reward in less crowded spaces — where secondary market liquidity hasn't homogenized prices.",
+        rwe: "WeWork attempted an IPO in 2019. Its S-1 prospectus revealed chaotic governance, massive losses, and a business model dressed in tech-company language. The IPO was pulled. SoftBank had valued it at $47 billion; it was eventually restructured for effectively nothing. The primary market document — the S-1 — told the full story. Most investors never read it.",
+        takeaways: [
+          "Primary markets fund companies; secondary markets provide liquidity. Most retail investors only interact with the secondary market.",
+          "Short-term secondary market prices are often noise. The underlying business operations are the signal.",
+          "Reading primary market documents (S-1s, prospectuses) gives you information that secondary market prices haven't yet processed."
+        ]
+      },
+      {
+        num: "1.4", title: "Financial Intermediaries",
+        body: [
+          "Intermediaries exist because financial transactions require trust, infrastructure, and information. They reduce friction — but they also extract rent.",
+          "<strong>Commercial banks</strong> take deposits and make loans. Their business model is the spread between what they pay depositors (low) and what they charge borrowers (higher). They create money through fractional reserve lending — when a bank lends $100, that $100 gets deposited somewhere and lent again, amplifying the money supply. This is why bank failures are systemically dangerous: they can contract the money supply rapidly.",
+          "<strong>Broker-dealers</strong> execute transactions for clients. A broker connects buyer and seller; a dealer takes the other side of trades itself (market-making). The market maker profits from the bid-ask spread — the tiny gap between buy and sell prices.",
+          "<strong>Shadow banks</strong> are financial intermediaries that aren't regulated like banks but perform bank-like functions: money market funds, hedge funds, private credit funds. During 2008, a large portion of the 'bank run' happened in the shadow banking system. Understanding shadow banking means understanding the system's actual architecture, not just its official one."
+        ],
+        hfp: "Investment banks earn fees when deals happen, regardless of whether those deals benefit investors. This misalignment is structural and predictable — which means that when an investment bank is enthusiastic about a deal, you should understand whose interests are being served. The house always gets paid.",
+        rwe: "Enron's collapse in 2001 involved multiple intermediaries failing in their roles. Auditors (Arthur Andersen) signed off on fraudulent statements. Investment banks structured the off-balance-sheet vehicles that hid Enron's debt. Credit rating agencies maintained investment-grade ratings until days before bankruptcy. Every intermediary had a conflict of interest that overrode their nominal function.",
+        takeaways: [
+          "Intermediaries reduce friction but extract rent — understanding their incentives reveals where advice is compromised.",
+          "Shadow banking handles enormous credit flows outside the regulated system — ignoring it means ignoring a major portion of how finance actually works.",
+          "In financial crises, intermediary failures compound each other. The 2008 crisis was as much a shadow banking crisis as a mortgage crisis."
+        ]
+      },
+      {
+        num: "1.5", title: "How Prices Are Set",
+        body: [
+          "Price discovery happens through order matching. At the most basic level: when buy orders exceed sell orders at a given price, the price rises until balance is restored. When sell orders exceed buy orders, the price falls.",
+          "<strong>Continuous auction markets</strong> (NYSE): buyers and sellers submit bids continuously throughout the trading day. A central limit order book matches buyers with sellers at the best available prices.",
+          "<strong>Market-maker systems</strong> (most bond markets): dealers stand ready to buy and sell at quoted prices, providing liquidity. They profit from the bid-ask spread. High-frequency trading firms have largely automated this role in equities, narrowing spreads significantly.",
+          "<strong>Block trading</strong>: large institutional orders can't be executed in public markets without moving prices significantly. A hedge fund selling $500 million of stock can't dump it into the order book — it would crater the price. Instead, they work through dark pools or negotiate directly with another institution. <span class='gold'>Understanding this helps you understand why the price you see is not always the price you get.</span>"
+        ],
+        hfp: "Liquidity risk is real and dramatically underpriced by most investors. In normal markets, small-cap stocks and high-yield bonds trade with reasonable spreads. In a crisis, bid-ask spreads blow out, order books thin, and the price you see is not the price at which you can execute. Building a portfolio assumes you can exit positions — which is only sometimes true.",
+        rwe: "During the March 2020 COVID crash, even U.S. Treasury bonds — the most liquid market in the world — experienced significant liquidity stress. Bid-ask spreads on Treasuries widened dramatically and market-making firms struggled to handle the volume. If the most liquid market in the world can temporarily seize up, every other market is more vulnerable than investors typically assume.",
+        takeaways: [
+          "Price discovery aggregates information from all market participants — the resulting price is a consensus, not an objective value.",
+          "Market structure determines liquidity, which determines execution quality. Illiquid markets offer higher potential returns but require a liquidity risk premium.",
+          "The price you see is the marginal transaction price. Your execution price for a meaningful position may be very different."
+        ]
+      }
+    ]
+  },
+  {
+    num: 2, title: "Risk & Return Framework",
+    subtitle: "The Only Trade That Matters",
+    lessons: [
+      {
+        num: "2.1", title: "Risk Is Not Volatility",
+        body: [
+          "Academic finance defines risk as volatility — specifically, the standard deviation of returns. Beta measures a stock's volatility relative to the market. The Capital Asset Pricing Model says you should be compensated for bearing volatility risk. Here's the problem: <span class='gold'>volatility is not risk if you have time.</span>",
+          "If you own a great business and it drops 30% because of macroeconomic fear, and you have a 10-year horizon, your actual risk of permanent loss may be near zero. The volatility is real; the risk isn't.",
+          "Professional investors distinguish between: <strong>Volatility</strong> — short-term price fluctuation, inevitable and often irrelevant; <strong>Permanent capital impairment</strong> — actual loss of purchasing power with no recovery path; <strong>Liquidity risk</strong> — the risk that you cannot exit a position at a reasonable price; <strong>Correlation risk</strong> — your 'diversified' portfolio drops simultaneously because correlations spike in crises; <strong>Tail risk</strong> — extreme, low-probability events that standard deviation doesn't capture.",
+          "A strategy that returns 8% annually for 9 years and then loses 80% in year 10 looks great on a volatility measure until year 10. The academic definition of risk and the practical definition of risk are not the same thing."
+        ],
+        hfp: "Long/short equity hedge funds spend far more time thinking about downside scenarios than upside scenarios. The asymmetry is deliberate: you can quantify how much you can lose (position size times potential drawdown), but upside is theoretically unlimited and harder to model. Getting the risk right is what allows you to stay in the game long enough for the return to materialize.",
+        rwe: "Warren Buffett's Berkshire Hathaway has experienced multiple 50%+ drawdowns in its history. By volatility measures, it would appear 'risky.' By permanent capital impairment measures, it has been one of the safest compounding machines in modern finance. Investors who sold during the drawdowns locked in real losses. Those who held experienced the compounding.",
+        takeaways: [
+          "Volatility ≠ risk. Permanent capital impairment is risk. The distinction has enormous practical consequences.",
+          "Multiple types of risk coexist: volatility, permanent loss, liquidity, correlation, and tail risk. Each requires different management.",
+          "Academic risk models capture the normal distribution of returns but systematically underestimate tail events. Real risk management accounts for what the models miss."
+        ]
+      },
+      {
+        num: "2.2", title: "Expected Value — Thinking in Distributions",
+        body: [
+          "Amateur investors think in predictions: 'I think this stock is going to $200.' Professional investors think in distributions: 'I think there's a 60% chance this is worth $180-220, a 25% chance it's worth $100-150, and a 15% chance the business fails completely.'",
+          "<strong>Expected value</strong> is the probability-weighted average of outcomes. If you assign 60% × $200 = $120, 25% × $125 = $31.25, 15% × $0 = $0, the expected value is $151.25. If the stock trades at $120, you have a positive expected value proposition. If it trades at $160, you don't.",
+          "This framework forces critical cognitive habits: you must explicitly consider the bear case, not just the bull case. You must assign probabilities rather than saying 'I think it'll go up.' You must compare the current price to the probability-weighted outcome, not to your single best guess.",
+          "<span class='gold'>The discipline of thinking in scenarios prevents a common error: confusing narrative quality with investment quality.</span> A company can have a compelling story and still be a bad investment because the price already reflects that story — and more."
+        ],
+        hfp: "When building an investment thesis, professional investors write out the bear case first. Not as a formality, but as a genuine stress test. If you can't articulate a credible bear case, you don't understand the investment well enough. The bull case is easy — everyone can find reasons something might go up. The bear case is where analytical rigor reveals itself.",
+        rwe: "In 2000, Cisco had an extraordinary growth narrative. But its valuation was pricing in perpetual 50%+ revenue growth. The business was real; the price was not. The expected value at that price was negative even if you believed the bull case entirely — because the bull case was already in the stock, leaving no margin of safety for the inevitable period of slower growth.",
+        takeaways: [
+          "Think in probability distributions, not point predictions. Every investment thesis should include bull, base, and bear scenarios with assigned probabilities.",
+          "Expected value = Σ (probability × outcome). A positive expected value means the odds favor the investment — not that it will definitely work.",
+          "Narrative quality and investment quality are not the same thing. A great story at the wrong price is a bad investment."
+        ]
+      },
+      {
+        num: "2.3", title: "The Risk Premium",
+        body: [
+          "If risky assets didn't offer higher expected returns than safe assets, no rational investor would hold them. The <strong>equity risk premium</strong> is the excess return investors demand for owning stocks over risk-free government bonds.",
+          "Historically, U.S. equities have returned roughly 10% annually; U.S. Treasury bills roughly 3-4%. The ~6% difference is the equity risk premium — compensation for volatility, permanent loss risk, and waiting through downturns.",
+          "Different assets carry different risk premia: Government bonds have very low premium over cash. Corporate bonds add a credit spread for default risk. High-yield bonds carry meaningful credit spreads. Public equities carry the equity risk premium. Private equity adds an illiquidity premium. Venture capital requires very high expected return because most investments go to zero.",
+          "<span class='gold'>Every premium compensates for something.</span> When a high-yield bond yields 9% and a government bond yields 4%, the 5% spread represents the market's pricing of default risk. Your job as an investor is to determine whether that pricing is correct — whether 5% adequately compensates for the actual default probability."
+        ],
+        hfp: "Credit hedge funds analyze corporate bonds and look for mispricings in the credit spread. They ask: 'Is this company's default risk really what the market thinks it is?' When they believe the spread is too wide (market overestimates default risk), they buy. When it's too narrow (market is too optimistic), they short or avoid. The identical logic applies across all asset classes — find where the premium is mispriced.",
+        rwe: "In 2008-09, high-yield bonds traded at spreads implying default rates of 40-50% — far above historical experience in any recession. Investors with the capital and conviction to buy those bonds at peak stress earned extraordinary returns as spreads normalized. The premium was not wrong — the risk was real — but it was overpriced relative to realistic outcomes.",
+        takeaways: [
+          "Every risk premium compensates for something specific. Understand what you're being paid to bear before accepting the risk.",
+          "Your job is not to avoid risk but to determine whether you're being adequately compensated for it.",
+          "When premia are very wide (high fear), expected returns are high. When they're very narrow (low fear), expected returns are low. Fear and opportunity are correlated."
+        ]
+      },
+      {
+        num: "2.4", title: "Kelly Criterion — How Much to Bet",
+        body: [
+          "Knowing an investment has positive expected value doesn't tell you how much to invest. Sizing is a separate decision — and wrong sizing converts a winning strategy into ruin.",
+          "The <strong>Kelly Criterion</strong> is a mathematical framework for optimal bet sizing: Kelly % = Edge / Odds. Edge is your probability of winning minus probability of losing. Odds is what you win for every dollar you risk.",
+          "Kelly maximizes long-run geometric growth. Bet less than Kelly, you grow slower than optimal. <span class='gold'>Bet more than Kelly, your long-run growth rate actually decreases — you can go broke even with a winning strategy.</span>",
+          "Most professional investors use 'fractional Kelly' — betting 25-50% of Kelly-optimal — to reduce volatility and protect against errors in probability estimation. This also reflects a key insight: your probability estimates themselves carry uncertainty. Humility in sizing is rational.",
+          "Many investors make correct calls but wrong bets. They identify a mispriced asset, gain high conviction, and either under-size (diluting the alpha) or over-size (facing forced liquidation when temporarily wrong). The best investors choose deliberately between concentration and diversification based on their actual edge."
+        ],
+        hfp: "Position sizing is where portfolio management separates from stock picking. An investor might be right 60% of the time but still lose money if they size their losses larger than their wins. The Kelly framework forces explicit thinking about both the probability and the magnitude of outcomes — which is exactly how professionals approach position construction.",
+        rwe: "Bill Ackman's Pershing Square bet against MBIA and AMBAC (bond insurers) in 2007-08 was analytically correct. He sized the position in a way that allowed him to survive the pain of being early — the insurers looked fine for months before collapsing. Had he overleveraged, early mark-to-market losses could have forced him to close before the thesis played out. He was right and he survived long enough to be right. Both matter.",
+        takeaways: [
+          "Position sizing is as important as investment selection. Wrong sizing converts winning strategies into losing ones.",
+          "Kelly Criterion: bet proportionally to your edge divided by your odds. More edge = larger position. Higher uncertainty = smaller position.",
+          "Use fractional Kelly to account for uncertainty in your own probability estimates. Humility in sizing is not timidity — it's rational risk management."
+        ]
+      },
+      {
+        num: "2.5", title: "Asymmetric Risk — The Holy Grail",
+        body: [
+          "The most sought-after structure in investing is asymmetry: situations where the upside is large and the downside is small. Options naturally create this structure. So do convertible bonds, special situations, and deep-value investments with hard asset backing.",
+          "<strong>Deep value with asset support:</strong> buying a company at 50% of liquidation value. Downside is floored by assets; upside is the potential for business recovery or acquisition.",
+          "<strong>Options:</strong> the right (not obligation) to buy or sell an asset at a predetermined price. Maximum loss is the premium paid; upside depends on how far the asset moves. You define your maximum loss precisely.",
+          "<strong>Distressed debt:</strong> buying bonds of a bankrupt company at 30 cents on the dollar. If recovery is 60 cents, you double. In liquidations with real assets, downside is more bounded than it appears.",
+          "<span class='gold'>The opposite structure — symmetric or negatively asymmetric risk — is where many retail investors end up:</span> growth stocks with enormous upside priced in and unlimited downside if the story doesn't materialize. You're bearing the downside without adequate compensation for it."
+        ],
+        hfp: "Tail hedging — buying far out-of-the-money put options as insurance against market crashes — is a form of managed asymmetry. The fund gives up a small annual premium to ensure a catastrophic event doesn't end the fund. Universa Investments (run by Mark Spitznagel) runs this as a pure strategy. In March 2020, Universa reportedly generated 4,144% returns on its tail hedge book in a single month. The asymmetry was enormous because puts were cheap when volatility was low.",
+        rwe: "LTCM (Long-Term Capital Management) in 1998 is the canonical example of negatively asymmetric risk taken to its logical conclusion. The fund had consistent small gains from arbitrage strategies — but those strategies carried enormous tail risk. When Russia defaulted in 1998, correlations across all their positions moved against them simultaneously. The small consistent gains were not adequate compensation for the catastrophic tail risk. They blew up.",
+        takeaways: [
+          "Seek asymmetry: structures where the upside significantly exceeds the downside. This is the defining characteristic of great risk/reward setups.",
+          "Many growth stocks represent negative asymmetry: large upside priced in, unlimited downside if expectations aren't met.",
+          "Tail hedging — paying a small premium to limit catastrophic loss — is rational portfolio management, not conservative timidity."
+        ]
+      }
+    ]
+  },
+  {
+    num: 3, title: "Modern Portfolio Theory",
+    subtitle: "Why Diversification Is More Subtle Than You Think",
+    lessons: [
+      {
+        num: "3.1", title: "The Correlation Insight",
+        body: [
+          "Harry Markowitz's 1952 paper changed finance permanently. The core insight: the risk of a portfolio is not the average of the risks of its components. Because assets don't move in perfect lockstep, combining them reduces overall portfolio risk without reducing expected return proportionately.",
+          "Intuition: imagine owning an umbrella company and a sunscreen company. When it rains, umbrellas sell; sunscreen doesn't. When it's sunny, the reverse. If you own both, your revenue is more stable than either business alone — not because either is less risky, but because their risks offset.",
+          "Correlation runs from -1 (perfect negative correlation, maximum diversification benefit) to +1 (perfect positive correlation, no benefit). Most real-world assets have correlations between 0 and 0.7. <span class='gold'>That middle ground is where portfolios are constructed.</span>",
+          "The critical failure point: correlations are not stable. In normal markets, stocks in different industries may have moderate correlations. In a crisis, correlations spike toward 1 — everything falls together because fear is a universal factor. The diversification you built under normal conditions disappears precisely when you need it most."
+        ],
+        hfp: "Risk managers at sophisticated funds track correlation matrices and specifically examine how correlations change in stress environments. A portfolio that looks diversified under normal assumptions can be dangerously concentrated under crisis assumptions. Stress-testing portfolios against historical crises (2008, 1998, 2020) reveals the true correlation structure.",
+        rwe: "In 2008, almost every asset class fell simultaneously: equities, credit, real estate, commodities, emerging markets. The only meaningful diversifiers were U.S. Treasuries and short volatility positions. Investors who believed they were diversified across 'uncorrelated' assets discovered that in a true liquidity crisis, the correlation between anything and cash-like safety is the only correlation that matters.",
+        takeaways: [
+          "Diversification works because assets don't move in perfect lockstep — not because individual assets become safer.",
+          "Correlation is not a constant — it changes dramatically in stress environments, usually spiking toward 1 when you need diversification most.",
+          "True diversification is more difficult than holding multiple assets in different sectors."
+        ]
+      },
+      {
+        num: "3.2", title: "The Efficient Frontier",
+        body: [
+          "Markowitz showed that for any set of assets, there's a set of portfolios that dominate all others — they offer the highest expected return for a given level of risk. This set is called the <strong>efficient frontier</strong>.",
+          "Portfolios on the efficient frontier are 'efficient' — you can't get more return without taking more risk, and you can't reduce risk without giving up return. Portfolios below the frontier are inefficient — same risk but lower return. <span class='gold'>Why would anyone hold an inefficient portfolio? They wouldn't, if they understood what they were doing.</span>",
+          "Where you sit on the efficient frontier should reflect your risk tolerance, time horizon, and specific financial situation. A 25-year-old with stable income and no dependents should be near the high-risk, high-return end. A 60-year-old funding retirement next year should be near the low-risk end.",
+          "What MPT doesn't tell you: where exactly the efficient frontier is in the real world. The theory requires estimates of expected returns, variances, and correlations for every asset. These inputs are themselves uncertain. Small changes in assumptions produce dramatically different 'optimal' portfolios."
+        ],
+        hfp: "The efficient frontier is a theoretical construct that requires you to know the future distribution of returns. Since you don't, the practical application is not 'find the optimal portfolio' but 'understand the tradeoff between risk and return and position yourself appropriately on that tradeoff given your constraints.' The concept is useful; the precise optimization is largely fiction.",
+        rwe: "Target-date funds (e.g., Vanguard Target Retirement 2050) implement a practical version of efficient frontier thinking: young investors hold more equities (high expected return, high risk), and as the target date approaches, the allocation automatically shifts toward bonds (lower return, lower risk). It's a simplified but rational implementation of the core MPT insight.",
+        takeaways: [
+          "The efficient frontier represents the set of portfolios with the best risk-return tradeoff — but you cannot locate it precisely in practice.",
+          "Your position on the frontier should reflect your actual risk tolerance and time horizon, not your aspirational one.",
+          "MPT is a framework for thinking, not a recipe for execution."
+        ]
+      },
+      {
+        num: "3.3", title: "Factor Models — Why Assets Move Together",
+        body: [
+          "MPT was extended into the Capital Asset Pricing Model (CAPM), which introduced <strong>beta</strong>: how much a stock moves relative to the overall market. Beta = 1.0 moves with the market. Beta > 1.0 amplifies moves. Beta < 1.0 dampens them.",
+          "CAPM says the only risk you should be compensated for is market risk (beta), because all other risks can be diversified away. This prediction doesn't hold empirically.",
+          "Eugene Fama and Kenneth French identified additional factors: <strong>Size factor</strong> — small-cap stocks have historically outperformed large-caps. <strong>Value factor</strong> — cheap stocks (low price/book) have historically outperformed. <strong>Momentum</strong> — recent outperformers tend to continue outperforming. <strong>Profitability</strong> — more profitable companies outperform. <strong>Quality</strong> — strong balance sheets outperform.",
+          "<span class='gold'>Multi-factor investing is now standard in institutional management.</span> When a hedge fund says they're running a 'factor-neutral' portfolio, they've hedged out exposure to all systematic factors — their return reflects only stock-specific insights, not factor tilts."
+        ],
+        hfp: "Alpha — returns uncorrelated with any known factor — is the holy grail of active management. Most active funds don't generate genuine alpha; they generate disguised factor exposure (value tilt, momentum tilt) while charging active management fees. True alpha requires a differentiated information edge, a unique analytical framework, or a structural advantage. It's rare and often temporary.",
+        rwe: "The value factor massively underperformed from roughly 2007 to 2020 — 13 years. During this period, 'value is dead' became a popular narrative. Then in 2021-2022, value massively outperformed as interest rates rose (growth stocks, which derive more value from distant future cash flows, were hit hardest by rising discount rates). Factors cycle. Long underperformance doesn't mean a factor has stopped working.",
+        takeaways: [
+          "Beta is one measure of risk; multiple factors (size, value, momentum, quality) explain returns beyond market exposure.",
+          "Factor investing can be accessed cheaply through index funds — so active managers must demonstrate alpha beyond factor tilts to justify their fees.",
+          "Factors go through extended periods of underperformance. Long underperformance doesn't mean a factor is broken."
+        ]
+      },
+      {
+        num: "3.4", title: "What MPT Gets Wrong",
+        body: [
+          "MPT is an approximation of reality, not reality itself. <strong>Returns are not normally distributed.</strong> MPT assumes stock returns follow a bell curve. In reality, returns have fat tails — extreme events happen far more frequently than normal distributions predict. The 2008 crisis, the 1987 crash, the COVID crash were all 'once in 1000 years' events by standard models. They happen every decade or two.",
+          "<strong>Historical correlations are not future correlations.</strong> The model is built on historical data. But regimes change. Oil and stock markets were uncorrelated for decades; they became highly correlated in the 2000s as the commodity boom linked emerging markets, oil demand, and equity markets.",
+          "<strong>Optimization is sensitive to inputs.</strong> Small changes in expected return estimates produce dramatically different 'optimal' portfolios. The optimization process amplifies uncertainty rather than resolving it.",
+          "<span class='gold'>The proper use of MPT: as a conceptual framework for thinking about diversification and the risk reduction from combining uncorrelated assets — not as a recipe for building the optimal portfolio.</span> The insight is real. The precision is illusory."
+        ],
+        hfp: "Sophisticated risk managers know that models are maps, not the territory. They run stress tests against historical crises, analyze correlations in up and down markets separately, and maintain a qualitative overlay that asks 'what can't this model capture?' The models are starting points for thinking, not endpoints for decision-making.",
+        rwe: "Long-Term Capital Management (LTCM) was run by Nobel Prize winners using sophisticated MPT-based models. In 1998, their models predicted they couldn't lose more than $35 million on any given day. They lost $500 million on one day and required a Fed-organized bailout. The models were right about normal conditions. They were catastrophically wrong about tail events — which is exactly the scenario where accurate risk modeling matters most.",
+        takeaways: [
+          "Returns have fat tails — extreme events are more frequent than normal distributions predict. Standard models systematically underestimate tail risk.",
+          "Historical correlations break down precisely when you need them most — in crises.",
+          "Use MPT as a conceptual tool, not a precise optimization formula. The insight is real; the precision is illusory."
+        ]
+      }
+    ]
+  },
+  {
+    num: 4, title: "Asset Classes & Capital Markets",
+    subtitle: "The Full Landscape of Where Capital Lives",
+    lessons: [
+      {
+        num: "4.1", title: "Equities — Ownership, Claims, and Market Structure",
+        body: [
+          "Equity represents an ownership claim on the residual value of a business — what's left after all creditors are paid. This is the critical structural point: equityholders are <strong>last in the capital structure</strong>, which means they bear the most risk and require the highest expected return.",
+          "Market capitalization (price × shares outstanding) reflects the total market value of equity. <strong>Large-caps</strong> are extensively covered by analysts, widely held, and have efficient prices. <strong>Small-caps</strong> are less covered, less liquid, and more likely to be mispriced — which creates opportunity.",
+          "<strong>Growth vs. value:</strong> Growth stocks are priced for high future earnings growth; their valuations are sensitive to long-term interest rates (future cash flows are discounted more when rates rise). Value stocks are priced cheaply relative to current earnings or assets.",
+          "<strong>Cyclical vs. defensive:</strong> Cyclical stocks (airlines, homebuilders, semiconductors) boom in expansions and bust in recessions. <span class='gold'>Defensive stocks (consumer staples, utilities, healthcare) are relatively recession-resistant.</span> Sophisticated investors rotate between these depending on where they believe the economy is in its cycle."
+        ],
+        hfp: "The most interesting opportunities in equities are typically where institutional attention is lowest: small-caps, micro-caps, spin-offs, post-bankruptcy equities, and situations where forced selling has disconnected price from value. In large-cap stocks covered by 40+ analysts, the probability that you have information the market doesn't is low. The edge lives in the neglected corners.",
+        rwe: "Amazon in 2001 was a $330 million market cap company with $1.1 billion in revenue. It was ignored by most investors because the dot-com crash had destroyed appetite for internet companies regardless of fundamentals. Those who read the 10-K and understood the underlying business model — the power of its marketplace and what AWS could eventually become — had an extraordinary opportunity. The stock was trading at a level that assumed the business would fail.",
+        takeaways: [
+          "Equities are the most junior claim — highest risk, highest required return. Understand the capital structure before buying equity.",
+          "Small-cap and neglected equities have higher probability of mispricing than large-cap stocks with extensive analyst coverage.",
+          "Growth vs. value and cyclical vs. defensive are not just categories — they determine how your portfolio behaves across economic cycles."
+        ]
+      },
+      {
+        num: "4.2", title: "Fixed Income — Bonds, Yield, and Credit",
+        body: [
+          "A bond is a loan. The issuer borrows money and promises to repay the principal plus interest (the coupon). Bondholders are creditors, not owners — they have legal priority over equityholders.",
+          "The yield on a bond has two components: the <strong>risk-free rate</strong> (pegged to government bond yields) and the <strong>credit spread</strong> (additional compensation for default risk). <strong>Yield and price move inversely:</strong> if rates rise, existing bonds with lower fixed coupons become less attractive, so their prices fall. This is the most counterintuitive thing about bonds for new investors.",
+          "<strong>Duration</strong> measures a bond's sensitivity to interest rate changes. A bond with duration of 10 will fall roughly 10% in price if rates rise 1%. Long-duration bonds are extremely sensitive to rate movements; short-duration bonds are much less so.",
+          "The credit spectrum: Government bonds (near zero default risk), Investment-grade corporate bonds (small credit spread), High-yield 'junk' bonds (meaningful default risk, significant spread), Distressed debt (trading at large discounts, default expected). <span class='gold'>Each step down the credit spectrum compensates for something real.</span>"
+        ],
+        hfp: "Credit hedge funds often make their best returns from distressed debt and special situations — companies going through restructuring, spin-offs, or forced selling by institutional investors who can't hold below-investment-grade bonds. When a bond gets downgraded from BBB to BB (below investment grade), pension funds and investment-grade mandated funds must sell regardless of price. That forced selling creates mispricing.",
+        rwe: "In 2009, General Motors went bankrupt. Its bonds were trading at 10-15 cents on the dollar, implying near-total loss. Investors who understood the government bailout dynamics and the actual asset value of GM's business bought those bonds. When GM emerged from bankruptcy, bondholders received equity in the new company that was worth far more than what they paid. The forced selling by institutions that couldn't hold distressed debt created the opportunity.",
+        takeaways: [
+          "Bond prices and yields move inversely. Duration measures interest rate sensitivity — longer duration means greater price volatility.",
+          "Every credit spread compensates for default risk. Your job is to determine whether that compensation is adequate.",
+          "Forced institutional selling of downgraded bonds creates predictable mispricing opportunities for unconstrained capital."
+        ]
+      },
+      {
+        num: "4.3", title: "Private Markets",
+        body: [
+          "Private markets — investments not traded on public exchanges — are where a significant portion of economic activity is financed and where institutional investors allocate substantially.",
+          "<strong>Private equity (PE):</strong> firms buy companies (usually using significant debt — leveraged buyouts or LBOs), improve operations, and sell years later. PE firms earn returns through operational improvement, leverage amplification, and multiple expansion (buying at 8x EBITDA, selling at 12x). Average holding period: 5-7 years.",
+          "<strong>Venture capital (VC):</strong> early-stage equity investments in startups. The return model is power-law — a small percentage of investments generate the vast majority of returns. Most investments return zero. VC is fundamentally a portfolio strategy: you need enough shots at a great company to hit one.",
+          "<strong>Private credit:</strong> loans made by non-bank lenders to mid-sized businesses. As banks pulled back from middle-market lending post-2008, private credit funds filled the gap, earning bank margins plus an illiquidity premium. <span class='gold'>Real assets (real estate, infrastructure, commodities) tend to have inflation-correlated returns — valuable for institutional investors with inflation-linked liabilities.</span>"
+        ],
+        hfp: "Private equity returns are often compared favorably to public equity. But PE uses leverage (which inflates returns) and suffers from stale pricing (values don't update daily, creating an illusion of lower volatility). When you adjust for leverage and compare to equally levered public equity strategies, the PE return premium is smaller than advertised. The illiquidity premium is real but often overstated.",
+        rwe: "Sequoia Capital's investment in Stripe at a $1.75 billion valuation in 2014 illustrates the VC power law in action. Most of Sequoia's investments in any given fund returned 0-2x. But Stripe alone (eventually valued at $95 billion+) generated returns that justified the entire fund's existence many times over. This is how VC math works: you need one extraordinary hit to make the portfolio economics work.",
+        takeaways: [
+          "Private markets offer illiquidity premiums and control opportunities but require long time horizons and careful fee analysis.",
+          "VC returns follow a power law — a few exceptional investments determine the entire fund's outcome.",
+          "Private equity's apparent return advantage over public markets is partially explained by leverage and stale pricing, not purely operational alpha."
+        ]
+      },
+      {
+        num: "4.4", title: "IPOs and the Investment Banking Ecosystem",
+        body: [
+          "When a private company goes public, it hires investment banks to manage the process. The IPO is the most dramatic moment in a company's financial life.",
+          "The IPO process: The company files an S-1 prospectus with the SEC disclosing all material information. Investment banks conduct a 'roadshow' — presenting to institutional investors to gauge demand and set a price. The IPO price is set (deliberately underpriced to generate initial trading excitement). Shares begin trading.",
+          "<strong>Why are IPOs often underpriced?</strong> Investment banks have an incentive to please their institutional clients (who get IPO allocations) by leaving money on the table. The company loses — they could have sold at a higher price — but the relationship dynamics favor underpricing. Average first-day IPO returns have historically been 15-20%.",
+          "<span class='gold'>The 'winner's curse' in IPOs:</span> If you're offered shares in an IPO, be suspicious. Oversubscribed IPOs are rationed — you get few shares. Undersubscribed IPOs are easy to get into — which signals the sophisticated money didn't want them. The retail investor tends to participate in the IPOs the professionals avoided."
+        ],
+        hfp: "Investment banks earn fees when deals happen, regardless of whether those deals benefit their clients. This structural misalignment is predictable: when an investment bank is enthusiastic about an IPO, ask yourself whose interests are being served. The bank profits from the transaction. The company wants the highest price. The institutional investors want underpricing. You, as a retail participant, are last in the information hierarchy.",
+        rwe: "WeWork attempted an IPO in 2019 at a valuation of $47 billion. Its S-1 revealed massive losses, chaotic governance (the CEO had literally trademarked the word 'We' and sold it back to the company for $5.9 million), and a business model that disguised real estate leasing as tech disruption. The IPO was pulled. WeWork was eventually restructured for effectively nothing. The S-1 told the complete story — for anyone who read it.",
+        takeaways: [
+          "Investment banks' interests in IPOs are structurally misaligned with those of both companies and public investors.",
+          "Read the S-1 prospectus. It is the most complete document a company produces, and most investors ignore it entirely.",
+          "The winner's curse: easy access to an IPO is a signal, not a privilege. The IPOs most accessible to retail are often the ones institutional money passed on."
+        ]
+      }
+    ]
+  },
+  {
+    num: 5, title: "Understanding Businesses Deeply",
+    subtitle: "The Company Behind the Ticker",
+    lessons: [
+      {
+        num: "5.1", title: "Business Model Analysis",
+        body: [
+          "A stock is not a squiggling line on a chart. It's a fractional ownership stake in a real business with employees, customers, competitors, and a specific economic model. Before opening a financial statement, understand the business model.",
+          "Ask: <strong>Who is the customer?</strong> Consumer? Enterprise? Government? Different customers have different switching costs, payment reliability, and negotiating power. <strong>What is the value proposition?</strong> Why does the customer pay this company instead of competitors? Is that differentiation durable?",
+          "<strong>What are the unit economics?</strong> For every customer acquired, what does the company earn? What's the customer acquisition cost (CAC)? What's the lifetime value (LTV)? LTV/CAC > 3 is a healthy benchmark for subscription businesses. <strong>What is the revenue model?</strong> One-time purchase? Recurring subscription? Transaction-based? Advertising-based? The predictability of revenue has a direct impact on how you should value the business.",
+          "<span class='gold'>The single biggest mistake investors make is treating stocks as trading objects rather than business interests.</span> The right mental frame: if you owned 100% of this business, what would you think about it?"
+        ],
+        hfp: "Private equity investors — who actually buy entire companies — are forced to think in business model terms because they can't exit easily. This discipline produces better investment decisions. When evaluating a public equity, ask the PE question: 'If I owned this entire business for the next 5 years, what would determine the outcome?' That question cuts through short-term noise immediately.",
+        rwe: "Salesforce (CRM) sells enterprise software on annual/multi-year subscription contracts. Revenue is highly predictable; churning a customer is difficult because of the training, data migration, and workflow disruption involved. Compare this to a consumer app charging a one-time $2.99 fee. Same industry, completely different business quality. The Salesforce model is worth a dramatically higher multiple of the same revenue dollar.",
+        takeaways: [
+          "Understand the business model before looking at the financial statements. The model tells you which metrics actually matter.",
+          "Unit economics (LTV/CAC, gross margin, payback period) reveal whether the business is fundamentally healthy at the unit level, regardless of accounting.",
+          "Recurring revenue is worth more than one-time revenue. Predictable cash flows justify higher multiples than lumpy, cyclical ones."
+        ]
+      },
+      {
+        num: "5.2", title: "Competitive Moats",
+        body: [
+          "Without a moat, competition erodes returns on capital toward the cost of capital over time. This is basic economic law: high-return businesses attract competition until returns normalize. A moat is what delays or prevents that erosion.",
+          "<strong>Network effects:</strong> The product becomes more valuable as more people use it. LinkedIn, Visa/Mastercard, Google Search. Competitors starting from zero face a nearly insurmountable disadvantage.",
+          "<strong>Switching costs:</strong> Oracle and SAP enterprise software has enormous switching costs — migrating a core ERP system is a multi-year, nine-figure project. This allows Oracle to raise prices with impunity. <strong>Cost advantages:</strong> Amazon's fulfillment network, TSMC's semiconductor process, Walmart's logistics — structural cost advantages that can't be easily replicated.",
+          "<strong>Intangible assets:</strong> Brands, patents, regulatory licenses. Coca-Cola's brand is worth tens of billions. A pharmaceutical company with a patent on a blockbuster drug has 20 years of protected pricing power. <span class='gold'>Common misconception: 'great product' is not a moat. Products can be copied. A moat must be structural — embedded in the economics of the business.</span>"
+        ],
+        hfp: "Moat analysis is central to understanding the durability of earnings. A business without a moat should trade at a low multiple of current earnings (those earnings will erode). A business with a deep moat can justify a high multiple because its earnings will persist and grow. Getting moat analysis right is the key to understanding whether a company deserves its valuation — and whether you're paying for permanent or temporary profitability.",
+        rwe: "Blockbuster Video had a dominant market position — 9,000 stores worldwide and the leading brand in video rental. But it had no moat. Its competitive position was based purely on physical convenience (stores were nearby) and selection. Netflix eliminated both advantages simultaneously with streaming. A moat analysis in 2005 would have revealed that nothing structurally prevented a digital competitor from making Blockbuster's entire network of stores irrelevant.",
+        takeaways: [
+          "Moats are structural, not product-based. The competitive advantage must be embedded in the economics of the business, not dependent on any single innovation.",
+          "The five moat sources: network effects, switching costs, cost advantages, intangible assets, and efficient scale.",
+          "Moat analysis determines whether a company's current profitability is durable — which is the most important question in valuation."
+        ]
+      },
+      {
+        num: "5.3", title: "The 10-K — Reading What Management Wants You to Skip",
+        body: [
+          "The 10-K is the annual report filed with the SEC. It's the most important document a public company produces, and it's the most underread. Why do retail investors skip it? It's long, dense, and full of legal boilerplate. <span class='gold'>This is exactly why reading it creates edge.</span>",
+          "<strong>Risk Factors (Section 1A):</strong> Legally required disclosure of every material risk. Most are boilerplate, but novel or specific risk factors — particularly those that change year-over-year — are signals. Adding a new risk factor often precedes bad news.",
+          "<strong>Management's Discussion & Analysis (MD&A):</strong> Management explains the business in their own words — what happened, why, and what they expect. Compare language year-over-year. Are they being evasive? Changing how they describe problems? Candor or promotional language tells you something.",
+          "<strong>Footnotes:</strong> The details that don't fit in the main body. Pension obligations, off-balance-sheet commitments, litigation exposure, lease obligations, derivative positions. <strong>The most important information is often in the footnotes</strong> — which is precisely why it's there and why it matters that you read it."
+        ],
+        hfp: "The 10-K reading habit is a source of durable analytical edge because it requires time and attention that most market participants are unwilling to invest. If 1000 analysts follow Apple and each reads its 10-K, there's little edge to be found there. If a small-cap company has 3 analysts and most investors rely on earnings summaries, a careful reader of the 10-K has a genuine information advantage.",
+        rwe: "Enron's 10-K filings contained opaque disclosures about the Special Purpose Entities (SPEs) used to hide debt off the balance sheet. A careful reader of the footnotes could see that Enron was guaranteeing the debts of entities it claimed were independent. The disclosure was there — it was just buried and obfuscated. Short sellers who read carefully flagged it years before the collapse. Most investors never looked past the headline numbers.",
+        takeaways: [
+          "The 10-K is the most information-dense document a company produces. Most investors never read it — which creates a permanent edge for those who do.",
+          "Read the risk factors section carefully, especially changes year-over-year. New risks often precede bad news.",
+          "The most important disclosures are often in the footnotes. This is a feature, not a bug — management prefers you don't notice."
+        ]
+      },
+      {
+        num: "5.4", title: "Management Quality — Incentives, Candor, and Capital Allocation",
+        body: [
+          "Management quality is a factor in investment decisions — but it's notoriously difficult to assess from the outside. Focus on observable, structural signals rather than charisma or media appearances.",
+          "<strong>Insider ownership:</strong> When management owns significant equity (not just options, but actual shares they paid for), their interests align with outside shareholders. They suffer when the stock falls; they benefit when it rises. High insider ownership is a positive signal. Look at percentage owned, whether they're buying or selling in open market transactions, and meaningful dollar amounts relative to compensation.",
+          "<strong>Capital allocation track record:</strong> The most important job of a CEO is allocating capital — deciding where to invest free cash flow. The choices: reinvest organically, acquire other companies, pay dividends, or buy back stock. CEOs who reinvest at high returns on invested capital create enormous value. CEOs who make poorly conceived acquisitions destroy value.",
+          "<span class='gold'>The empirical research is clear: most large acquisitions destroy shareholder value.</span> Companies typically overpay. Synergies are overestimated. Integration is underestimated. A CEO with a track record of value-creating acquisitions is a genuinely rare and valuable thing."
+        ],
+        hfp: "One of the most important management quality signals is how a CEO communicates about problems. Great operators acknowledge difficulties clearly, explain what went wrong, and describe what they're doing about it. Poor operators use language to obscure, deflect, or reframe problems as opportunities. Reading multiple years of shareholder letters and earnings call transcripts reveals the pattern.",
+        rwe: "Henry Singleton of Teledyne was perhaps history's greatest capital allocator. He bought back 90% of Teledyne's shares over 12 years — returning capital when the stock was cheap and retaining it when the stock was expensive. He made acquisitions when multiples were low and avoided them when they were high. His return on invested capital consistently exceeded 20%. Teledyne shareholders made extraordinary returns. What Singleton did wasn't magic — it was disciplined, rational capital allocation executed consistently over decades.",
+        takeaways: [
+          "Focus on structural signals of management quality: insider ownership, capital allocation track record, and communication candor.",
+          "A CEO who makes well-timed, value-creating capital allocation decisions is rarer and more valuable than a CEO with a compelling vision.",
+          "Most large acquisitions destroy value. A CEO's M&A track record is one of the most important inputs in assessing management quality."
+        ]
+      }
+    ]
+  },
+  {
+    num: 6, title: "Financial Statements Mastery",
+    subtitle: "Reading the Language of Business",
+    lessons: [
+      {
+        num: "6.1", title: "The Income Statement",
+        body: [
+          "The income statement answers one question: did the company make money during this period? It runs from revenue at the top to net income at the bottom — which is why it's called the 'bottom line.'",
+          "<strong>Revenue</strong> is the starting point, but it's also the most manipulable line. How revenue is recognized — when it's counted — determines how a business appears. 'Channel stuffing' (loading distributors with inventory customers haven't ordered yet) inflates current revenue at the expense of future quarters. Watch for revenue recognition policy changes.",
+          "<strong>Gross profit = Revenue − Cost of Goods Sold.</strong> Gross margin (gross profit / revenue) reveals how much of every dollar of revenue survives after the direct cost of producing the product or service. <span class='gold'>Gross margin is one of the most powerful indicators of pricing power and competitive position.</span> Software companies often have 70-80%+ gross margins; commodity manufacturers might have 10-15%.",
+          "<strong>Operating income</strong> (EBIT) subtracts operating expenses (R&D, sales, G&A) from gross profit. <strong>Net income</strong> subtracts interest expense and taxes. Net income is the most cited but also the most easily manipulated. EBITDA (earnings before interest, taxes, depreciation, and amortization) is often used as a proxy for cash generation — though it has significant limitations."
+        ],
+        hfp: "Professional investors rarely rely on GAAP net income as their primary valuation metric. It's too easily affected by accounting choices: depreciation method, revenue recognition timing, capitalization vs. expensing of costs. Instead, they build their own earnings models that adjust for one-time items, normalize the capital structure, and focus on the cash generation underlying the reported numbers.",
+        rwe: "Wirecard, the German payments company, reported years of strong revenue and profit growth. Its income statements looked excellent. But in 2020, it emerged that €1.9 billion on its balance sheet 'did not exist' — the revenue and profits were fabricated. The warning signs were visible in the cash flow statement: a supposedly profitable company consistently failed to convert profits into cash. This is a classic red flag that income statement analysis alone would miss.",
+        takeaways: [
+          "Gross margin reveals pricing power and competitive position — one of the most important single numbers in financial analysis.",
+          "Net income is the most cited and most easily manipulated metric. Focus on what the income statement tells you about the underlying business, not just the bottom line.",
+          "Revenue recognition is where income statement manipulation most often begins. Understand how the company counts revenue."
+        ]
+      },
+      {
+        num: "6.2", title: "The Balance Sheet",
+        body: [
+          "The balance sheet is a snapshot of what a company owns (assets), what it owes (liabilities), and what remains for shareholders (equity) at a specific point in time. The fundamental equation: <strong>Assets = Liabilities + Shareholders' Equity.</strong>",
+          "<strong>Current assets</strong> (cash, receivables, inventory) can be converted to cash within a year. <strong>Non-current assets</strong> (property, plant & equipment, intangibles, goodwill) are long-term investments. <strong>Current liabilities</strong> (accounts payable, short-term debt) are due within a year. <strong>Long-term liabilities</strong> (bonds, long-term debt) are due beyond a year.",
+          "<strong>Goodwill</strong> is the premium paid above book value in an acquisition. It appears as an asset on the balance sheet — but it's not a real asset; it's an accounting entry representing the price paid over fair value. When acquisitions go wrong, goodwill gets written down — a 'goodwill impairment charge' that signals a failed deal.",
+          "<span class='gold'>The balance sheet reveals leverage — how much debt the company uses to finance its assets.</span> Debt amplifies returns in good times and amplifies losses in bad times. High leverage companies can generate extraordinary equity returns — and go bankrupt in a downturn. Understanding the debt maturity schedule (when debt comes due) is essential for assessing refinancing risk."
+        ],
+        hfp: "Sophisticated analysts calculate return on invested capital (ROIC) from the balance sheet: ROIC = Net Operating Profit After Tax / Invested Capital. Companies that consistently generate ROIC above their cost of capital are creating shareholder value. Those generating ROIC below their cost of capital are destroying it — even if they're growing and reporting profits. ROIC is the single most important measure of management quality in capital-intensive businesses.",
+        rwe: "Sears Holdings had over $7 billion in assets on its balance sheet at various points. But most of those assets were real estate and inventory that were shrinking in value as the retail business deteriorated. The balance sheet assets were valued at historical cost, not current market value. Investors who relied on book value as a floor for the stock were misled — the assets were worth far less than the balance sheet suggested.",
+        takeaways: [
+          "Assets = Liabilities + Equity is always true. Understanding what's on each side — and the quality of those assets — is the art.",
+          "Goodwill is an accounting artifact of past acquisitions, not a real productive asset. Large goodwill balances warrant scrutiny.",
+          "Return on invested capital (ROIC) is the most important capital efficiency metric — it determines whether growth creates or destroys value."
+        ]
+      },
+      {
+        num: "6.3", title: "The Cash Flow Statement",
+        body: [
+          "The cash flow statement is the most honest of the three financial statements. While the income statement and balance sheet can be significantly affected by accounting choices, <span class='gold'>cash is cash — it either exists or it doesn't.</span>",
+          "The statement has three sections: <strong>Operating cash flow</strong> — cash generated from the core business operations. <strong>Investing cash flow</strong> — cash spent on (or received from) long-term investments, primarily capital expenditures (CapEx). <strong>Financing cash flow</strong> — cash from issuing or repaying debt and equity.",
+          "The key reconciliation: <strong>Net income ≠ Operating cash flow.</strong> The bridge between them includes non-cash charges (depreciation, amortization, stock-based compensation) and changes in working capital (receivables, inventory, payables). A company with strong net income but weak operating cash flow is a warning sign — it's reporting profits that aren't generating real cash.",
+          "<strong>Free cash flow (FCF) = Operating cash flow − Capital expenditures.</strong> FCF is the cash available to pay dividends, buy back stock, repay debt, or make acquisitions. It's the closest thing to the economic earnings of a business — unaffected by financing decisions and accounting choices."
+        ],
+        hfp: "When analyzing any company, the first thing most experienced analysts do is compare net income to free cash flow over multiple years. If FCF consistently exceeds net income, the business is converting earnings to cash well. If FCF is consistently below net income — or negative — despite reported profitability, investigate immediately. This is where frauds and deteriorating businesses hide.",
+        rwe: "Amazon reported negative or minimal net income for most of its first 20 years as a public company. Critics repeatedly called it unprofitable. But Amazon's free cash flow told a completely different story — it was consistently generating strong FCF, which it was reinvesting in new businesses (AWS, logistics) that eventually became enormously valuable. Investors who looked only at net income missed one of the greatest compounding stories in corporate history.",
+        takeaways: [
+          "Cash flow statements are the most reliable of the three statements — cash can't be faked as easily as profits.",
+          "A persistent gap between net income and operating cash flow is a red flag. Investigate what's driving the divergence.",
+          "Free cash flow (operating cash flow minus CapEx) is the economic earnings of the business. Value it accordingly."
+        ]
+      },
+      {
+        num: "6.4", title: "Free Cash Flow & What It Really Means",
+        body: [
+          "Free cash flow is the amount of cash a business generates after maintaining and growing its asset base. It's what's actually available for distribution to shareholders, debt repayment, and reinvestment — without accounting distortion.",
+          "<strong>Maintenance CapEx vs. growth CapEx:</strong> Capital expenditures serve two purposes. Maintenance CapEx keeps the current business running (replacing aging equipment). Growth CapEx expands the business (new factories, new systems). The distinction matters enormously because maintenance CapEx is a real economic cost; growth CapEx is an investment. Companies that report low net income because of heavy growth CapEx may be creating far more value than their income statement suggests.",
+          "<span class='gold'>The 'owner earnings' concept (from Warren Buffett):</span> Owner earnings = Net income + Depreciation & Amortization − Maintenance CapEx − Any additional working capital requirements. This is the cash a business owner would actually extract if they ran the business without growing it. It's a more economically accurate measure of earning power than GAAP earnings.",
+          "Working capital dynamics: A business that can collect cash before it has to pay its suppliers (like a subscription SaaS company or a large retailer with supplier credit) has a natural FCF advantage. Amazon collects from customers immediately but pays suppliers in 60-90 days — the float is enormously valuable. Businesses with negative working capital can actually fund their own growth without external capital."
+        ],
+        hfp: "Valuation ultimately comes back to free cash flow. A DCF (discounted cash flow) analysis is simply a mathematical formalization of the question: what is the present value of all future free cash flows this business will generate? Every other valuation method (multiples, comps) is an approximation of this. Understanding FCF well means understanding valuation well.",
+        rwe: "Berkshire Hathaway's insurance businesses generate what Buffett calls 'float' — premium payments received before claims must be paid. This float acts as free capital that Berkshire can invest. For decades, Berkshire invested this float in equities and businesses. The float — essentially a form of negative-cost capital — is a structural FCF advantage embedded in the business model. Understanding it requires understanding cash flow, not just income.",
+        takeaways: [
+          "Free cash flow = Operating cash flow − CapEx. It's the economic earnings of the business, unaffected by accounting choices.",
+          "Distinguish between maintenance CapEx (real economic cost) and growth CapEx (investment). They deserve completely different treatment in valuation.",
+          "Businesses with favorable working capital dynamics (collect before you pay) have a structural FCF advantage that compounds over time."
+        ]
+      }
+    ]
+  },
+  {
+    num: 7, title: "Valuation Thinking",
+    subtitle: "What Is This Actually Worth?",
+    lessons: [
+      {
+        num: "7.1", title: "Intrinsic Value vs. Market Price",
+        body: [
+          "The central insight of value investing is the distinction between <strong>price</strong> and <strong>value</strong>. Price is what the market says something is worth right now. Value is what it's actually worth, based on the cash flows it will generate over its lifetime.",
+          "These two numbers are often different. In the short run, price is driven by sentiment, momentum, forced selling, and narrative. In the long run, price converges toward value — because value is determined by cash flows, which are ultimately real. <span class='gold'>The investment opportunity lives in the gap between price and value.</span>",
+          "Benjamin Graham's metaphor of 'Mr. Market' remains the clearest description of this dynamic. Mr. Market is your business partner who offers to buy or sell his share of the business every day. Sometimes he's euphoric and offers you an absurdly high price. Sometimes he's depressed and offers you an absurdly low price. His offer is always yours to accept or ignore. Your job is to determine the actual value of the business and only transact when the gap is sufficiently in your favor.",
+          "The <strong>margin of safety</strong> — buying at a significant discount to intrinsic value — protects against errors in your own analysis. You don't need to be exactly right about intrinsic value if you buy at 50 cents on the dollar. The margin of safety provides a buffer that converts analytical uncertainty into investment safety."
+        ],
+        hfp: "The most dangerous investment environment is one where price and value have converged — or worse, where price exceeds value widely — but sentiment is so positive that nobody is asking the question. In the late 1990s, technology stocks were valued at levels that assumed perpetual hypergrowth. The question 'what is this worth?' had been replaced by 'what will this trade at tomorrow?' When price disconnects from value for long enough, people forget that value exists.",
+        rwe: "In 2000-2002, the S&P 500 fell 49%. NASDAQ fell 78%. The businesses underlying these stocks still existed; their intrinsic values hadn't fallen by that amount. What had fallen was the premium the market was willing to pay above intrinsic value. The correction was a reversion of price to value — painful for those who had paid for the premium, enormously rewarding for those who bought during the correction.",
+        takeaways: [
+          "Price is what you pay; value is what you get. These are rarely the same number.",
+          "The investment opportunity lives in the gap between price and intrinsic value — when the market's emotional state creates divergences.",
+          "Margin of safety — buying at a discount to intrinsic value — converts analytical uncertainty into investment safety."
+        ]
+      },
+      {
+        num: "7.2", title: "Discounted Cash Flow — The Conceptual Foundation",
+        body: [
+          "A DCF is simple in concept: a business is worth the present value of all cash it will generate from now until the end of time, discounted back at a rate that reflects the riskiness of those cash flows.",
+          "<strong>Why discount?</strong> A dollar today is worth more than a dollar in the future — because you can invest the dollar today and have more than a dollar in the future. The discount rate reflects the opportunity cost: what you could earn investing in something of equivalent risk. Higher risk → higher discount rate → lower present value for the same cash flows.",
+          "<strong>DCF = Σ [FCF_t / (1 + r)^t] + Terminal Value / (1 + r)^n</strong>. The terminal value represents the value of all cash flows beyond your explicit forecast period. It often accounts for 60-80% of a DCF's total value — which means getting the terminal assumptions right matters enormously.",
+          "<span class='gold'>A DCF is not a precise calculation but a disciplined framework for thinking.</span> Small changes in growth rate assumptions or discount rate can dramatically change the output. A 10% growth rate assumption vs. 12% can mean a 30% difference in valuation. This isn't a bug — it reflects genuine uncertainty about the future. The DCF is most useful for understanding the assumptions embedded in the current stock price, not for calculating a precise target price."
+        ],
+        hfp: "Professional investors often run DCFs in reverse: given the current stock price, what growth rate and margin assumptions would be required to justify it? Then they ask whether those assumptions are realistic. If Apple needs to grow revenue at 15% annually for 10 years to justify its current price, is that achievable? If it's not, the stock is likely overvalued even if the business is excellent.",
+        rwe: "In 2007, investors using DCF models to value financial companies like Citigroup were plugging in normalized earnings assumptions from the previous cycle. The inputs seemed reasonable — the banks had reported strong earnings for years. But the 'earnings' included massive amounts of mark-to-market gains on toxic mortgage-backed securities. Garbage in, garbage out. The DCF framework was sound; the inputs were fictional.",
+        takeaways: [
+          "DCF is the fundamental framework: a business is worth the present value of all its future free cash flows, discounted for risk and time.",
+          "The terminal value dominates most DCFs — get the long-term assumptions right, because they determine most of the output.",
+          "Run DCFs in reverse: given the current price, what does the market believe about growth and returns? Then assess whether those beliefs are reasonable."
+        ]
+      },
+      {
+        num: "7.3", title: "Comparable Multiples",
+        body: [
+          "Multiples valuation answers: what is the market paying for similar businesses? The most common multiples: <strong>P/E (Price to Earnings)</strong>, <strong>EV/EBITDA (Enterprise Value to EBITDA)</strong>, <strong>EV/Revenue</strong>, <strong>P/FCF (Price to Free Cash Flow)</strong>.",
+          "The logic: if comparable companies trade at 15x earnings, and your company has $10 of earnings per share, it should be worth roughly $150. The challenge is that no two companies are truly comparable — they have different growth rates, capital requirements, moat strength, and risk profiles.",
+          "<strong>EV/EBITDA</strong> is preferred over P/E for comparing capital-intensive businesses because it's not affected by financing decisions or tax rates. <strong>EV (Enterprise Value) = Market Cap + Net Debt</strong> — it represents the total value of the business, not just the equity. P/FCF is often the most economically meaningful equity multiple because it uses real cash generation.",
+          "<span class='gold'>A multiple is only meaningful in the context of growth.</span> A 30x P/E sounds expensive — but if earnings are growing 40% annually, it's a low PEG ratio. A 10x P/E sounds cheap — but if earnings are shrinking, it might be expensive on a normalized basis. Always pair multiples with growth rates."
+        ],
+        hfp: "The PEG ratio (P/E divided by earnings growth rate) is a simple but useful normalization. A PEG below 1.0 suggests the stock might be undervalued relative to its growth; above 2.0 suggests potential overvaluation. But like all shortcuts, it requires context — a slow-growth, high-quality business with a PEG of 1.5 may be a better investment than a high-growth, fragile business with a PEG of 0.7.",
+        rwe: "In 2020-2021, many software companies traded at 30-50x revenue — multiples previously reserved for only the highest-growth businesses. The justification was that software has recurring revenue, high gross margins, and compounding growth. This was true but didn't make any price justified. When interest rates rose in 2022, these multiples compressed dramatically — companies trading at 40x revenue fell 70-80% even as their underlying businesses continued growing. The multiple was carrying most of the valuation, and multiples are rate-sensitive.",
+        takeaways: [
+          "Multiples are shortcuts to DCF thinking — they compress assumptions about growth and risk into a single number.",
+          "Always pair multiples with growth rates. A high multiple may be cheap if growth is high; a low multiple may be expensive if the business is deteriorating.",
+          "Multiples are most useful for identifying relative mispricings within a peer group, not for establishing absolute value."
+        ]
+      },
+      {
+        num: "7.4", title: "Valuation in Practice — Putting It Together",
+        body: [
+          "Valuation is part math, part judgment. The math ensures internal consistency. The judgment determines which assumptions are realistic.",
+          "<strong>The valuation process:</strong> 1) Understand the business model and what drives revenue and margins. 2) Build a 5-10 year revenue and margin forecast based on your best assessment of the industry and competitive dynamics. 3) Calculate free cash flow from those projections. 4) Discount back at an appropriate rate. 5) Check your result against comparable company multiples. 6) Ask: what assumptions would justify the current price? Are those assumptions reasonable?",
+          "<strong>Catalysts matter.</strong> A stock can be cheap and stay cheap for years without a catalyst. Professional investors think about what will cause the market to recognize the value they see: an earnings inflection, an activist investor, a management change, an industry recovery, a buyout.",
+          "<span class='gold'>The most important concept in valuation: you don't need precision, you need the right order of magnitude.</span> If you can determine with confidence that a business is worth $50-70 per share and it trades at $30, you don't need a precise DCF model. The margin of safety is obvious. If the stock trades at $55, the calculation becomes much harder and the margin of safety disappears."
+        ],
+        hfp: "The best investment opportunities are those where the business is misunderstood — not just cheap. 'Cheap' without a reason is often a value trap. 'Cheap because the market is focused on short-term problems that obscure long-term value' is a genuine opportunity. Your edge as an analyst is understanding what the market is getting wrong — and that requires a view on the business that goes beyond the financial models.",
+        rwe: "Netflix in 2012 was trading at roughly $7 per share (pre-splits). The company had just lost subscribers due to its disastrous Qwikster strategy, its stock had fallen 70%, and the conventional wisdom was that it was losing to cable and Amazon. An analysis of the streaming opportunity, the content economics, and the power of the recommendation algorithm suggested the market was pricing Netflix as a dying DVD company, not an emerging streaming platform. By 2020, it was worth over $500 per share.",
+        takeaways: [
+          "Valuation is a range, not a point. Build in margin of safety to account for the inherent uncertainty in all assumptions.",
+          "Understand what catalysts will cause price to converge with value — cheap alone is not sufficient.",
+          "The most important valuation question: what does the current price imply about the future? Are those implied assumptions reasonable?"
+        ]
+      }
+    ]
+  },
+  {
+    num: 8, title: "Macro & The Big Picture",
+    subtitle: "The Water You're Swimming In",
+    lessons: [
+      {
+        num: "8.1", title: "Interest Rates — The Price of Money",
+        body: [
+          "Interest rates are the price of money — the cost of borrowing and the return on lending. They are the single most important variable in all of finance, because they affect every asset price simultaneously.",
+          "The <strong>risk-free rate</strong> (set by short-term government bond yields, anchored by central bank policy) is the foundation. Every other asset is priced as the risk-free rate plus a premium for the additional risk taken. When the risk-free rate rises, the required return on every riskier asset rises — which means their prices fall, all else equal.",
+          "<strong>The duration effect on equities:</strong> Growth stocks are long-duration assets — most of their value comes from cash flows far in the future. When rates rise, those future cash flows are discounted more heavily, reducing present value significantly. This is why technology stocks, which are the longest-duration equities, are most sensitive to interest rate changes.",
+          "<span class='gold'>The discount rate in a DCF is directly linked to interest rates.</span> A 1% rise in rates might reduce the present value of a long-duration equity by 15-20%. This is not market irrationality — it's the math of time value of money working as intended."
+        ],
+        hfp: "The most important macro variable for equity investors is the 'equity risk premium' — the excess return of stocks over the risk-free rate. When rates are low (as they were 2010-2021), the risk-free rate component of required returns is low, making equity multiples expand. When rates rise, the math runs in reverse. Understanding this relationship means you understand why equity valuations are directly connected to bond markets.",
+        rwe: "From 2022 to 2023, the Federal Reserve raised interest rates by 500 basis points in roughly 12 months — the fastest hiking cycle in 40 years. The NASDAQ fell 33% from its peak. Long-duration government bonds fell 30-40%. Real estate transaction volumes collapsed as mortgage rates doubled. The rate cycle didn't affect just one asset class — it repriced everything simultaneously. This is what it looks like when the discount rate changes at scale.",
+        takeaways: [
+          "Interest rates are the price of money — the foundation on which all other asset prices are built.",
+          "Rising rates reduce the present value of future cash flows. Long-duration assets (long bonds, growth stocks) are most affected.",
+          "When you see large simultaneous movements across asset classes, look for the rate change driving them."
+        ]
+      },
+      {
+        num: "8.2", title: "Inflation — What It Is and Why It Matters",
+        body: [
+          "Inflation is a sustained rise in the general price level — or equivalently, a decline in the purchasing power of money. Central banks target roughly 2% annual inflation because moderate, stable inflation is conducive to economic growth. Too low risks deflation (falling prices) which discourages spending and investment. Too high erodes purchasing power and creates uncertainty.",
+          "<strong>How inflation affects different assets:</strong> Fixed-income assets are hurt by inflation — a bond paying 4% loses real value when inflation is 6%. Equities have a complicated relationship: in mild inflation environments they can keep pace (companies can raise prices), but in high inflation, margin compression and valuation multiple contraction often outweigh pricing power. Real assets (real estate, commodities, infrastructure) tend to perform well — their prices rise with inflation.",
+          "<strong>Inflation psychology</strong> is self-reinforcing. When consumers expect prices to rise, they demand higher wages. Higher wages increase business costs, which drive higher prices, which generate higher wage demands. Breaking this spiral is what the Federal Reserve's inflation-fighting credibility is designed to prevent.",
+          "<span class='gold'>The most dangerous form of inflation for investors is unexpected inflation</span> — inflation that is higher than markets had priced in. This forces rapid repricing across all asset classes and can cause simultaneous losses in stocks and bonds, which normally move inversely."
+        ],
+        hfp: "Inflation-linked bonds (TIPS — Treasury Inflation-Protected Securities) are the only truly inflation-protected fixed income instrument. For equity investors, the question is: does this company have pricing power? Can it raise prices at least as fast as its input costs? Companies with strong brands, monopolistic positions, or inelastic demand (utilities, healthcare, defense) tend to pass inflation through more easily than commodity-exposed businesses.",
+        rwe: "The 1970s stagflation was the defining macro environment that traditional portfolios were not designed for. Both stocks and bonds lost real value simultaneously because inflation was high and unpredictable. The '60/40 portfolio' (60% stocks, 40% bonds) — which relies on stocks and bonds being negatively correlated — failed. Commodities and gold were the only broad asset classes that maintained purchasing power. Investors who understood the macro environment fared dramatically better than those running traditional allocation frameworks.",
+        takeaways: [
+          "Inflation erodes the purchasing power of fixed-income assets and creates complex dynamics for equities depending on pricing power.",
+          "Inflation expectations are as important as actual inflation — markets reprice based on what is expected, not just what has happened.",
+          "Companies with pricing power (strong brands, regulated monopolies, inelastic demand) weather inflationary environments better than commodity-exposed businesses."
+        ]
+      },
+      {
+        num: "8.3", title: "The Federal Reserve & Monetary Policy",
+        body: [
+          "The Federal Reserve (the 'Fed') is the United States central bank. Its dual mandate is price stability (targeting 2% inflation) and maximum employment. To pursue these goals, it has powerful tools that affect every financial market.",
+          "The <strong>Federal Funds Rate</strong> is the primary policy tool — the interest rate at which banks lend to each other overnight. By raising or lowering this rate, the Fed makes borrowing more or less expensive throughout the economy. Higher rates slow economic activity (more expensive to borrow → less spending and investment). Lower rates stimulate it.",
+          "<strong>Quantitative Easing (QE)</strong> — introduced at scale in 2008 and deployed again in 2020 — involves the Fed buying government bonds and other securities to inject money directly into the financial system, pushing long-term rates lower and asset prices higher. When the Fed reverses this (Quantitative Tightening, QT), the effect runs in reverse.",
+          "<span class='gold'>The market's relationship with the Fed is the most important macro dynamic to understand.</span> 'Don't fight the Fed' is one of the most durable rules in investing — when the Fed is raising rates aggressively, the headwind to asset prices is real and powerful. When the Fed is cutting rates, the tailwind is real. The biggest mistakes investors make are fighting the policy cycle."
+        ],
+        hfp: "The Fed's forward guidance — what it signals about future rate intentions — is often more important than its actual rate moves. Markets are forward-looking: a rate hike that was fully expected is already priced in before it happens. A rate hike that surprises the market causes immediate repricing. Understanding the gap between what the Fed has signaled and what markets have priced is where macro investment opportunities arise.",
+        rwe: "In August 2010, Fed Chairman Ben Bernanke signaled at the Jackson Hole symposium that the Fed would engage in a second round of quantitative easing (QE2). Within days, equity markets rallied sharply and the dollar weakened. The announcement alone — before any money was created — moved markets because participants repriced based on expected future policy. This is how powerful forward guidance is: the signal, not the action, drives the initial market move.",
+        takeaways: [
+          "The Federal Reserve controls the short-term interest rate — the foundation of all asset pricing. Understanding their framework matters enormously.",
+          "Don't fight the Fed: when monetary policy is tightening, it creates real headwinds. When it's easing, it creates real tailwinds.",
+          "Forward guidance and market expectations are often more important than the actual policy moves, which are frequently already priced."
+        ]
+      },
+      {
+        num: "8.4", title: "Credit Cycles & Market Regimes",
+        body: [
+          "The credit cycle is the expansion and contraction of credit availability over time. It's the most important macro cycle for understanding asset prices because leverage amplifies both booms and busts.",
+          "<strong>Credit expansion phase:</strong> Lenders become more willing to lend. Standards loosen. Borrowers take on more leverage. Asset prices rise (partly because more capital is chasing them). The economy grows. Risk-taking is rewarded, which encourages more risk-taking.",
+          "<strong>Credit contraction phase:</strong> Something causes lenders to pull back — a default event, rising rates, regulatory change, or simply the recognition that credit standards had become too loose. Lenders tighten. Borrowers need to repay or can't refinance. Forced asset sales occur. Prices fall. Risk aversion rises, which tightens credit further — a vicious cycle.",
+          "<span class='gold'>Understanding where you are in the credit cycle is perhaps the most important macro input into portfolio construction.</span> Late credit cycle (credit standards loose, spreads tight, leverage high) is the time to reduce risk. Early credit cycle (credit standards tight, spreads wide, leverage low) is the time to add risk. Ray Dalio's 'All Weather' portfolio and Howard Marks' memos on the credit cycle are essential reading for internalizing this framework."
+        ],
+        hfp: "Howard Marks (Oaktree Capital) built his investment career on credit cycle awareness. His approach: when investors are risk-seeking and credit standards are loose, reduce exposure to risky credit and preserve capital. When investors are risk-averse and spreads are wide, aggressively deploy capital into the distressed debt that forced sellers are abandoning. The cycle doesn't change — only the appropriate response at each phase does.",
+        rwe: "The 2008 financial crisis was the credit cycle's most dramatic modern illustration. From 2002-2007, credit expanded explosively: subprime mortgages with no documentation, LBO debt at 10x EBITDA, CDOs rated AAA despite underlying exposure to risky mortgages. By 2007, Howard Marks' 'Memo' warned that risk was being chronically underpriced. By 2008, the credit cycle turned violently — every asset class with credit exposure fell simultaneously. Those who understood the cycle preserved capital during the peak and deployed it aggressively at the bottom.",
+        takeaways: [
+          "The credit cycle amplifies economic cycles through the availability and cost of leverage. Understanding it is essential for macro-aware investing.",
+          "Late credit cycle: reduce risk. Spreads tight, standards loose, leverage high means risk is underpriced. Early credit cycle: add risk. Spreads wide, standards tight means risk is overpriced.",
+          "Credit cycles don't change — only the appropriate portfolio response at each phase does."
+        ]
+      }
+    ]
+  },
+  {
+    num: 9, title: "Opportunity & Risk Identification",
+    subtitle: "Synthesizing Everything into an Edge",
+    lessons: [
+      {
+        num: "9.1", title: "Market Inefficiencies — Where Edge Lives",
+        body: [
+          "Markets are efficient most of the time — but not all of the time. The Efficient Market Hypothesis (EMH) states that prices reflect all available information. If true, no one could consistently outperform. But professional investors have done so, repeatedly and systematically, in ways that can't be explained by luck alone.",
+          "The sources of inefficiency: <strong>Information asymmetry</strong> — some investors know things others don't (legally — from better research, not inside information). <strong>Analytical complexity</strong> — some situations are difficult enough to analyze that most investors avoid them (spin-offs, restructurings, complex derivatives). <strong>Forced selling</strong> — index rebalancing, ETF outflows, margin calls, and institutional mandate constraints create selling disconnected from fundamental value. <strong>Behavioral biases</strong> — loss aversion, recency bias, overconfidence cause systematic mispricings.",
+          "<span class='gold'>The most reliable source of edge is structural: being in a market segment where most participants cannot be.</span> Small-caps ignored by institutional mandates. Post-bankruptcy equities avoided due to complexity and stigma. International markets neglected by U.S.-focused investors. The edge comes from being willing to go where others cannot or will not.",
+          "The efficiency paradox: markets become more efficient as more capital pursues a strategy. The strategies that worked in the 1990s (simple value screens, momentum signals) are now widely known and have been partly arbitraged away. The edge has migrated to more complex, harder-to-execute, or more capital-constrained opportunities."
+        ],
+        hfp: "Joel Greenblatt's famous Magic Formula (buy businesses with high earnings yield and high return on capital) worked extraordinarily well before it became widely known. After the publication of 'The Little Book That Beats the Market' in 2005, the strategy's excess returns declined. This is the natural lifecycle of any publicly known edge: discovery → adoption → arbitrage → diminishment. The lesson is not that inefficiency doesn't exist — it's that it migrates constantly.",
+        rwe: "Special situations — spin-offs, post-restructuring equities, rights offerings — consistently generate above-market returns. Why? Because they're complex, require specialized knowledge, and often involve forced selling by investors who received the securities involuntarily (e.g., when a company you owned spins off a division, you automatically hold shares in a company you didn't choose). Most institutional investors sell these immediately; sophisticated investors study them carefully.",
+        takeaways: [
+          "Markets are efficient most of the time — but structural, behavioral, and informational inefficiencies create persistent opportunities.",
+          "The most reliable edge is structural: being in markets where most capital cannot or will not go.",
+          "Known edges get arbitraged over time. The advantage migrates to the complex, the neglected, and the misunderstood."
+        ]
+      },
+      {
+        num: "9.2", title: "Scenario Thinking — Best, Base, and Bear Cases",
+        body: [
+          "Single-point estimates are intellectually dishonest. The future is uncertain; your analysis should reflect that uncertainty explicitly rather than papering over it with a single projected outcome.",
+          "The discipline: for every investment, write out three explicit scenarios — <strong>Bull case</strong> (things go better than expected), <strong>Base case</strong> (things go as expected), <strong>Bear case</strong> (things go worse than expected). Assign a probability and a valuation to each. Calculate the probability-weighted expected value.",
+          "<strong>Bull case:</strong> What would need to be true for this to be a home run? What specific assumptions would need to be met? <strong>Base case:</strong> What's the most likely outcome? What does the stock return if the business simply executes as expected? <strong>Bear case:</strong> What could go seriously wrong? Is it permanent impairment or temporary pain? What's the downside if you're wrong?",
+          "<span class='gold'>The bear case is where most investors do the least work — and it's where most investment disasters originate.</span> A rigorous bear case forces you to confront whether you can survive being wrong, how likely it is, and whether the upside compensates adequately."
+        ],
+        hfp: "When building an investment case, ask: 'If the bear case materializes, is the loss tolerable given my position size?' If the bear case means losing 80% of the investment and the position is 10% of your portfolio, that's an 8% portfolio loss — which is survivable. If the position is 30% of the portfolio, an 80% loss is a 24% portfolio loss. The scenario analysis and the position sizing must be done together.",
+        rwe: "Theranos investors — who included Rupert Murdoch, Betsy DeVos, and Walgreens — apparently never seriously stress-tested the bear case: 'What if the technology doesn't work?' The bull case (revolutionary blood testing at 1/100th the cost) was compelling. The bear case (the technology is fraudulent) was apparently not taken seriously because of the charismatic founder and impressive board. No scenario analysis is complete without honestly engaging with the 'what if we're completely wrong?' question.",
+        takeaways: [
+          "Single-point estimates are intellectually dishonest. Explicitly model bull, base, and bear scenarios with assigned probabilities.",
+          "The bear case is where investment disasters originate. Spend at least as much time on the downside as the upside.",
+          "Scenario analysis and position sizing must be done together — the bear case determines how much you can safely allocate."
+        ]
+      },
+      {
+        num: "9.3", title: "Building Your Investment Framework",
+        body: [
+          "A framework is not a checklist. It's an integrated way of thinking that you apply consistently across every investment decision, that adapts to new information, and that is grounded in durable principles rather than temporary trends.",
+          "The components of a robust personal investment framework: <strong>Universe definition</strong> — what markets, asset classes, and security types will you analyze? Knowing your circle of competence means knowing where to look for opportunities and what to ignore. <strong>Idea generation</strong> — where do opportunities come from? Screens, 52-week lows, insider buying, spin-offs, activist situations. <strong>Thesis development</strong> — for any investment, you need a clear statement of why the price is wrong, what will cause it to correct, and what your confidence level is.",
+          "<strong>Risk management</strong> — position sizing, concentration limits, portfolio-level correlation analysis. <strong>Exit criteria</strong> — under what conditions do you sell? When the thesis is wrong, when the price reaches intrinsic value, or when you find a better opportunity.",
+          "<span class='gold'>Consistency is the key virtue in investment process.</span> The same discipline that prevents you from overpaying in bull markets keeps you from panic-selling in bear markets. The framework must be explicit enough that you can test your decisions against it."
+        ],
+        hfp: "The best investment frameworks are written down. A written investment thesis, reviewed periodically, creates accountability. Did you get the thesis right? If the stock went up but the thesis was wrong, that's luck, not skill. If the stock went down but the thesis was right and your estimated value was correct, that's discipline, not failure. The writing process forces clarity that informal thinking doesn't.",
+        rwe: "Seth Klarman of Baupost Group has maintained a consistent framework for decades: seek intrinsic value, maintain margin of safety, be patient when opportunities are scarce, be aggressive when they're abundant. Baupost held large cash balances during the dot-com bubble (missing some gains), deployed aggressively in 2009 (capturing enormous returns), and maintained discipline throughout. The framework didn't change with market conditions — it determined the appropriate response to them.",
+        takeaways: [
+          "An investment framework is not a checklist but an integrated, consistent way of thinking applied across all decisions.",
+          "Define your circle of competence. Knowing what to ignore is as important as knowing where to look.",
+          "Write your investment theses down. The writing process forces clarity, creates accountability, and enables honest post-mortems."
+        ]
+      },
+      {
+        num: "9.4", title: "The Final Framework — A Mental Model for Decisions",
+        body: [
+          "You've completed nine modules. What you now have is not a collection of facts but a set of integrated mental models. The question is how to synthesize them into a decision-making process.",
+          "<strong>The Investment Decision Checklist:</strong> 1) Do I understand the business model well enough to have a view on its future? 2) Does the business have a durable competitive advantage that protects its economics? 3) What is my estimate of intrinsic value, and does the current price offer a margin of safety? 4) What are the three scenarios (bull, base, bear), their probabilities, and their outcomes? 5) What is the most likely catalyst for price to converge with value? 6) What am I getting wrong? What does the smart bear case look like? 7) Given the expected value and the downside risk, what is the appropriate position size?",
+          "The meta-lesson of this course: <strong>The market is a machine for transferring money from the impatient to the patient.</strong> The edge belongs to those who can think in long time horizons, reason from first principles rather than following consensus, and maintain discipline when the emotional pull of markets is strongest.",
+          "<span class='gold'>You are not trying to predict the future. You are trying to identify situations where the odds are in your favor — and then position yourself appropriately and wait.</span> The rest follows from compound interest and time."
+        ],
+        hfp: "The greatest investors — Buffett, Munger, Klarman, Lynch — all have frameworks that are simple in description but rigorous in application. 'Buy wonderful companies at fair prices' is simple. Determining what is wonderful and what is fair requires everything you've learned. The framework collapses to a few principles; the practice of those principles is a lifetime of work.",
+        rwe: "Charlie Munger spent 60+ years building a 'latticework of mental models' — frameworks from psychology, economics, biology, physics — that he applied to investment decisions. He described his process simply: 'Invert, always invert.' Ask what could go wrong before asking what could go right. Ask what would make this a bad investment before building the bull case. This single cognitive habit — taken seriously — prevents most investment mistakes.",
+        takeaways: [
+          "Synthesize all nine modules into a coherent process: understand the business, assess the moat, estimate intrinsic value, check the margin of safety, size the position appropriately.",
+          "The market transfers money from the impatient to the patient. Time horizon is itself a competitive advantage.",
+          "Think Deeper. Invest Better. Live Freer — this is not a slogan. It's a description of what this knowledge, applied consistently over time, actually produces."
+        ]
+      }
+    ]
+  }
+];
+
+// ============================================================
+// FLATTEN lessons for prev/next navigation
+// ============================================================
+const ALL_LESSONS = [];
+COURSE.forEach(mod => {
+  mod.lessons.forEach(les => ALL_LESSONS.push({ mod, les }));
+});
+
+// ============================================================
+// STATE
+// ============================================================
+let currentIdx = -1; // -1 = intro screen
+const STORAGE_KEY = 'tif_progress';
+
+function getCompleted() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+  catch { return []; }
+}
+function markComplete(lessonNum) {
+  const c = getCompleted();
+  if (!c.includes(lessonNum)) { c.push(lessonNum); localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); }
+  updateProgress();
+  updateSidebar();
+}
+
+function updateProgress() {
+  const c = getCompleted();
+  const modsComplete = new Set();
+  c.forEach(num => { const [m] = num.split('.'); modsComplete.add(parseInt(m)); });
+  const pct = Math.round((modsComplete.size / 9) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = modsComplete.size + ' / 9 Modules';
+}
+
+// ============================================================
+// RENDER SIDEBAR
+// ============================================================
+function renderSidebar() {
+  const c = getCompleted();
+  let html = '';
+  COURSE.forEach((mod, mi) => {
+    const isOpen = currentIdx >= 0 && ALL_LESSONS[currentIdx].mod.num === mod.num;
+    html += `
+      <div>
+        <button class="mod-btn ${isOpen ? 'open active-mod' : ''}" onclick="toggleModule(${mi})" id="mod-btn-${mi}">
+          <span class="mod-num">${String(mod.num).padStart(2,'0')}</span>
+          <span class="mod-title">${mod.title}</span>
+          <span class="mod-chevron">›</span>
+        </button>
+        <div class="lesson-list ${isOpen ? 'open' : ''}" id="lesson-list-${mi}">`;
+    mod.lessons.forEach(les => {
+      const globalIdx = ALL_LESSONS.findIndex(x => x.les.num === les.num);
+      const isActive = currentIdx === globalIdx;
+      const isDone = c.includes(les.num);
+      html += `
+          <button class="lesson-btn ${isActive ? 'active' : ''}" onclick="showLesson(${globalIdx})" id="lesson-btn-${les.num.replace('.', '-')}">
+            <span class="lesson-num">${les.num}</span>
+            <span class="lesson-title-sb">${les.title}</span>
+            <svg class="check ${isDone ? 'done' : ''}" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="6" r="5.5" stroke="#C9A84C" stroke-width="1"/>
+              <polyline points="3,6 5,8 9,4" stroke="#C9A84C" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+          </button>`;
+    });
+    html += `</div></div>`;
+  });
+  document.getElementById('module-list').innerHTML = html;
+}
+
+function toggleModule(mi) {
+  const btn = document.getElementById(`mod-btn-${mi}`);
+  const list = document.getElementById(`lesson-list-${mi}`);
+  btn.classList.toggle('open');
+  list.classList.toggle('open');
+}
+
+// ============================================================
+// SHOW LESSON
+// ============================================================
+function showLesson(idx) {
+  if (currentIdx >= 0) markComplete(ALL_LESSONS[currentIdx].les.num);
+  currentIdx = idx;
+  const { mod, les } = ALL_LESSONS[idx];
+
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('lesson-view').style.display = 'block';
+  document.getElementById('bottom-nav').style.display = 'flex';
+
+  document.getElementById('lv-label').textContent = `MODULE ${String(mod.num).padStart(2,'0')} · LESSON ${les.num}`;
+  document.getElementById('lv-title').textContent = les.title;
+
+  // Build body
+  let bodyHtml = '';
+  les.body.forEach(p => { bodyHtml += `<p>${p}</p>`; });
+
+  if (les.hfp) {
+    bodyHtml += `<div class="callout"><div class="callout-label">Hedge Fund Perspective</div><p>${les.hfp}</p></div>`;
+  }
+  if (les.rwe) {
+    bodyHtml += `<div class="callout example"><div class="callout-label">Real-World Example</div><p>${les.rwe}</p></div>`;
+  }
+  if (les.takeaways && les.takeaways.length) {
+    bodyHtml += `<div class="takeaways"><div class="takeaways-title">Key Takeaways</div><ul>`;
+    les.takeaways.forEach(t => { bodyHtml += `<li>${t}</li>`; });
+    bodyHtml += `</ul></div>`;
+  }
+
+  document.getElementById('lv-body').innerHTML = bodyHtml;
+
+  // Bottom nav
+  const btnPrev = document.getElementById('btn-prev');
+  const btnNext = document.getElementById('btn-next');
+  const counter = document.getElementById('lesson-counter');
+
+  btnPrev.disabled = idx === 0;
+  btnNext.textContent = idx === ALL_LESSONS.length - 1 ? 'Complete Course ✓' : 'Next ›';
+  counter.textContent = `${idx + 1} of ${ALL_LESSONS.length} lessons`;
+
+  // Scroll top
+  document.getElementById('lesson-view').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  window.scrollTo(0, 0);
+
+  renderSidebar();
+  updateProgress();
+
+  // Close mobile sidebar
+  if (window.innerWidth <= 900) closeSidebar();
+}
+
+function navigate(dir) {
+  const next = currentIdx + dir;
+  if (next < 0) return;
+  if (next >= ALL_LESSONS.length) {
+    markComplete(ALL_LESSONS[currentIdx].les.num);
+    showCompletion();
+    return;
+  }
+  showLesson(next);
+}
+
+function startCourse() { showLesson(0); }
+
+// ============================================================
+// COMPLETION SCREEN
+// ============================================================
+function showCompletion() {
+  document.getElementById('lesson-view').innerHTML = `
+    <div style="text-align:center;padding:60px 0;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:20px;">Course Complete</div>
+      <h2 class="serif" style="font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#F0EDE6;margin-bottom:28px;">
+        Think Deeper.<br>Invest Better.<br>Live Freer.
+      </h2>
+      <div style="height:1px;background:linear-gradient(90deg,transparent,#C9A84C,transparent);margin:36px auto;width:120px;"></div>
+      <p style="font-size:16px;line-height:1.85;color:#8A8880;max-width:520px;margin:0 auto 44px;">
+        You've completed all nine modules. The frameworks you've built here compound quietly in every financial decision you make from this point forward.
+      </p>
+      <p style="font-size:13px;color:#4A4A48;letter-spacing:0.12em;text-transform:uppercase;">The Investment Framework · 2026</p>
+    </div>`;
+  document.getElementById('bottom-nav').style.display = 'none';
+}
+
+// ============================================================
+// MOBILE SIDEBAR
+// ============================================================
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebar-overlay');
+  sb.classList.toggle('open');
+  ov.classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('open');
+}
+
+// ============================================================
+// INIT
+// ============================================================
+renderSidebar();
+updateProgress();
+</script>
+
+</body>
+</html>

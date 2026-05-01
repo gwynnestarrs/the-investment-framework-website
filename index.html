@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Investment Framework — Master How Markets Actually Work</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #C9A84C;
+      --gold-light: #DFC47A;
+      --gold-bright: #F0DC9B;
+      --gold-dim: #8B6914;
+      --black: #080808;
+      --s1: #0F0F0F;
+      --s2: #181818;
+      --s3: #222222;
+      --border: #1E1E1E;
+      --border-2: #2A2A2A;
+      --tp: #F0EDE6;
+      --ts: #8A8880;
+      --tm: #4A4A48;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--tp);
+      font-family: 'Montserrat', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.28;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    }
+
+    .serif { font-family: 'Playfair Display', serif; }
+
+    .gold-text {
+      background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 55%, #C9A84C 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Buttons */
+    .btn-gold {
+      display: inline-block;
+      background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
+      background-size: 200% 100%;
+      color: #080808;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      font-size: 12px;
+      padding: 18px 48px;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition:
+        background-position 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease;
+      box-shadow:
+        0 4px 24px rgba(201, 168, 76, 0.22),
+        0 1px 4px rgba(201, 168, 76, 0.14);
+    }
+    .btn-gold:hover {
+      background-position: 100% 0;
+      transform: translateY(-2px);
+      box-shadow:
+        0 10px 40px rgba(201, 168, 76, 0.38),
+        0 2px 8px rgba(201, 168, 76, 0.18);
+    }
+    .btn-gold:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 12px rgba(201, 168, 76, 0.18);
+    }
+    .btn-gold:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 4px;
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      background: transparent;
+      color: var(--ts);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 11px;
+      padding: 17px 36px;
+      border: 1px solid var(--border-2);
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        border-color 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: translateY(-1px);
+    }
+    .btn-ghost:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* Nav */
+    nav { transition: background 0.4s ease, backdrop-filter 0.4s ease; }
+    nav a {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--ts);
+      text-decoration: none;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+    }
+    nav a:hover { color: var(--gold); }
+    nav a:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+
+    /* Fade-up entrance */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fu { opacity: 0; animation: fadeUp 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .fu-1 { animation-delay: 0.08s; }
+    .fu-2 { animation-delay: 0.22s; }
+    .fu-3 { animation-delay: 0.36s; }
+    .fu-4 { animation-delay: 0.52s; }
+    .fu-5 { animation-delay: 0.68s; }
+    .fu-6 { animation-delay: 0.84s; }
+
+    /* Chart line draw-on */
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1400; }
+      to   { stroke-dashoffset: 0; }
+    }
+    .chart-line {
+      stroke-dasharray: 1400;
+      stroke-dashoffset: 1400;
+      animation: drawLine 2.8s cubic-bezier(0.77, 0, 0.175, 1) 0.6s forwards;
+    }
+
+    /* Module card */
+    .mod-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      padding: 36px 32px;
+      transition:
+        border-color 0.3s ease,
+        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease;
+    }
+    .mod-card:hover {
+      border-color: rgba(201, 168, 76, 0.45);
+      transform: translateY(-5px);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.45),
+        0 0 0 1px rgba(201, 168, 76, 0.08);
+    }
+
+    /* Who card */
+    .who-card {
+      background: var(--black);
+      padding: 52px 44px;
+      transition: background 0.3s ease;
+    }
+    .who-card:hover { background: #0C0C0C; }
+    .who-icon {
+      width: 52px;
+      height: 52px;
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      transition: border-color 0.3s ease;
+    }
+    .who-card:hover .who-icon { border-color: rgba(201, 168, 76, 0.55); }
+
+    /* Accordion */
+    .acc-item { border-top: 1px solid var(--border); }
+    .acc-item:last-child { border-bottom: 1px solid var(--border); }
+    .acc-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 30px 0;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+    }
+    .acc-trigger:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+    .acc-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--tp);
+      transition: color 0.2s ease;
+    }
+    .acc-trigger:hover .acc-title { color: var(--gold); }
+    .acc-icon {
+      color: var(--gold);
+      font-size: 22px;
+      font-weight: 300;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+      margin-left: 20px;
+      line-height: 1;
+    }
+    .acc-item.open .acc-icon { transform: rotate(45deg); }
+    .acc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+    .acc-item.open .acc-body { max-height: 280px; }
+    .acc-text {
+      padding-bottom: 28px;
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--ts);
+    }
+
+    /* Testimonial card */
+    .testi-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      padding: 44px 40px;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .testi-card:hover {
+      border-color: rgba(201, 168, 76, 0.25);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    /* Pricing card */
+    .price-card {
+      background: var(--s1);
+      border: 1px solid rgba(201, 168, 76, 0.28);
+      padding: 64px;
+      position: relative;
+      box-shadow:
+        0 0 100px rgba(201, 168, 76, 0.07),
+        0 40px 80px rgba(0, 0, 0, 0.5);
+    }
+
+    #dotted-bg canvas { display:block; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+    /* Glow */
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(130px);
+      pointer-events: none;
+    }
+
+    /* Divider */
+    .hr { height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); }
+    .hr-gold { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); width: 72px; }
+
+    /* Feature check */
+    .feat-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .feat-row:first-child { border-top: 1px solid var(--border); }
+
+    /* Mobile nav toggle */
+    .mobile-menu { display: none; }
+    @media (max-width: 768px) {
+      .desktop-nav { display: none !important; }
+      .mobile-menu { display: flex; }
+      .hero-grid { grid-template-columns: 1fr !important; }
+      .mod-grid { grid-template-columns: 1fr !important; }
+      .who-grid { grid-template-columns: 1fr !important; }
+      .testi-grid { grid-template-columns: 1fr !important; }
+      .diff-grid { grid-template-columns: 1fr !important; }
+      .philosophy-deco { display: none !important; }
+      .price-card { padding: 40px 28px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== DOTTED SURFACE BACKGROUND ===================== -->
+  <div id="dotted-bg" style="position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;"></div>
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:500;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(8,8,8,0.96) 0%,rgba(8,8,8,0) 100%);backdrop-filter:blur(16px);">
+
+    <!-- Logo -->
+    <a href="#" style="display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0;">
+      <svg width="38" height="38" viewBox="0 0 40 40" fill="none">
+        <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="1.2"/>
+        <text x="20" y="27" font-family="Playfair Display,serif" font-size="17" font-weight="700" fill="#C9A84C" text-anchor="middle">IF</text>
+      </svg>
+      <div style="line-height:1.3;">
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.22em;color:#C9A84C;text-transform:uppercase;">The Investment</div>
+        <div style="font-size:8.5px;font-weight:700;letter-spacing:0.22em;color:#C9A84C;text-transform:uppercase;">Framework</div>
+      </div>
+    </a>
+
+    <!-- Desktop Nav -->
+    <div class="desktop-nav" style="display:flex;align-items:center;gap:40px;">
+      <a href="#curriculum">Curriculum</a>
+      <a href="#philosophy">Philosophy</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#pricing" class="btn-gold" style="padding:13px 36px;">Enroll Now</a>
+    </div>
+
+    <!-- Mobile menu icon -->
+    <button class="mobile-menu" onclick="toggleMobileNav()" style="background:none;border:none;cursor:pointer;padding:4px;" aria-label="Menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.8">
+        <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- Mobile Nav Drawer -->
+  <div id="mobile-nav" style="display:none;position:fixed;inset:0;z-index:499;background:rgba(8,8,8,0.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:40px;">
+    <a href="#curriculum" onclick="toggleMobileNav()" style="font-size:22px;letter-spacing:0.12em;color:#F0EDE6;text-decoration:none;text-transform:uppercase;">Curriculum</a>
+    <a href="#philosophy" onclick="toggleMobileNav()" style="font-size:22px;letter-spacing:0.12em;color:#F0EDE6;text-decoration:none;text-transform:uppercase;">Philosophy</a>
+    <a href="#pricing" onclick="toggleMobileNav()" style="font-size:22px;letter-spacing:0.12em;color:#F0EDE6;text-decoration:none;text-transform:uppercase;">Pricing</a>
+    <a href="#pricing" onclick="toggleMobileNav()" class="btn-gold" style="margin-top:16px;">Enroll Now</a>
+  </div>
+
+
+  <!-- ===================== HERO ===================== -->
+  <section style="min-height:100vh;position:relative;display:flex;align-items:center;padding:0 48px;overflow:hidden;">
+
+    <!-- Radial glows -->
+    <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 68%);top:-15%;right:-8%;"></div>
+    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);bottom:5%;left:0%;"></div>
+    <div class="glow" style="width:900px;height:250px;background:radial-gradient(ellipse,rgba(201,168,76,0.035) 0%,transparent 70%);top:55%;left:15%;"></div>
+
+    <div style="max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;padding-top:96px;" class="hero-grid">
+
+      <!-- LEFT: Copy -->
+      <div>
+        <div class="fu fu-1 label" style="margin-bottom:22px;">The Investment Framework &mdash; 2026</div>
+
+        <h1 class="fu fu-2 serif" style="font-size:clamp(46px,5.8vw,76px);font-weight:700;line-height:1.06;letter-spacing:-0.03em;color:#F0EDE6;margin-bottom:30px;">
+          Master How<br>
+          <em class="gold-text" style="font-style:italic;">Markets</em><br>
+          Actually Work.
+        </h1>
+
+        <p class="fu fu-3" style="font-size:17px;line-height:1.82;color:#8A8880;margin-bottom:52px;max-width:460px;font-weight:400;">
+          A hedge fund-level framework for understanding investing, risk, and opportunity. Not a course. A new way of thinking.
+        </p>
+
+        <div class="fu fu-4" style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+          <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK" class="btn-gold">Enroll Now</a>
+          <a href="#curriculum" class="btn-ghost">View Curriculum</a>
+        </div>
+
+        <!-- Stats -->
+        <div class="fu fu-5" style="display:flex;gap:48px;margin-top:60px;padding-top:44px;border-top:1px solid #1A1A1A;flex-wrap:wrap;">
+          <div>
+            <div class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">9</div>
+            <div style="font-size:10px;letter-spacing:0.14em;color:#4A4A48;text-transform:uppercase;margin-top:6px;">Core Modules</div>
+          </div>
+          <div>
+            <div class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">47+</div>
+            <div style="font-size:10px;letter-spacing:0.14em;color:#4A4A48;text-transform:uppercase;margin-top:6px;">Hours of Depth</div>
+          </div>
+          <div>
+            <div class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">&#8734;</div>
+            <div style="font-size:10px;letter-spacing:0.14em;color:#4A4A48;text-transform:uppercase;margin-top:6px;">Lifetime Access</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Financial Chart -->
+      <div class="fu fu-3" style="position:relative;">
+        <svg viewBox="0 0 580 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;filter:drop-shadow(0 0 40px rgba(201,168,76,0.06));">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C9A84C" stop-opacity="0.14"/>
+              <stop offset="100%" stop-color="#C9A84C" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#5A3E0A"/>
+              <stop offset="45%" stop-color="#C9A84C"/>
+              <stop offset="100%" stop-color="#E8D08A"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Grid -->
+          <line x1="0" y1="84" x2="580" y2="84" stroke="#151515" stroke-width="1"/>
+          <line x1="0" y1="168" x2="580" y2="168" stroke="#151515" stroke-width="1"/>
+          <line x1="0" y1="252" x2="580" y2="252" stroke="#151515" stroke-width="1"/>
+          <line x1="0" y1="336" x2="580" y2="336" stroke="#151515" stroke-width="1"/>
+          <line x1="83" y1="0" x2="83" y2="420" stroke="#151515" stroke-width="1"/>
+          <line x1="207" y1="0" x2="207" y2="420" stroke="#151515" stroke-width="1"/>
+          <line x1="331" y1="0" x2="331" y2="420" stroke="#151515" stroke-width="1"/>
+          <line x1="455" y1="0" x2="455" y2="420" stroke="#151515" stroke-width="1"/>
+
+          <!-- Axis labels -->
+          <text x="4" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q1</text>
+          <text x="128" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q2</text>
+          <text x="252" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q3</text>
+          <text x="376" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q4</text>
+          <text x="500" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q5</text>
+
+          <!-- Area fill -->
+          <path d="M0,358 C50,344 100,322 148,298 C196,274 216,288 258,264 C300,240 322,218 366,176 C410,134 434,146 470,112 C500,84 530,62 580,48 L580,420 L0,420 Z" fill="url(#areaGrad)"/>
+
+          <!-- Secondary dashed trendline -->
+          <path d="M0,355 C80,330 160,302 240,268 C320,234 400,198 480,158 C520,138 550,120 580,104" stroke="#C9A84C" stroke-width="1" fill="none" opacity="0.18" stroke-dasharray="5 7"/>
+
+          <!-- Main line -->
+          <path class="chart-line" d="M0,358 C50,344 100,322 148,298 C196,274 216,288 258,264 C300,240 322,218 366,176 C410,134 434,146 470,112 C500,84 530,62 580,48" stroke="url(#lineGrad)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+
+          <!-- Data points -->
+          <circle cx="0" cy="358" r="3.5" fill="#8B6914"/>
+          <circle cx="148" cy="298" r="4" fill="#C9A84C"/>
+          <circle cx="258" cy="264" r="4" fill="#C9A84C"/>
+          <circle cx="366" cy="176" r="4.5" fill="#C9A84C"/>
+          <circle cx="470" cy="112" r="5" fill="#DFC47A" filter="url(#glow)"/>
+          <circle cx="580" cy="48" r="6" fill="#E8D08A" filter="url(#glow)"/>
+
+          <!-- Price callout -->
+          <rect x="484" y="20" width="88" height="26" rx="2" fill="#111" stroke="#C9A84C" stroke-width="0.7"/>
+          <text x="528" y="37" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" fill="#C9A84C" text-anchor="middle" letter-spacing="0.04em">+247.3%</text>
+
+          <!-- Y-axis labels -->
+          <text x="570" y="92" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" text-anchor="end">HIGH</text>
+          <text x="570" y="344" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" text-anchor="end">BASE</text>
+        </svg>
+
+        <!-- Decorative offset border -->
+        <div style="position:absolute;top:-14px;right:-14px;bottom:14px;left:14px;border:1px solid rgba(201,168,76,0.1);pointer-events:none;z-index:-1;"></div>
+      </div>
+    </div>
+
+    <!-- Scroll cue -->
+    <div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.35;">
+      <span style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#555;">Scroll</span>
+      <div style="width:1px;height:44px;background:linear-gradient(180deg,#C9A84C,transparent);"></div>
+    </div>
+  </section>
+
+
+  <!-- ===================== DIFFERENTIATION ===================== -->
+  <section style="padding:128px 48px;position:relative;">
+    <div class="glow" style="width:400px;height:400px;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);top:20%;left:-10%;"></div>
+
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:start;" class="diff-grid">
+
+      <!-- Left -->
+      <div>
+        <div class="label" style="margin-bottom:20px;">Why This Is Different</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;margin-bottom:32px;">
+          Not a course.<br>A new lens<br>for thinking.
+        </h2>
+        <p style="font-size:16px;line-height:1.82;color:#8A8880;margin-bottom:48px;max-width:420px;">
+          Most investing education teaches you what to do. This teaches you how to think — the mental frameworks used at the highest levels of finance to analyze risk, identify opportunity, and build durable wealth.
+        </p>
+        <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK" class="btn-gold">Get Access</a>
+      </div>
+
+      <!-- Right: Points -->
+      <div>
+        <div style="padding:36px 0;border-top:1px solid #1A1A1A;">
+          <div style="display:flex;gap:28px;align-items:flex-start;">
+            <span class="serif" style="font-size:40px;font-weight:700;color:#1E1E1E;line-height:1;flex-shrink:0;">01</span>
+            <div>
+              <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Framework-First Learning</h3>
+              <p style="font-size:14px;line-height:1.8;color:#8A8880;">You don't memorize facts — you internalize systems. Every concept is a reusable mental model that compounds in value over time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:36px 0;border-top:1px solid #1A1A1A;">
+          <div style="display:flex;gap:28px;align-items:flex-start;">
+            <span class="serif" style="font-size:40px;font-weight:700;color:#1E1E1E;line-height:1;flex-shrink:0;">02</span>
+            <div>
+              <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Institutional-Grade Depth</h3>
+              <p style="font-size:14px;line-height:1.8;color:#8A8880;">Rooted in how professional investors and analysts actually operate — not the watered-down version built for YouTube watch time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="padding:36px 0;border-top:1px solid #1A1A1A;border-bottom:1px solid #1A1A1A;">
+          <div style="display:flex;gap:28px;align-items:flex-start;">
+            <span class="serif" style="font-size:40px;font-weight:700;color:#1E1E1E;line-height:1;flex-shrink:0;">03</span>
+            <div>
+              <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Real Thinking, Not Surface Knowledge</h3>
+              <p style="font-size:14px;line-height:1.8;color:#8A8880;">Most courses give you answers. This gives you the ability to ask better questions — and the tools to find answers yourself.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== MODULES ===================== -->
+  <section id="curriculum" style="padding:128px 48px;background:#0A0A0A;position:relative;">
+    <div class="glow" style="width:900px;height:300px;background:radial-gradient(ellipse,rgba(201,168,76,0.04) 0%,transparent 70%);top:0;left:50%;transform:translateX(-50%);"></div>
+
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:80px;">
+        <div class="label" style="margin-bottom:18px;">Curriculum</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;margin-bottom:22px;">What You'll Master</h2>
+        <p style="font-size:16px;line-height:1.75;color:#8A8880;max-width:500px;margin:0 auto;">Nine interconnected modules that build a complete, professional-grade understanding of financial markets.</p>
+      </div>
+
+      <!-- 3×3 Grid -->
+      <div class="mod-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1A1A1A;">
+
+        <!-- 01 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">01</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Markets &amp; Financial Systems</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">How capital flows, why markets exist, and the invisible architecture driving economic systems.</p>
+        </div>
+
+        <!-- 02 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">02</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Risk &amp; Return</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Understanding the relationship between risk and reward — and how to price uncertainty with precision.</p>
+        </div>
+
+        <!-- 03 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">03</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>
+              <line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Portfolio Strategy</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Constructing portfolios with intention — allocation, diversification, and the logic of long-term compounding.</p>
+        </div>
+
+        <!-- 04 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">04</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Asset Classes</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Equities, fixed income, real assets, alternatives — characteristics, behaviors, and roles of every major class.</p>
+        </div>
+
+        <!-- 05 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">05</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3h18v18H3z"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/>
+              <line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Business Analysis</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">What makes a business fundamentally valuable — moats, unit economics, and sustainable advantage.</p>
+        </div>
+
+        <!-- 06 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">06</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+              <polyline points="14,2 14,8 20,8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Financial Statements</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Reading balance sheets, income statements, and cash flows — the language financial professionals speak.</p>
+        </div>
+
+        <!-- 07 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">07</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Valuation</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">DCF models, multiples, intrinsic value — determining what something is worth when price diverges from value.</p>
+        </div>
+
+        <!-- 08 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">08</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12,6 12,12 16,14"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Macro</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Interest rates, inflation, monetary policy — the big-picture forces that shape every market outcome.</p>
+        </div>
+
+        <!-- 09 -->
+        <div class="mod-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
+            <span style="font-size:10px;font-weight:700;letter-spacing:0.15em;color:#2E2E2E;">09</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
+            </svg>
+          </div>
+          <div style="height:1px;background:#1A1A1A;margin-bottom:20px;"></div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:#F0EDE6;margin-bottom:12px;">Opportunity &amp; Risk</h3>
+          <p style="font-size:13px;line-height:1.75;color:#6A6A68;">Synthesizing all frameworks to identify when odds are in your favor — and when to stay out of the way.</p>
+        </div>
+
+      </div><!-- end grid -->
+    </div>
+  </section>
+
+
+  <!-- ===================== WHO THIS IS FOR ===================== -->
+  <section style="padding:128px 48px;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:80px;">
+        <div class="label" style="margin-bottom:18px;">Is This For You?</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">
+          Built for people who<br>think at a different level.
+        </h2>
+      </div>
+
+      <div class="who-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1A1A1A;">
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:16px;">The Ambitious Professional</h3>
+          <p style="font-size:14px;line-height:1.82;color:#8A8880;">You earn well but feel like you're guessing at capital allocation. You want systematic clarity — not tips and tricks.</p>
+        </div>
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+            </svg>
+          </div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:16px;">The Future Analyst</h3>
+          <p style="font-size:14px;line-height:1.82;color:#8A8880;">You're entering finance or breaking in from another field. You want to think like professionals from day one, not catch up for years.</p>
+        </div>
+
+        <div class="who-card">
+          <div class="who-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3 style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#F0EDE6;margin-bottom:16px;">The Operator &amp; Builder</h3>
+          <p style="font-size:14px;line-height:1.82;color:#8A8880;">You run or build businesses. Understanding valuation, capital structure, and macro sharpens every decision that matters.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== ACCORDION BREAKDOWN ===================== -->
+  <section style="padding:128px 48px;background:#0A0A0A;">
+    <div style="max-width:820px;margin:0 auto;">
+      <div style="margin-bottom:64px;">
+        <div class="label" style="margin-bottom:18px;">Inside the Course</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,50px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">Module Breakdown</h2>
+      </div>
+
+      <div id="accordion">
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">01</span>
+              <span class="acc-title">Markets &amp; Financial Systems</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">How do markets emerge and why do they persist? We examine financial market structure from first principles — the function of capital formation, the role of price signals, liquidity, and the institutions governing exchange. You'll leave with a structural understanding of how money moves through an economy, and what that means for every asset price you encounter.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">02</span>
+              <span class="acc-title">Risk &amp; Return</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">Risk is not volatility. This module reframes risk entirely — as the probability of permanent capital loss, opportunity cost, and the asymmetry of outcomes. You'll learn to quantify what you're actually exposed to, and how professional investors get paid to take on uncertainty that others misunderstand.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">03</span>
+              <span class="acc-title">Portfolio Strategy</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">Portfolio construction is a discipline, not a feeling. We cover allocation philosophy, correlation, rebalancing logic, and the structural reasons most individuals hold portfolios that work against them — and how to design one that doesn't.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">04</span>
+              <span class="acc-title">Asset Classes</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">A rigorous survey of equities, fixed income, real estate, commodities, and alternatives — what each is, how it behaves across cycles, and how institutional investors use them to construct durable portfolios. No hype, no trends. Just structure.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">05</span>
+              <span class="acc-title">Business Analysis</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">Understanding what creates durable business value — competitive positioning, pricing power, return on capital, and the qualitative factors that don't show up on spreadsheets. The difference between owning a ticker and understanding a business.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">06</span>
+              <span class="acc-title">Financial Statements</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">The three core financial statements demystified — how to read them, relate them to each other, and extract the signals that matter. We focus on cash flow reality versus accounting earnings, and how sophisticated investors identify gaps between what's reported and what's true.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">07</span>
+              <span class="acc-title">Valuation</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">What is this worth? The central question of investing, answered through DCF analysis, comparable multiples, asset-based approaches, and the judgment required to integrate them. Valuation is part math, part conviction — we teach you both.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">08</span>
+              <span class="acc-title">Macro</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">Markets don't exist in a vacuum. Inflation, interest rates, central bank policy, credit cycles — these forces amplify or suppress every asset class. This module teaches you to read the macro environment and position accordingly, without making reckless macro bets.</p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button class="acc-trigger" onclick="toggleAcc(this)">
+            <div style="display:flex;align-items:center;gap:22px;">
+              <span style="font-size:10px;font-weight:700;letter-spacing:0.14em;color:#2E2E2E;flex-shrink:0;">09</span>
+              <span class="acc-title">Opportunity &amp; Risk Synthesis</span>
+            </div>
+            <span class="acc-icon">+</span>
+          </button>
+          <div class="acc-body">
+            <p class="acc-text">The capstone. How do you recognize a genuine opportunity? How do you weigh it against real risk? How do you build conviction without overconfidence? This is where frameworks become intuition — and insight becomes edge.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== PHILOSOPHY ===================== -->
+  <section id="philosophy" style="padding:172px 48px;position:relative;overflow:hidden;">
+
+    <!-- Decorative large quote mark -->
+    <div aria-hidden="true" class="serif" style="position:absolute;top:40px;left:32px;font-size:clamp(200px,30vw,420px);font-weight:700;color:#0E0E0E;line-height:1;pointer-events:none;user-select:none;z-index:0;">&ldquo;</div>
+
+    <div style="max-width:1240px;margin:0 auto;position:relative;z-index:1;">
+      <div style="max-width:740px;">
+        <div class="label" style="margin-bottom:40px;">Philosophy</div>
+
+        <blockquote class="serif" style="font-size:clamp(26px,3.4vw,44px);font-weight:500;line-height:1.38;letter-spacing:-0.01em;color:#F0EDE6;margin:0 0 44px;font-style:italic;">
+          &ldquo;Markets are driven not by numbers, but by human behavior — by fear, greed, and the relentless mispricing of uncertainty. The edge belongs to those who understand this.&rdquo;
+        </blockquote>
+
+        <div class="hr-gold" style="margin-bottom:44px;"></div>
+
+        <p style="font-size:17px;line-height:1.88;color:#8A8880;margin-bottom:24px;">
+          Prices reflect consensus — and consensus is almost always wrong at the extremes. Markets misprice things constantly, because they aggregate human emotion as much as human analysis.
+        </p>
+
+        <p style="font-size:17px;line-height:1.88;color:#8A8880;margin-bottom:24px;">
+          This course is built on one core belief: the investor who understands <span style="color:#C9A84C;font-style:normal;">why</span> things are priced the way they are — and when that pricing diverges from reality — has a structural advantage that no amount of tip-following can replicate.
+        </p>
+
+        <p style="font-size:17px;line-height:1.88;color:#8A8880;">
+          You don't need more information. You need better frameworks.
+        </p>
+      </div>
+
+      <!-- Right decorative element -->
+      <div class="philosophy-deco" style="position:absolute;top:0;right:0;width:280px;height:280px;border:1px solid #131313;display:flex;align-items:center;justify-content:center;">
+        <div style="width:220px;height:220px;border:1px solid #191919;display:flex;align-items:center;justify-content:center;">
+          <svg width="100" height="100" viewBox="0 0 40 40" fill="none">
+            <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="0.6" opacity="0.3"/>
+            <text x="20" y="27" font-family="Playfair Display,serif" font-size="17" font-weight="700" fill="#C9A84C" text-anchor="middle" opacity="0.25">IF</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== TESTIMONIALS ===================== -->
+  <section style="padding:128px 48px;background:#0A0A0A;">
+    <div style="max-width:1240px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:80px;">
+        <div class="label" style="margin-bottom:18px;">Students</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">What they're saying</h2>
+      </div>
+
+      <div class="testi-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1A1A1A;">
+
+        <div class="testi-card">
+          <div style="display:flex;gap:3px;margin-bottom:24px;">
+            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;I've read Buffett, Lynch, Dalio — and this synthesized it all into something I could actually use. The valuation module alone was worth the price.&rdquo;</p>
+          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
+            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:13px;font-weight:700;color:#C9A84C;">A</span>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Alex M.</div>
+              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Portfolio Manager</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div style="display:flex;gap:3px;margin-bottom:24px;">
+            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;This is what I wish I'd had before entering finance. It doesn't just teach you what — it teaches you why. That's a completely different level.&rdquo;</p>
+          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
+            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:13px;font-weight:700;color:#C9A84C;">S</span>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Sarah K.</div>
+              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Investment Analyst</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card">
+          <div style="display:flex;gap:3px;margin-bottom:24px;">
+            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          </div>
+          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;As a founder, understanding valuation from the investor's perspective changed how I make every financial decision. This isn't a finance course — it's an edge.&rdquo;</p>
+          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
+            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <span style="font-size:13px;font-weight:700;color:#C9A84C;">J</span>
+            </div>
+            <div>
+              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">James R.</div>
+              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Founder &amp; CEO</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FOUNDER ===================== -->
+  <section style="padding:128px 48px;position:relative;overflow:hidden;">
+    <div class="glow" style="width:600px;height:600px;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 70%);top:10%;right:-10%;"></div>
+
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;" class="diff-grid">
+
+      <!-- Left: Image placeholder -->
+      <div style="position:relative;">
+        <div style="aspect-ratio:4/5;border:1px solid #1E1E1E;position:relative;overflow:hidden;">
+          <!-- Real portrait -->
+          <img
+            src="gwynne.png"
+            alt="Gwynne Starrs — Founder, The Investment Framework"
+            style="width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:contrast(1.05) brightness(0.92);"
+          >
+          <!-- Gold color treatment layer -->
+          <div style="position:absolute;inset:0;background:rgba(201,168,76,0.04);mix-blend-mode:multiply;pointer-events:none;"></div>
+          <!-- Dark fade at bottom -->
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(8,8,8,0.82) 100%);pointer-events:none;"></div>
+          <!-- Name card at bottom -->
+          <div style="position:absolute;bottom:0;left:0;right:0;padding:32px;">
+            <div style="height:1px;background:linear-gradient(90deg,#C9A84C,transparent);width:48px;margin-bottom:16px;"></div>
+            <div class="serif" style="font-size:22px;font-weight:600;color:#F0EDE6;letter-spacing:-0.01em;">Gwynne Starrs</div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#C9A84C;margin-top:6px;">Founder, The Investment Framework</div>
+          </div>
+        </div>
+        <!-- Offset decorative border -->
+        <div style="position:absolute;top:14px;left:-14px;right:14px;bottom:-14px;border:1px solid rgba(201,168,76,0.1);pointer-events:none;z-index:-1;"></div>
+      </div>
+
+      <!-- Right: Bio -->
+      <div>
+        <div class="label" style="margin-bottom:20px;">Meet the Founder</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,52px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;margin-bottom:32px;">
+          Gwynne Starrs
+        </h2>
+
+        <p style="font-size:16px;line-height:1.88;color:#8A8880;margin-bottom:24px;">
+          The Investment Framework was built from a simple frustration: the gap between how finance is taught and how it is actually practiced is enormous. Most people are handed surface-level knowledge dressed up as expertise.
+        </p>
+
+        <p style="font-size:16px;line-height:1.88;color:#8A8880;margin-bottom:24px;">
+          Gwynne built this course to close that gap — distilling institutional-grade thinking into a framework anyone with the right mindset can apply. The goal isn't to make you a trader. It's to make you a thinker.
+        </p>
+
+        <p style="font-size:16px;line-height:1.88;color:#8A8880;margin-bottom:44px;">
+          Every module is designed around one question: <span style="color:#C9A84C;">what would a professional actually need to know?</span> Not what looks good on a syllabus.
+        </p>
+
+        <div style="display:flex;align-items:center;gap:20px;">
+          <div style="width:48px;height:1px;background:linear-gradient(90deg,#C9A84C,transparent);"></div>
+          <span style="font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#4A4A48;">Think Deeper &nbsp;&middot;&nbsp; Invest Better &nbsp;&middot;&nbsp; Live Freer</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ===================== PRICING ===================== -->
+  <section id="pricing" style="padding:172px 48px;position:relative;overflow:hidden;">
+    <div class="glow" style="width:700px;height:500px;background:radial-gradient(ellipse,rgba(201,168,76,0.07) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+    <div style="max-width:660px;margin:0 auto;position:relative;">
+      <div style="text-align:center;margin-bottom:60px;">
+        <div class="label" style="margin-bottom:18px;">Investment</div>
+        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">
+          One Price.<br>Permanent Access.
+        </h2>
+      </div>
+
+      <div class="price-card">
+        <!-- Label -->
+        <div style="text-align:center;margin-bottom:40px;">
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:#C9A84C;background:rgba(201,168,76,0.07);padding:7px 18px;border:1px solid rgba(201,168,76,0.18);">Full Access — One Time</span>
+        </div>
+
+        <!-- Price -->
+        <div style="text-align:center;margin-bottom:48px;">
+          <div style="display:flex;align-items:flex-start;justify-content:center;gap:6px;">
+            <span style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:600;color:#C9A84C;margin-top:18px;">$</span>
+            <span class="serif gold-text" style="font-size:clamp(72px,11vw,100px);font-weight:700;line-height:1;">200</span>
+          </div>
+          <p style="font-size:11px;color:#3A3A38;letter-spacing:0.1em;text-transform:uppercase;margin-top:10px;">One-time payment &middot; Lifetime access</p>
+        </div>
+
+        <!-- Features -->
+        <div style="margin-bottom:44px;">
+          <div class="feat-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20,6 9,17 4,12"/></svg>
+            <span style="font-size:14px;color:#A0A09A;">All 9 core modules — 47+ hours of instruction</span>
+          </div>
+          <div class="feat-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20,6 9,17 4,12"/></svg>
+            <span style="font-size:14px;color:#A0A09A;">Downloadable frameworks, models, and reference guides</span>
+          </div>
+          <div class="feat-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20,6 9,17 4,12"/></svg>
+            <span style="font-size:14px;color:#A0A09A;">Case studies and real-market applications</span>
+          </div>
+          <div class="feat-row">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20,6 9,17 4,12"/></svg>
+            <span style="font-size:14px;color:#A0A09A;">All future updates and additions included</span>
+          </div>
+          <div class="feat-row" style="border-bottom:none;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="2.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><polyline points="20,6 9,17 4,12"/></svg>
+            <span style="font-size:14px;color:#A0A09A;">Private community of serious investors and operators</span>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align:center;">
+          <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK" class="btn-gold" style="width:100%;text-align:center;display:block;padding:20px 48px;font-size:13px;">Get Access Now</a>
+          <p style="font-size:11px;color:#333;margin-top:16px;letter-spacing:0.06em;">Secure checkout &nbsp;&middot;&nbsp; 30-day money-back guarantee</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ===================== FINAL CTA ===================== -->
+  <section style="padding:180px 48px;background:#0A0A0A;position:relative;overflow:hidden;">
+    <!-- Large IF watermark -->
+    <div aria-hidden="true" class="serif" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:clamp(200px,35vw,480px);font-weight:700;color:#0D0D0D;line-height:1;pointer-events:none;user-select:none;letter-spacing:-0.05em;">IF</div>
+    <div class="glow" style="width:600px;height:400px;background:radial-gradient(ellipse,rgba(201,168,76,0.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+
+    <div style="max-width:820px;margin:0 auto;text-align:center;position:relative;z-index:1;">
+      <div class="label" style="margin-bottom:24px;">Begin</div>
+
+      <h2 class="serif" style="font-size:clamp(40px,6vw,80px);font-weight:700;line-height:1.06;letter-spacing:-0.03em;color:#F0EDE6;margin-bottom:32px;">
+        Think differently.<br>
+        <span class="gold-text">Invest intelligently.</span>
+      </h2>
+
+      <p style="font-size:18px;line-height:1.78;color:#6A6A68;margin-bottom:60px;max-width:500px;margin-left:auto;margin-right:auto;">
+        The frameworks you build here will compound quietly in every financial decision you make for the rest of your career.
+      </p>
+
+      <a href="https://buy.stripe.com/REPLACE_WITH_YOUR_STRIPE_LINK" class="btn-gold" style="font-size:13px;padding:20px 64px;">Enroll Now</a>
+
+      <p style="margin-top:52px;font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#282828;">Think Deeper &nbsp;&middot;&nbsp; Invest Better &nbsp;&middot;&nbsp; Live Freer</p>
+    </div>
+  </section>
+
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="padding:44px 48px;background:#060606;border-top:1px solid #111;">
+    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
+          <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="0.8" opacity="0.4"/>
+          <text x="20" y="26" font-family="Playfair Display,serif" font-size="15" font-weight="700" fill="#C9A84C" text-anchor="middle" opacity="0.4">IF</text>
+        </svg>
+        <span style="font-size:10px;letter-spacing:0.14em;color:#282828;text-transform:uppercase;">The Investment Framework &copy; 2026</span>
+      </div>
+      <div style="display:flex;gap:28px;">
+        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Privacy</a>
+        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Terms</a>
+        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+
+  <script>
+    // Accordion
+    function toggleAcc(trigger) {
+      const item = trigger.closest('.acc-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.acc-item.open').forEach(el => el.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Nav scroll behavior
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav.style.background = 'rgba(8,8,8,0.97)';
+        nav.style.backdropFilter = 'blur(20px)';
+      } else {
+        nav.style.background = 'linear-gradient(180deg,rgba(8,8,8,0.96) 0%,rgba(8,8,8,0) 100%)';
+        nav.style.backdropFilter = 'blur(16px)';
+      }
+    }, { passive: true });
+
+    // Mobile nav
+    function toggleMobileNav() {
+      const mn = document.getElementById('mobile-nav');
+      mn.style.display = mn.style.display === 'flex' ? 'none' : 'flex';
+    }
+  </script>
+
+  <!-- Dotted Surface (Three.js) — ported from React component -->
+  <script>
+  (function () {
+    const container = document.getElementById('dotted-bg');
+    if (!container || typeof THREE === 'undefined') return;
+
+    const SEPARATION = 150;
+    const AMOUNTX   = 40;
+    const AMOUNTY   = 60;
+
+    // Scene
+    const scene = new THREE.Scene();
+
+    // Camera
+    const camera = new THREE.PerspectiveCamera(
+      60,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    );
+    camera.position.set(0, 355, 1220);
+
+    // Renderer — transparent so page background shows through
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    container.appendChild(renderer.domElement);
+
+    // Build dot grid
+    const positions = [];
+    const colors    = [];
+
+    for (let ix = 0; ix < AMOUNTX; ix++) {
+      for (let iy = 0; iy < AMOUNTY; iy++) {
+        positions.push(
+          ix * SEPARATION - (AMOUNTX * SEPARATION) / 2,
+          0,
+          iy * SEPARATION - (AMOUNTY * SEPARATION) / 2
+        );
+        // Bright metallic gold: rgb ≈ (0.79, 0.66, 0.30)
+        colors.push(0.79, 0.66, 0.30);
+      }
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color',    new THREE.Float32BufferAttribute(colors,    3));
+
+    const material = new THREE.PointsMaterial({
+      size:         7,
+      vertexColors: true,
+      transparent:  true,
+      opacity:      0.45,
+      sizeAttenuation: true,
+    });
+
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    let count = 0;
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const posAttr = geometry.attributes.position;
+      const pos     = posAttr.array;
+
+      let i = 0;
+      for (let ix = 0; ix < AMOUNTX; ix++) {
+        for (let iy = 0; iy < AMOUNTY; iy++) {
+          pos[i * 3 + 1] =
+            Math.sin((ix + count) * 0.3) * 50 +
+            Math.sin((iy + count) * 0.5) * 50;
+          i++;
+        }
+      }
+
+      posAttr.needsUpdate = true;
+      renderer.render(scene, camera);
+      count += 0.1;
+    }
+
+    animate();
+
+    window.addEventListener('resize', function () {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  })();
+  </script>
+
+</body>
+</html>
