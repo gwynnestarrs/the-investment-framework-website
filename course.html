@@ -212,9 +212,78 @@
       #bottom-nav { padding: 20px 24px; }
       #intro-screen { padding: 36px 24px; }
     }
+    /* ---- PASSWORD GATE ---- */
+    #pw-gate {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    #pw-box {
+      width: 100%; max-width: 420px;
+      border: 1px solid var(--border2);
+      padding: 52px 44px;
+      text-align: center;
+    }
+    #pw-logo { margin-bottom: 32px; }
+    #pw-heading { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--tp); margin-bottom: 10px; letter-spacing: -0.02em; }
+    #pw-sub { font-size: 12px; color: var(--ts); letter-spacing: 0.08em; margin-bottom: 36px; }
+    #pw-input {
+      width: 100%; background: var(--s2); border: 1px solid var(--border2);
+      color: var(--tp); font-family: 'Montserrat', sans-serif; font-size: 14px;
+      padding: 14px 18px; outline: none; margin-bottom: 14px;
+      transition: border-color 0.2s ease;
+    }
+    #pw-input:focus { border-color: var(--gold); }
+    #pw-input::placeholder { color: var(--tm); }
+    #pw-btn {
+      width: 100%; background: linear-gradient(135deg, #C9A84C 0%, #E8D08A 50%, #C9A84C 100%);
+      color: #080808; font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 16px; border: none; cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    #pw-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    #pw-error { font-size: 11px; color: #c0392b; margin-top: 12px; display: none; letter-spacing: 0.06em; }
   </style>
 </head>
 <body>
+
+<!-- ===================== PASSWORD GATE ===================== -->
+<div id="pw-gate">
+  <div id="pw-box">
+    <div id="pw-logo">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="1"/>
+        <text x="20" y="27" font-family="Playfair Display,serif" font-size="16" font-weight="700" fill="#C9A84C" text-anchor="middle">IF</text>
+      </svg>
+    </div>
+    <div id="pw-heading">Course Access</div>
+    <div id="pw-sub">Enter your access password to continue</div>
+    <input id="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">Enter Course →</button>
+    <div id="pw-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  if (sessionStorage.getItem('tif_auth') === 'true') {
+    document.getElementById('pw-gate').style.display = 'none';
+  }
+  window.checkPw = function() {
+    const val = document.getElementById('pw-input').value;
+    if (val === 'Theinvestmentframework2026$$') {
+      sessionStorage.setItem('tif_auth', 'true');
+      document.getElementById('pw-gate').style.display = 'none';
+    } else {
+      document.getElementById('pw-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  };
+})();
+</script>
 
 <!-- ===================== TOP NAV ===================== -->
 <nav id="top-nav">
