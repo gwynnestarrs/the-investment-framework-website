@@ -196,6 +196,73 @@
       display: flex; align-items: center; justify-content: center;
     }
 
+    /* ---- RESOURCES ---- */
+    .resources { margin: 28px 0 0; }
+    .resources-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tm); margin-bottom: 10px; }
+    .resource-link { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-top: 1px solid var(--border); text-decoration: none; transition: color 0.2s ease; }
+    .resource-source { font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tm); width: 90px; flex-shrink: 0; }
+    .resource-title { font-size: 13px; color: var(--ts); transition: color 0.2s ease; }
+    .resource-link:hover .resource-title { color: var(--gold); }
+    .resource-arrow { color: var(--tm); font-size: 11px; margin-left: auto; flex-shrink: 0; transition: color 0.2s ease; }
+    .resource-link:hover .resource-arrow { color: var(--gold); }
+
+    /* ---- NOTES ---- */
+    .notes-wrap { margin: 36px 0 0; }
+    .notes-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .notes-label { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tm); }
+    .notes-saved { font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); opacity: 0; transition: opacity 0.4s ease; }
+    .notes-saved.show { opacity: 1; }
+    .notes-textarea { width: 100%; min-height: 110px; background: var(--s2); border: 1px solid var(--border2); color: var(--tp); font-family: 'Montserrat', sans-serif; font-size: 13px; line-height: 1.75; padding: 16px; resize: vertical; outline: none; transition: border-color 0.2s ease; }
+    .notes-textarea:focus { border-color: var(--gold); }
+    .notes-textarea::placeholder { color: var(--tm); }
+
+    /* ---- QUIZ ---- */
+    .quiz-wrap { margin: 36px 0 0; border: 1px solid var(--border2); }
+    .quiz-header { padding: 18px 28px; border-bottom: 1px solid var(--border2); display: flex; align-items: center; justify-content: space-between; }
+    .quiz-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #080808; background: var(--gold); padding: 4px 12px; }
+    .quiz-subtitle { font-size: 11px; color: var(--tm); letter-spacing: 0.06em; }
+    .quiz-body { padding: 24px 28px; }
+    .quiz-qwrap { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+    .quiz-qwrap:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    .quiz-qnum { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--tm); margin-bottom: 7px; }
+    .quiz-qtext { font-size: 14px; line-height: 1.65; color: var(--tp); font-weight: 500; margin-bottom: 12px; }
+    .quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+    .quiz-opt { display: flex; align-items: flex-start; gap: 12px; padding: 11px 16px; background: var(--s2); border: 1px solid var(--border); cursor: pointer; text-align: left; font-family: 'Montserrat', sans-serif; font-size: 13px; color: var(--ts); line-height: 1.5; transition: border-color 0.18s, background 0.18s; }
+    .quiz-opt:hover:not([disabled]) { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+    .quiz-opt.correct { border-color: #27ae60; background: rgba(39,174,96,0.08); color: var(--tp); }
+    .quiz-opt.wrong { border-color: #c0392b; background: rgba(192,57,43,0.08); }
+    .quiz-opt-letter { font-size: 10px; font-weight: 700; color: var(--gold); flex-shrink: 0; padding-top: 1px; }
+    .quiz-fb { font-size: 12px; margin-top: 8px; padding: 10px 14px; display: none; line-height: 1.6; }
+    .quiz-fb.correct { background: rgba(39,174,96,0.08); color: #27ae60; display: block; }
+    .quiz-fb.wrong { background: rgba(192,57,43,0.08); color: #c0392b; display: block; }
+    .quiz-result { display: none; align-items: center; justify-content: space-between; padding: 18px 28px; border-top: 1px solid var(--border2); }
+    .quiz-result.show { display: flex; }
+    .quiz-result-score { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
+    .quiz-result-label { font-size: 11px; color: var(--ts); margin-top: 2px; }
+    .quiz-retry { background: none; border: 1px solid var(--border2); color: var(--ts); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 20px; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .quiz-retry:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ---- CERTIFICATE ---- */
+    #cert-overlay { position: fixed; inset: 0; z-index: 9997; background: rgba(0,0,0,0.92); display: none; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+    #cert-overlay.show { display: flex; }
+    #cert-wrap { background: #FAF8F3; width: 100%; max-width: 720px; padding: 60px 64px; text-align: center; position: relative; flex-shrink: 0; }
+    #cert-border { position: absolute; inset: 10px; border: 1px solid #C9A84C; pointer-events: none; }
+    #cert-close { position: absolute; top: 14px; right: 18px; background: none; border: none; font-size: 20px; cursor: pointer; color: #999; z-index: 1; }
+    .cert-eyebrow { font-size: 9px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: #8B6914; margin-bottom: 18px; }
+    .cert-title { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: #1A1A1A; line-height: 1.1; margin-bottom: 20px; }
+    .cert-presents { font-size: 13px; color: #777; margin-bottom: 8px; }
+    .cert-name { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 600; color: #C9A84C; margin: 12px 0 18px; }
+    .cert-body { font-size: 13px; color: #666; line-height: 1.7; margin-bottom: 6px; }
+    .cert-course { font-size: 12px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #1A1A1A; margin-top: 8px; }
+    .cert-divider { width: 60px; height: 1px; background: #C9A84C; margin: 24px auto; }
+    .cert-date { font-size: 11px; color: #999; letter-spacing: 0.1em; margin-bottom: 28px; }
+    .cert-sig { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; color: #1A1A1A; }
+    .cert-sig-line { width: 150px; height: 1px; background: #1A1A1A; margin: 10px auto 4px; }
+    .cert-sig-label { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #999; }
+    .cert-print { margin-top: 28px; background: #C9A84C; color: #080808; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; padding: 14px 40px; border: none; cursor: pointer; transition: opacity 0.2s; }
+    .cert-print:hover { opacity: 0.88; }
+    @media print { body > *:not(#cert-overlay) { display: none !important; } #cert-overlay { position: static; background: none; display: block !important; padding: 0; } #cert-close, .cert-print { display: none !important; } }
+
     /* ---- MOBILE ---- */
     #sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:699; }
     #mobile-toggle {
@@ -285,6 +352,26 @@
 })();
 </script>
 
+<!-- ===================== CERTIFICATE OVERLAY ===================== -->
+<div id="cert-overlay">
+  <div id="cert-wrap">
+    <div id="cert-border"></div>
+    <button id="cert-close" onclick="document.getElementById('cert-overlay').classList.remove('show')">✕</button>
+    <div class="cert-eyebrow">Certificate of Completion</div>
+    <div class="cert-title">The Investment<br>Framework</div>
+    <div class="cert-presents">This certifies that</div>
+    <div class="cert-name" id="cert-student-name"></div>
+    <div class="cert-body">has successfully completed all nine modules of</div>
+    <div class="cert-course">The Investment Framework — 2026</div>
+    <div class="cert-divider"></div>
+    <div class="cert-date" id="cert-date"></div>
+    <div class="cert-sig">Gwynne Starrs</div>
+    <div class="cert-sig-line"></div>
+    <div class="cert-sig-label">Founder & Instructor</div>
+    <button class="cert-print" onclick="window.print()">Print / Save as PDF</button>
+  </div>
+</div>
+
 <!-- ===================== TOP NAV ===================== -->
 <nav id="top-nav">
   <div style="display:flex;align-items:center;gap:16px;">
@@ -306,7 +393,7 @@
   </div>
   <div style="display:flex;align-items:center;gap:20px;">
     <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
-      <span class="progress-pill" id="progress-text">0 / 9 Modules</span>
+      <span class="progress-pill" id="progress-text">0 / 10 Modules</span>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
       </div>
@@ -1453,10 +1540,747 @@ const COURSE = [
       }
     ]
   }
+  ,{
+    num: 10, title: "Behavioral Finance",
+    subtitle: "The Mistakes Wired Into Every Investor's Brain",
+    lessons: [
+      {
+        num: "10.1", title: "Loss Aversion — Why Losses Hurt Twice as Much",
+        body: [
+          "In 1979, Daniel Kahneman and Amos Tversky published Prospect Theory — one of the most important papers in the history of economics. Their finding: losses feel approximately twice as painful as equivalent gains feel pleasurable. Losing $100 produces roughly twice the emotional impact of gaining $100. This asymmetry is not rational. It is wired in.",
+          "<strong>How loss aversion distorts investment decisions:</strong> Investors hold losing positions far too long because selling locks in the loss — making it psychologically 'real.' They sell winning positions too early because the fear of giving back gains overrides the rational analysis that the position still has upside. The result is a systematic pattern of selling winners and holding losers — the exact opposite of what rational portfolio management requires.",
+          "<strong>The disposition effect</strong> is the documented tendency to sell winners and hold losers. It has been measured across retail investors in dozens of countries and market environments. It costs the average investor 1-3% in annual returns through tax inefficiency and poor timing alone. The mechanism is entirely loss aversion: the realized gain feels good; the realized loss feels terrible.",
+          "<span class='gold'>The antidote is not to eliminate emotions — it is to create rules that operate independently of them.</span> Pre-committed exit criteria, written before you enter a position, are the professional's mechanism for preventing loss aversion from overriding analysis. If you decide in advance 'I will sell if the thesis is wrong regardless of price,' the emotional lock-in is broken by the pre-commitment."
+        ],
+        hfp: "Risk managers at sophisticated funds use hard stop-loss rules specifically to prevent loss aversion from compounding mistakes. A hedge fund position that's down 15% and whose thesis is broken gets cut — not held while the manager rationalizes why it might come back. The discipline to take losses quickly and decisively is one of the most important — and psychologically difficult — skills in professional investing.",
+        rwe: "The collapse of Barings Bank in 1995 is partly a loss aversion story. Nick Leeson's unauthorized trading position began as a small loss. Rather than reporting it, he doubled down repeatedly — each time attempting to recover the loss rather than accept it. Loss aversion drove the escalation. By the time the position was discovered, it had destroyed the 233-year-old bank. The original loss was manageable. The refusal to take it was catastrophic.",
+        rwe2: "Individual investors during the 2008 financial crisis exhibited textbook loss aversion. Many held equity positions down 40-50% rather than selling — waiting to 'get back to even.' Those who eventually capitulated did so at the bottom, after the emotional pain became unbearable. Those who had pre-committed exit criteria or stop-losses were forced out earlier and could redeploy capital at lower prices. The absence of rules left most investors hostage to their own psychology at the worst possible moment.",
+        takeaways: [
+          "Loss aversion is neurologically real: losses feel roughly twice as painful as equivalent gains feel pleasurable.",
+          "The disposition effect (hold losers, sell winners) is loss aversion in action — and it costs retail investors 1-3% annually.",
+          "Pre-committed exit criteria written before entering a position are the professional mechanism for preventing loss aversion from overriding analysis."
+        ],
+        resources: [
+          { source: "Investopedia", title: "Loss Aversion Explained", url: "https://www.investopedia.com/terms/l/loss-psychology.asp" },
+          { source: "Investopedia", title: "Prospect Theory", url: "https://www.investopedia.com/terms/p/prospecttheory.asp" },
+          { source: "Investopedia", title: "The Disposition Effect", url: "https://www.investopedia.com/terms/d/disposition.asp" }
+        ],
+        activity: {
+          title: "Loss Aversion Audit",
+          prompt: "Review your own recent investment decisions — or simulate one — to identify where loss aversion may have influenced your choices.",
+          steps: [
+            "List the last 3-5 investment decisions you made (or would consider). For each, was there a losing position you held longer than logic justified? A winning position you sold too early?",
+            "For each case of holding a loser: write the actual thesis you had at the time you should have sold. Had the thesis been proven wrong before you sold?",
+            "Write a pre-commitment rule for one current or hypothetical position: 'I will sell if [specific condition] regardless of the current price.'",
+            "Calculate the approximate cost of one past disposition-effect mistake: what was the opportunity cost of holding a loser vs. redeploying that capital at the eventual selling price?"
+          ]
+        },
+        quiz: [
+          { q: "Prospect Theory found that losses feel approximately how many times more painful than equivalent gains feel pleasurable?", options: ["Equal — gains and losses feel the same", "Twice as painful", "Half as painful", "Three times as painful"], a: 1 },
+          { q: "The 'disposition effect' refers to which behavioral pattern?", options: ["Buying more of a winner as it rises", "Selling losers quickly and holding winners", "Holding losers and selling winners too early", "Avoiding any investment with prior losses"], a: 2 },
+          { q: "A stock has fallen 30% and the original investment thesis has clearly been proven wrong. Loss aversion would lead most investors to:", options: ["Sell immediately and redeploy capital", "Hold, waiting to get back to even", "Buy more to average down the cost basis", "Hedge the position with options"], a: 1 },
+          { q: "What is the most effective professional mechanism for preventing loss aversion from overriding rational analysis?", options: ["Monitoring portfolio performance daily", "Pre-committed exit criteria written before entering positions", "Diversifying into many small positions", "Consulting a financial advisor before each decision"], a: 1 },
+          { q: "The disposition effect costs the average retail investor approximately how much annually?", options: ["Less than 0.1%", "0.1–0.5%", "1–3%", "5–10%"], a: 2 }
+        ]
+      },
+      {
+        num: "10.2", title: "Anchoring — How First Numbers Hijack Judgment",
+        body: [
+          "Anchoring is the cognitive tendency to rely too heavily on the first piece of information encountered when making decisions. In investing, the anchor is almost always the price at which you bought a stock. That purchase price has zero relevance to what the stock is worth today — yet it dominates the psychology of most investors' ongoing decisions about whether to hold, add, or sell.",
+          "Classic anchoring examples in investing: <strong>'I'll sell when it gets back to what I paid.'</strong> The purchase price is irrelevant to what the stock is worth going forward. <strong>'This stock used to trade at $200 — now it's at $80, so it must be cheap.'</strong> The prior price is irrelevant if the business has changed. <strong>'Analysts have a $150 price target, so $120 is a 20% discount.'</strong> If the analyst target is wrong, so is your anchor.",
+          "<strong>Analyst price targets are particularly dangerous anchors</strong> because they feel authoritative. Most analyst targets are themselves anchored — to the current price plus a modest premium, or to a competitor's target. They are not independent assessments of intrinsic value. Using them as a reference point embeds someone else's anchoring bias into your own analysis.",
+          "<span class='gold'>The correction for anchoring is to force yourself to value the security fresh, as if you had never seen a price for it.</span> Start from first principles: what is the business worth based on its cash flows, competitive position, and growth prospects? Then compare that independent estimate to the market price — without using the market price to validate your analysis."
+        ],
+        hfp: "Sophisticated analysts specifically exclude the current stock price when building their initial valuation models. They build the DCF first, arrive at an intrinsic value estimate, and then look at where the stock is trading. This deliberate sequencing prevents the market price from anchoring the analysis — which would make the 'independent' valuation simply a rationalization of the market's current view.",
+        rwe: "In the dot-com era, technology stocks had risen so dramatically that even 'cheap' stocks were priced at 50x earnings because the anchor was the sector's average multiple of 80-100x. Investors who thought they were buying cheap at 50x were actually anchored to an absurd reference point. A fresh valuation from first principles — what growth would be required to justify 50x earnings? — would have revealed that even the 'cheap' stocks were massively overvalued.",
+        rwe2: "Sears Holdings traded in the $100-150 range for years before its long decline. As it fell to $50, then $20, then $5, retail investors consistently anchored to the prior high, calling it cheap at each level. The anchor was the historical price, not the deteriorating business fundamentals. Each 'discount' from the prior high was still a premium to the actual value of a dying retail model. Anchoring to historical prices without independent valuation kept investors in a losing position throughout its decade-long decline.",
+        takeaways: [
+          "Anchoring to purchase price is the most common form of the bias — the price you paid has zero relevance to future decisions.",
+          "Analyst price targets are themselves anchored and should never serve as your primary valuation reference.",
+          "The correction: build your valuation from first principles before looking at the current market price, not after."
+        ],
+        resources: [
+          { source: "Investopedia", title: "Anchoring Bias in Investing", url: "https://www.investopedia.com/terms/a/anchoring.asp" },
+          { source: "Investopedia", title: "Behavioral Finance Overview", url: "https://www.investopedia.com/terms/b/behavioralfinance.asp" },
+          { source: "Yahoo Finance", title: "Markets & News", url: "https://finance.yahoo.com/markets/" }
+        ],
+        activity: {
+          title: "Anchor Removal Exercise",
+          prompt: "Value a stock you already own or follow — but deliberately hide the current price from yourself until after you've completed your analysis.",
+          steps: [
+            "Choose a stock. Before looking up the current price, write down what you know about the business: its revenue, growth rate, competitive position, and approximate free cash flow.",
+            "Using only fundamental data (not the price), estimate what you think the business is worth using a simple multiple or DCF. Write your estimate down.",
+            "Now look at the current price. Was your estimate higher or lower? If significantly different, which one do you trust more — and why?",
+            "Identify: at what point in your analysis did the current price 'leak in' and start influencing your thinking? That is where anchoring took hold."
+          ]
+        },
+        quiz: [
+          { q: "Anchoring in investing most commonly manifests as:", options: ["Overtrading in volatile markets", "Relying on purchase price when deciding whether to hold or sell", "Buying only blue-chip companies", "Following analyst recommendations blindly"], a: 1 },
+          { q: "Why is a stock's historical high price an unreliable anchor for current valuation?", options: ["Historical prices are not publicly available", "Business fundamentals may have changed dramatically since the high", "High prices indicate strong momentum", "Historical data is always adjusted for inflation"], a: 1 },
+          { q: "The best way to prevent anchoring from distorting a valuation is to:", options: ["Use the consensus analyst target as a reference", "Build a DCF model before looking at the current market price", "Compare to the 52-week high and low range", "Ask a financial advisor for their price target"], a: 1 },
+          { q: "Analyst price targets are particularly dangerous anchors because:", options: ["They are legally binding", "They feel authoritative but are often themselves anchored to current prices", "They are only available to institutional investors", "They update in real time with the market"], a: 1 },
+          { q: "'This stock is down 60% from its high, so it must be cheap' is an example of:", options: ["Sound contrarian investing", "Anchoring to a prior reference price rather than fundamental value", "Correct application of margin of safety", "Momentum analysis"], a: 1 }
+        ]
+      },
+      {
+        num: "10.3", title: "Recency Bias — The Tyranny of What Just Happened",
+        body: [
+          "Recency bias is the tendency to give disproportionate weight to recent events when predicting the future. The brain uses what is most available in memory — recent experience — as a proxy for what is likely to happen. This was useful for evolutionary survival. It is destructive for investing.",
+          "Recency bias in markets manifests most clearly at extremes: after a long bull market, investors assume stocks will keep rising and underestimate risk. After a crash, investors assume stocks will keep falling and avoid equities at the lowest prices. <span class='gold'>The bias is strongest precisely when it is most costly</span> — at market peaks and troughs, when the recent trend has the longest history of confirmation.",
+          "<strong>The availability heuristic</strong> is closely related: events that are vivid and easily recalled are judged as more probable than they actually are. After a market crash, investors who experienced the losses vividly overweight the probability of another crash. After years of gains, the experience of loss becomes abstract and the probability of a crash gets systematically underestimated. The emotional vividness of a recent event, not its statistical base rate, drives the probability estimate.",
+          "Recency bias also drives performance chasing — the pervasive pattern of buying mutual funds and asset classes that have just outperformed and avoiding those that have just underperformed. The data is clear: funds and asset classes that have recently outperformed are more likely to mean-revert than to continue outperforming. Recency bias systematically causes investors to buy high and sell low."
+        ],
+        hfp: "Contrarian investing is, in large part, a systematic exploitation of recency bias. When an asset class or sector has underperformed for years, recency bias depresses investor appetite and creates cheap prices — not because the fundamentals have permanently impaired, but because recent experience has dominated the probability estimate. Identifying when recency bias has caused genuine mispricing (vs. a fundamentally broken thesis) is the core analytical challenge of contrarian investing.",
+        rwe: "U.S. housing prices had never fallen on a national basis in the post-war era before 2007. This fact was used to justify the belief that they couldn't — an extreme form of recency bias applied to credit risk. Mortgage underwriting models used historical default rates that reflected only the benign recent environment. When housing fell, the models were catastrophically wrong because the recent history didn't include the scenario that actually materialized. The entire financial system had used recent experience as the definition of possibility.",
+        rwe2: "After the 2000-2002 tech crash, investors avoided technology stocks for years. Many excellent businesses — Amazon, Google, Apple — traded at very reasonable valuations because recency bias had made 'technology stock' synonymous with 'dangerous.' By 2004-2005, the recent crash still dominated investor psychology even though the underlying businesses had strengthened. Investors with longer memories and the ability to override recent experience found extraordinary opportunities in the rubble of the sector that recency bias had condemned.",
+        takeaways: [
+          "Recency bias gives disproportionate weight to recent events — strongest at market extremes, where it is most costly.",
+          "The availability heuristic makes vivid recent events feel more probable than base rates justify — driving both crash-avoidance and bubble-participation.",
+          "Performance chasing (buying recent winners) is recency bias in action and systematically produces buy-high, sell-low outcomes."
+        ],
+        resources: [
+          { source: "Investopedia", title: "Recency Bias Definition", url: "https://www.investopedia.com/terms/r/recency-bias.asp" },
+          { source: "Investopedia", title: "Availability Heuristic", url: "https://www.investopedia.com/terms/a/availability-heuristic.asp" },
+          { source: "FRED", title: "S&P 500 Historical Data", url: "https://fred.stlouisfed.org/series/SP500" }
+        ],
+        activity: {
+          title: "Recency Bias Detection",
+          prompt: "Identify where recency bias may be influencing your current investment views and test those views against longer historical data.",
+          steps: [
+            "List three asset classes or sectors you currently feel positive about. For each, ask: is this view driven by their recent performance, or by analysis of fundamentals and valuation?",
+            "List three asset classes or sectors you currently feel negative about. Apply the same question: recent underperformance, or genuine fundamental deterioration?",
+            "For one sector you feel negative about, look up its 20-year return history. Has it consistently underperformed over the full period, or just recently?",
+            "Identify one investment you avoided because of a recent negative experience (personal loss, a crash you remember vividly, a sector scandal). Was the avoidance based on recency bias or fundamental analysis?"
+          ]
+        },
+        quiz: [
+          { q: "Recency bias most commonly causes investors to:", options: ["Buy undervalued assets before they recover", "Extrapolate recent trends forward and ignore long-term base rates", "Diversify across uncorrelated asset classes", "Focus exclusively on fundamental valuation"], a: 1 },
+          { q: "The availability heuristic causes investors to judge the probability of an event based on:", options: ["Statistical base rates from long historical data", "How easily a vivid example comes to mind", "Current analyst consensus forecasts", "Regression to the mean calculations"], a: 1 },
+          { q: "Performance chasing — buying recently outperforming funds — is problematic because:", options: ["Outperforming funds charge higher fees", "Recent outperformance is more likely to mean-revert than to continue", "Regulators restrict switching between funds", "Performance data is only available with a 12-month lag"], a: 1 },
+          { q: "Recency bias is most dangerous for investors at:", options: ["Market mid-cycle, when trends are moderate", "Market extremes — peaks and troughs — where recent history is longest", "During earnings season when data is fresh", "When interest rates are stable"], a: 1 },
+          { q: "Contrarian investing primarily exploits which bias?", options: ["Overconfidence in one's own analytical ability", "Anchoring to analyst price targets", "Recency bias depressing appetite for recently underperforming assets", "Herding behavior in momentum strategies"], a: 2 }
+        ]
+      },
+      {
+        num: "10.4", title: "Overconfidence & Confirmation Bias",
+        body: [
+          "Overconfidence is the most pervasive and well-documented bias in all of behavioral finance. Studies consistently show that 80-90% of investors, drivers, and professionals rate themselves as above average. Statistically impossible — but psychologically real. In investing, overconfidence manifests as excessive trading, under-diversification, and the belief that one's own analysis is more accurate than it actually is.",
+          "The <strong>illusion of knowledge</strong> compounds overconfidence: having more information often increases confidence more than it increases accuracy. Day traders with real-time data feeds feel more confident than investors with weekly price data — but their predictions are not more accurate. The information creates the feeling of edge without actually generating it.",
+          "<strong>Confirmation bias</strong> is the tendency to seek out, interpret, and remember information that confirms existing beliefs while discounting information that contradicts them. Once you form an investment thesis, your brain systematically filters incoming information to support it. You notice the positive news; you rationalize away the negative. The position you hold becomes a belief you defend rather than a hypothesis you test.",
+          "<span class='gold'>The combination of overconfidence and confirmation bias is the most destructive behavioral cocktail in investing.</span> Overconfidence creates high conviction; confirmation bias protects that conviction from disconfirming evidence. The result is a psychological fortress around a potentially wrong position — one that becomes harder to exit the longer it is held and the more confirming evidence has been accumulated."
+        ],
+        hfp: "The most rigorous investors institutionalize doubt. They assign a team member specifically to argue the bear case — not as a formality but as a genuine adversarial challenge. They read short-seller reports on their own positions. They track their actual prediction accuracy over time (a practice called 'calibration') to get honest feedback on whether their confidence is justified by their track record. Overconfidence collapses when you actually measure your accuracy rather than remember it selectively.",
+        rwe: "Theranos founder Elizabeth Holmes demonstrated what overconfidence looks like at scale. She raised over $700 million on the basis of a blood-testing technology that didn't work — and maintained this conviction through multiple rounds of investor diligence because investors suffering from confirmation bias saw only the evidence that aligned with a compelling narrative (revolutionary technology, charismatic founder, impressive board). No one looked hard enough for disconfirming evidence. The investors who did raise doubts were dismissed. The entire Theranos story is a case study in how overconfidence plus confirmation bias defeats due diligence.",
+        rwe2: "Bill Ackman's $1 billion short position against Herbalife is a case study in conviction overriding disconfirming evidence. He made a highly public, high-conviction bet that Herbalife was a pyramid scheme that would be shut down by the FTC. The FTC did investigate — and issued a consent decree that allowed Herbalife to continue operating. Rather than updating his thesis, Ackman held the position for years at significant cost, repeatedly reframing each negative development as temporary. The original thesis was not unreasonable; the refusal to update it in the face of disconfirming evidence was confirmation bias in its most expensive form.",
+        takeaways: [
+          "Overconfidence is the most documented bias in finance — 80-90% of investors rate themselves above average.",
+          "Confirmation bias causes investors to seek evidence that supports their thesis and rationalize away contradicting information.",
+          "The antidote: actively seek disconfirming evidence, track prediction accuracy honestly, and institutionalize devil's advocacy."
+        ],
+        resources: [
+          { source: "Investopedia", title: "Overconfidence Effect", url: "https://www.investopedia.com/terms/o/overconfidence.asp" },
+          { source: "Investopedia", title: "Confirmation Bias", url: "https://www.investopedia.com/terms/c/confirmation-bias.asp" },
+          { source: "Investopedia", title: "Behavioral Finance", url: "https://www.investopedia.com/terms/b/behavioralfinance.asp" }
+        ],
+        activity: {
+          title: "Bias Audit on a Current Position",
+          prompt: "Select one investment you currently hold or are considering and audit it specifically for overconfidence and confirmation bias.",
+          steps: [
+            "Write down your investment thesis in 3 sentences. Now search specifically for the strongest opposing view — a short-seller thesis, a bearish analyst report, or a news article raising concerns. Read it fully.",
+            "For each piece of disconfirming evidence you find: did you already know it? Did you dismiss it? Was your dismissal based on analysis or on the fact that it threatened your thesis?",
+            "Estimate your confidence level in the thesis as a percentage (e.g., 75% confident). Now recall your last 10 investment decisions. How many were correct? Does your track record justify that confidence level?",
+            "Write down the single most damaging piece of evidence against your thesis. If that evidence turned out to be correct, what would you do? Having a pre-written response to the bear case prevents confirmation bias from making it invisible."
+          ]
+        },
+        quiz: [
+          { q: "Studies on overconfidence consistently find that what percentage of investors rate themselves as above average?", options: ["About 50% — which is accurate", "60–70%", "80–90%", "Nearly 100%"], a: 2 },
+          { q: "The 'illusion of knowledge' refers to:", options: ["Pretending to understand investments you don't", "More information increasing confidence more than it increases accuracy", "Copying strategies from famous investors", "Overestimating the value of educational credentials"], a: 1 },
+          { q: "Confirmation bias causes investors to:", options: ["Seek out disconfirming evidence to stress-test their thesis", "Systematically filter information to support their existing belief", "Avoid making investment decisions without analyst consensus", "Trade more frequently to gather more information"], a: 1 },
+          { q: "Which practice most directly counteracts confirmation bias in a professional investment process?", options: ["Reading more financial news each day", "Assigning a team member to argue the bear case with full seriousness", "Diversifying across more asset classes", "Using quantitative models instead of qualitative judgment"], a: 1 },
+          { q: "Overconfidence combined with confirmation bias is particularly dangerous because:", options: ["It leads to excessive diversification", "High conviction + protection from disconfirming evidence creates a psychological fortress around wrong positions", "It causes investors to sell too quickly", "It leads to paralysis and inability to make investment decisions"], a: 1 }
+        ]
+      },
+      {
+        num: "10.5", title: "Building a Bias-Resistant Investment Process",
+        body: [
+          "Knowing that biases exist is not enough. Every investor who has read about behavioral finance still suffers from behavioral finance. The reason: these biases are not beliefs that can be changed by learning. They are cognitive patterns embedded in how the brain processes information. The solution is not to try to eliminate the biases — it is to build a process that operates independently of them.",
+          "<strong>The written investment thesis</strong> is the most powerful bias-resistance tool. Writing forces clarity that informal thinking avoids. A written thesis can be compared against future events honestly — did the thesis prove correct or not? This creates the feedback loop that prevents selective memory from distorting the post-mortem. Without writing, biases rewrite history undetected.",
+          "<strong>Pre-commitment rules</strong> break the power of loss aversion and anchoring at the moment of decision. 'I will sell if the thesis is proven wrong, regardless of price' removes the decision from the emotional environment where loss aversion operates. The rule was made when the mind was clear; it executes when the mind is under pressure. Pre-commitment is not rigidity — it is rational protection against predictable irrationality.",
+          "<span class='gold'>The investment checklist</span> — as described in the final module — is behavioral finance in operational form. Each question forces a step that a biased mind would skip: the bear case question counters overconfidence, the 'what am I getting wrong' question counters confirmation bias, the pre-commitment exit criteria counters loss aversion, the independent intrinsic value estimate counters anchoring. The checklist is not bureaucracy — it is the mechanism by which a rational process runs inside an irrational brain."
+        ],
+        hfp: "The best risk managers do regular 'pre-mortems' — imagining that a position has already failed catastrophically and working backwards to identify what went wrong. This technique, developed by psychologist Gary Klein, forces the mind to generate disconfirming evidence proactively rather than reactively. It is one of the few documented techniques that genuinely reduces overconfidence and confirmation bias before a decision is made, rather than after a loss has occurred.",
+        rwe: "Ray Dalio built an entire investment philosophy around the acknowledgment of human cognitive limitation. Bridgewater's 'Principles' — his documented decision-making framework — grew from the recognition that any single person's analysis, including his own, was subject to bias. His solution: radical transparency, systematic disagreement, and algorithmic decision-making that encodes institutional knowledge without individual emotional interference. The result was one of the most successful macro hedge funds in history, built explicitly on the premise that unassisted human judgment is unreliable.",
+        rwe2: "Charlie Munger's 'latticework of mental models' is a bias-resistance framework built over 60 years. His approach: by understanding a wide range of disciplines (psychology, economics, biology, physics), he could identify when a single mental model was leading him astray. Behavioral finance was one lens among many. His actual bias-resistance came not from knowing the biases by name, but from having enough alternative frameworks that no single cognitive pattern could dominate. 'Invert, always invert' — asking what could go wrong before asking what could go right — was his most consistent bias-countering habit.",
+        takeaways: [
+          "Knowing biases exist is insufficient — they are cognitive patterns, not beliefs. The solution is a process that operates independently of them.",
+          "Written theses, pre-commitment rules, and checklists are the operational mechanisms for bias-resistant investing.",
+          "Pre-mortems — imagining failure in advance — are one of the few documented techniques that reduce overconfidence before a decision is made."
+        ],
+        resources: [
+          { source: "Investopedia", title: "Behavioral Finance Biases", url: "https://www.investopedia.com/articles/investing/051613/behavioral-bias-cognitive-vs-emotional-bias-investing.asp" },
+          { source: "Investopedia", title: "Investment Psychology", url: "https://www.investopedia.com/articles/investing/051415/importance-psychology-understanding-market.asp" },
+          { source: "Yahoo Finance", title: "Markets Overview", url: "https://finance.yahoo.com/markets/" }
+        ],
+        activity: {
+          title: "Build Your Bias-Resistance Checklist",
+          prompt: "Create a personal pre-investment checklist that specifically addresses your most dominant biases, based on the self-assessment you've done across this module.",
+          steps: [
+            "From lessons 10.1-10.4, identify which two biases you believe are most dominant in your own decision-making. Be honest — this is a private exercise.",
+            "For each dominant bias, write one specific checklist question that would force you to confront it before committing capital. (Example for loss aversion: 'Have I written my exit condition for if this thesis is proven wrong?')",
+            "Add four additional questions from the Module 9 Investment Decision Checklist that address the remaining biases (anchoring, recency, overconfidence, confirmation).",
+            "Write your complete personal pre-investment checklist — minimum 6 questions — that you commit to answering in writing before every significant investment decision."
+          ]
+        },
+        quiz: [
+          { q: "Why is simply 'knowing about' behavioral biases insufficient to prevent them?", options: ["Investors lack access to behavioral finance research", "Biases are cognitive patterns, not beliefs — they operate below conscious awareness", "Biases only affect retail investors, not those who study finance", "Behavioral finance research is disputed and unreliable"], a: 1 },
+          { q: "Written investment theses help reduce behavioral bias primarily because:", options: ["They impress clients and satisfy regulatory requirements", "They create an honest record that prevents selective memory from distorting the post-mortem", "They are required by most hedge funds for compliance purposes", "Writing slows down decision-making and prevents overtrading"], a: 1 },
+          { q: "A 'pre-mortem' is most useful for countering which bias?", options: ["Loss aversion — by forcing acceptance of potential losses", "Recency bias — by focusing on long-term historical data", "Overconfidence and confirmation bias — by generating disconfirming evidence proactively", "Anchoring — by removing reference prices from the analysis"], a: 2 },
+          { q: "Pre-commitment rules (e.g., 'I will sell if X happens regardless of price') primarily counter which bias?", options: ["Recency bias", "Overconfidence", "Confirmation bias", "Loss aversion"], a: 3 },
+          { q: "Ray Dalio's approach to bias-resistant investing at Bridgewater centered on:", options: ["Hiring only investors with no emotional responses to market moves", "Radical transparency and systematic disagreement to override individual biased judgment", "Purely quantitative trading with no human input", "Holding positions for minimum 10 years to remove short-term emotional reactions"], a: 1 }
+        ]
+      }
+    ]
+  }
 ];
 
 // ============================================================
-// FLATTEN lessons for prev/next navigation
+// LESSON_DATA — quiz + resources for modules 1-9
+// ============================================================
+const LESSON_DATA = {
+  '1.1': {
+    resources: [
+      { source: 'Investopedia', title: 'How Stock Markets Work', url: 'https://www.investopedia.com/articles/investing/082614/how-stock-market-works.asp' },
+      { source: 'Investopedia', title: 'Price Discovery', url: 'https://www.investopedia.com/terms/p/pricediscovery.asp' },
+      { source: 'Investopedia', title: 'Risk Transfer', url: 'https://www.investopedia.com/terms/r/risk-transfer.asp' }
+    ],
+    quiz: [
+      { q: 'What are the three core functions of financial markets?', options: ['Price discovery, leverage, and taxation', 'Capital allocation, price discovery, and risk transfer', 'Credit creation, liquidity, and arbitrage', 'Supply management, demand forecasting, and clearing'], a: 1 },
+      { q: 'When an airline buys fuel futures to lock in costs, which market function is being used?', options: ['Price discovery', 'Capital allocation', 'Risk transfer', 'Liquidity provision'], a: 2 },
+      { q: 'The price you see on a stock screen represents:', options: ['The company\'s confirmed intrinsic value', 'A government-regulated fair price', 'The market\'s best current consensus estimate', 'The average of all analyst price targets'], a: 2 },
+      { q: 'Where does investment opportunity most directly live?', options: ['In stocks with the highest trading volume', 'In the gap between market price and intrinsic value', 'In sectors with the most analyst coverage', 'In the most recently listed IPOs'], a: 1 },
+      { q: 'Why do different market participants drive short-term price movements more than fundamentals?', options: ['They have access to insider information', 'They have different constraints, time horizons, and emotional responses', 'Fundamentals only matter in private markets', 'Short-term prices are set by regulators'], a: 1 }
+    ]
+  },
+  '1.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Institutional Investors', url: 'https://www.investopedia.com/terms/i/institutionalinvestor.asp' },
+      { source: 'Investopedia', title: 'Hedge Funds Explained', url: 'https://www.investopedia.com/terms/h/hedgefund.asp' },
+      { source: 'Investopedia', title: 'Central Banks', url: 'https://www.investopedia.com/terms/c/centralbank.asp' }
+    ],
+    quiz: [
+      { q: 'Which investor type is most likely to be forced to sell based on mandate rules rather than fundamental analysis?', options: ['Retail investors acting on emotion', 'Institutional investors with investment-grade-only mandates', 'Hedge funds with flexible charters', 'Day traders reacting to price moves'], a: 1 },
+      { q: 'A pension fund\'s investment decisions are primarily constrained by:', options: ['Desire to maximise absolute returns', 'The need to meet actuarial liabilities', 'Government-mandated equity quotas', 'Short-term performance bonuses'], a: 1 },
+      { q: 'What is the main theoretical advantage hedge funds have over traditional institutions?', options: ['Access to better financial data', 'Flexibility to short, use leverage, and trade globally without benchmark constraints', 'Government backing if they suffer losses', 'Guaranteed access to IPO allocations'], a: 1 },
+      { q: 'When a bond is downgraded below investment grade, which investor is forced to sell regardless of price?', options: ['Retail investors', 'Hedge funds with distressed mandates', 'Pension funds with investment-grade-only mandates', 'Central banks'], a: 2 },
+      { q: 'Central banks affect all asset prices primarily through:', options: ['Direct ownership of large equity stakes', 'Setting interest rates and controlling money supply', 'Advising companies on capital structure', 'Regulating individual investor behaviour'], a: 1 }
+    ]
+  },
+  '1.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Primary vs Secondary Markets', url: 'https://www.investopedia.com/terms/p/primarymarket.asp' },
+      { source: 'SEC EDGAR', title: 'Search S-1 Prospectuses', url: 'https://efts.sec.gov/LATEST/search-index?q=%22S-1%22&forms=S-1' },
+      { source: 'Investopedia', title: 'IPO Process', url: 'https://www.investopedia.com/terms/i/ipo.asp' }
+    ],
+    quiz: [
+      { q: 'When you buy Apple stock on the NYSE, who receives the money?', options: ['Apple Inc. directly', 'The investor selling the shares to you', 'The NYSE as a market fee', 'The Securities and Exchange Commission'], a: 1 },
+      { q: 'A company conducting an IPO is using which type of market?', options: ['Secondary market', 'Derivatives market', 'Primary market', 'Over-the-counter market'], a: 2 },
+      { q: 'When a stock drops 20%, who has lost money?', options: ['The company, whose assets have declined', 'Existing shareholders — not the company itself', 'Bond holders of the company', 'The market maker for that stock'], a: 1 },
+      { q: 'Why does reading a company\'s S-1 prospectus give investors an information advantage?', options: ['S-1s contain management earnings forecasts', 'It is the most complete document produced, and most investors never read it', 'S-1s include guaranteed return projections', 'Only institutional investors have access to S-1 filings'], a: 1 },
+      { q: 'The Forex (foreign exchange) market is notable for:', options: ['Being the smallest financial market by volume', 'Having the most restrictive regulations', 'Being the largest financial market at roughly $7 trillion daily volume', 'Being open only to central banks and governments'], a: 2 }
+    ]
+  },
+  '1.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Financial Intermediaries', url: 'https://www.investopedia.com/terms/f/financialintermediary.asp' },
+      { source: 'Investopedia', title: 'Shadow Banking System', url: 'https://www.investopedia.com/terms/s/shadow-banking-system.asp' },
+      { source: 'Investopedia', title: 'Investment Banks', url: 'https://www.investopedia.com/terms/i/investmentbank.asp' }
+    ],
+    quiz: [
+      { q: 'Commercial banks earn their primary revenue through:', options: ['Managing equity portfolios for clients', 'The spread between deposit rates paid and loan rates charged', 'Underwriting corporate bonds', 'Trading currencies in Forex markets'], a: 1 },
+      { q: 'Market makers earn revenue by:', options: ['Predicting stock movements in advance', 'Charging management fees on assets under management', 'Capturing the bid-ask spread on the trades they facilitate', 'Collecting IPO underwriting fees'], a: 2 },
+      { q: 'Why are investment bank interests often misaligned with investors in an IPO?', options: ['Investment banks are legally required to favour issuers', 'They earn fees when deals happen regardless of whether those deals benefit investors', 'Investment banks cannot invest their own capital in IPOs', 'They have no experience valuing early-stage companies'], a: 1 },
+      { q: 'Shadow banking refers to:', options: ['Illegal underground lending operations', 'Financial intermediaries performing bank-like functions without bank regulation', 'Foreign banks without US operating licences', 'The hidden fees charged by investment managers'], a: 1 },
+      { q: 'In the 2008 crisis, the Enron parallel is that multiple intermediaries failed because:', options: ['All intermediaries refused to do business with Enron', 'Each intermediary had a conflict of interest that overrode their nominal role', 'Regulators had recently banned structured finance products', 'Enron was too small to matter to the financial system'], a: 1 }
+    ]
+  },
+  '1.5': {
+    resources: [
+      { source: 'Investopedia', title: 'Market Makers', url: 'https://www.investopedia.com/terms/m/marketmaker.asp' },
+      { source: 'Investopedia', title: 'Bid-Ask Spread', url: 'https://www.investopedia.com/terms/b/bid-askspread.asp' },
+      { source: 'Investopedia', title: 'Liquidity Risk', url: 'https://www.investopedia.com/terms/l/liquidityrisk.asp' }
+    ],
+    quiz: [
+      { q: 'In a continuous auction market, what happens when buy orders exceed sell orders at a given price?', options: ['Trading halts until regulators intervene', 'The price falls to attract more buyers', 'The price rises until supply and demand balance', 'The excess orders are automatically cancelled'], a: 2 },
+      { q: 'Why do large institutional investors use dark pools for large trades?', options: ['Dark pools offer lower regulatory oversight', 'To execute large orders without moving the public market price against themselves', 'Dark pools guarantee better prices than public exchanges', 'They are legally required to use dark pools above a threshold size'], a: 1 },
+      { q: 'Liquidity risk is defined as:', options: ['The risk of a company defaulting on its debt', 'The risk that inflation erodes purchasing power', 'The risk of being unable to exit a position at a reasonable price', 'The risk that markets close permanently'], a: 2 },
+      { q: 'During the March 2020 COVID crash, what was notable about US Treasury bond markets?', options: ['Treasury yields went negative for the first time', 'Even the most liquid market in the world experienced significant liquidity stress', 'The US government suspended Treasury issuance', 'Treasury bonds outperformed all other asset classes'], a: 1 },
+      { q: 'The price you see on a screen represents:', options: ['The price at which you can execute any size of order', 'The marginal transaction price — your actual execution price for large positions may differ significantly', 'The guaranteed price at which your broker will fill your order', 'The average of the last 10 trades in that security'], a: 1 }
+    ]
+  },
+  '2.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Types of Investment Risk', url: 'https://www.investopedia.com/articles/investing/032615/what-are-best-measures-evaluate-risk.asp' },
+      { source: 'Investopedia', title: 'Volatility', url: 'https://www.investopedia.com/terms/v/volatility.asp' },
+      { source: 'Investopedia', title: 'Tail Risk', url: 'https://www.investopedia.com/terms/t/tailrisk.asp' }
+    ],
+    quiz: [
+      { q: 'Academic finance defines risk as volatility (standard deviation). Why is this definition problematic for long-term investors?', options: ['Volatility is impossible to measure accurately', 'A business can be volatile short-term but carry no risk of permanent capital loss for patient investors', 'Academic models use proprietary volatility data unavailable to retail investors', 'Standard deviation only measures upside volatility'], a: 1 },
+      { q: 'Permanent capital impairment is best defined as:', options: ['Any period when your portfolio is below its purchase price', 'A loss of purchasing power with no realistic recovery path', 'Short-term price declines in a bear market', 'Losses caused by inflation over time'], a: 1 },
+      { q: 'Which of the following is an example of correlation risk?', options: ['A single stock declining 40% due to company-specific news', 'A diversified portfolio declining simultaneously because all assets correlate during a crisis', 'Rising inflation reducing bond returns', 'A company defaulting on its debt obligations'], a: 1 },
+      { q: 'Berkshire Hathaway has experienced multiple 50%+ drawdowns in its history. By the framework in this lesson, this indicates:', options: ['Berkshire is a very risky investment with high chance of permanent loss', 'Berkshire has high volatility risk but low permanent capital impairment risk', 'Warren Buffett is a poor risk manager', 'Berkshire should be avoided by conservative investors'], a: 1 },
+      { q: 'Tail risk refers to:', options: ['The risk of a stock\'s dividend being cut', 'The risk of a company\'s management making poor decisions', 'Extreme low-probability events that standard deviation models underestimate', 'The risk of purchasing a stock near its 52-week high'], a: 2 }
+    ]
+  },
+  '2.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Expected Value', url: 'https://www.investopedia.com/terms/e/expected-value.asp' },
+      { source: 'Investopedia', title: 'Scenario Analysis', url: 'https://www.investopedia.com/terms/s/scenario_analysis.asp' },
+      { source: 'Investopedia', title: 'Probability in Investing', url: 'https://www.investopedia.com/articles/financial-theory/09/probability-distribution.asp' }
+    ],
+    quiz: [
+      { q: 'How do professional investors think about investment decisions differently from amateurs?', options: ['Professionals rely on gut instinct refined over years', 'Professionals think in probability distributions; amateurs think in single predictions', 'Professionals only buy index funds to avoid uncertainty', 'Professionals have access to non-public information'], a: 1 },
+      { q: 'A stock trades at $100. You estimate: 60% chance of $180, 25% chance of $120, 15% chance of $20. What is the expected value?', options: ['$120', '$140', '$137', '$162'], a: 2 },
+      { q: 'Why must investors always write out the bear case explicitly?', options: ['Regulators require it for compliance purposes', 'Without it, overconfidence and confirmation bias make the downside invisible', 'Bear cases always prove correct in practice', 'It helps predict the exact timing of a stock\'s decline'], a: 1 },
+      { q: 'A company has a compelling growth narrative. At what price is this a good investment?', options: ['Any price, because great businesses always appreciate', 'When the current price is below the probability-weighted expected value', 'When analyst consensus is bullish', 'When the stock has recently hit a new 52-week high'], a: 1 },
+      { q: 'In Soros\'s 1992 pound trade, the EV was highly favourable because:', options: ['He had insider information about the Bank of England', 'Maximum loss (carry cost) was small and defined; potential gain was enormous', 'The British government had secretly agreed to devalue', 'Currency trades never result in losses for experienced traders'], a: 1 }
+    ]
+  },
+  '2.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Equity Risk Premium', url: 'https://www.investopedia.com/terms/e/equityriskpremium.asp' },
+      { source: 'FRED', title: '10-Year Treasury Yield', url: 'https://fred.stlouisfed.org/series/DGS10' },
+      { source: 'Investopedia', title: 'Credit Spread', url: 'https://www.investopedia.com/terms/c/creditspread.asp' }
+    ],
+    quiz: [
+      { q: 'The equity risk premium compensates investors for:', options: ['Paying taxes on capital gains', 'Bearing volatility, permanent loss risk, and time in equities vs risk-free alternatives', 'The management fees charged by fund managers', 'Currency risk in international portfolios'], a: 1 },
+      { q: 'Historically, US equities have returned roughly 10% annually while T-bills returned 3-4%. The ~6% difference represents:', options: ['The management alpha of active fund managers', 'The equity risk premium — compensation for bearing equity risk', 'The compounding benefit of long-term investing', 'The inflation premium embedded in equity returns'], a: 1 },
+      { q: 'A high-yield bond yields 9% when a government bond yields 4%. The 5% spread represents:', options: ['The liquidity premium for holding an illiquid bond', 'The market\'s pricing of default risk — your job is to assess whether that\'s adequate compensation', 'The management fee of the bond fund holding it', 'Guaranteed additional return above the risk-free rate'], a: 1 },
+      { q: 'When risk premia are very wide (high fear environment), what does this imply about expected returns?', options: ['Expected returns are lower because assets are falling in price', 'Expected returns are higher — you are being paid more to bear the risk', 'Expected returns are unchanged because risk and return always cancel out', 'Wide premia indicate markets are efficiently priced'], a: 1 },
+      { q: 'Private equity offers higher expected returns than public equity primarily due to:', options: ['Superior management of private companies', 'A guaranteed government backstop on private investments', 'An illiquidity premium — compensation for being unable to exit easily', 'Private equity managers having better information than public market investors'], a: 2 }
+    ]
+  },
+  '2.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Kelly Criterion', url: 'https://www.investopedia.com/terms/k/kellycriterion.asp' },
+      { source: 'Investopedia', title: 'Position Sizing', url: 'https://www.investopedia.com/terms/p/positionsizing.asp' },
+      { source: 'Investopedia', title: 'Risk Management', url: 'https://www.investopedia.com/terms/r/riskmanagement.asp' }
+    ],
+    quiz: [
+      { q: 'What does the Kelly Criterion calculate?', options: ['The maximum acceptable loss per trade', 'The optimal position size as a fraction of portfolio to maximise long-run growth', 'The expected annual return of a diversified portfolio', 'The number of positions needed to achieve diversification'], a: 1 },
+      { q: 'What happens if you bet more than the Kelly-optimal amount?', options: ['Returns increase proportionally with additional risk', 'Your long-run growth rate actually decreases — you can go broke even with a winning strategy', 'Returns become more volatile but average out higher', 'Nothing — Kelly is a theoretical concept with no practical significance'], a: 1 },
+      { q: 'Why do most professional investors use "fractional Kelly" (25-50% of the mathematical optimum)?', options: ['Regulations prohibit full Kelly sizing in most jurisdictions', 'To account for uncertainty in their own probability estimates', 'Fractional Kelly produces higher returns than full Kelly', 'Full Kelly is only applicable to binary (win/lose) investments'], a: 1 },
+      { q: 'Bill Ackman\'s Pershing Square bet against MBIA succeeded because he:', options: ['Had insider information about the company\'s balance sheet', 'Was right in his analysis AND sized the position to survive being early', 'Predicted the exact timing of the collapse', 'Used maximum leverage to amplify returns'], a: 1 },
+      { q: 'An investor is correct 60% of the time but still loses money. The most likely explanation is:', options: ['Market conditions have changed and the edge no longer exists', 'Wrong position sizing — losses are larger than wins despite correct directional calls', 'The investor is not trading frequently enough', 'The investor\'s analysis is actually wrong despite appearing correct'], a: 1 }
+    ]
+  },
+  '2.5': {
+    resources: [
+      { source: 'Investopedia', title: 'Asymmetric Risk/Reward', url: 'https://www.investopedia.com/terms/a/asymmetricalinformation.asp' },
+      { source: 'Investopedia', title: 'Options Basics', url: 'https://www.investopedia.com/options-basics-tutorial-4583012' },
+      { source: 'Investopedia', title: 'Distressed Debt', url: 'https://www.investopedia.com/terms/d/distressedsecurities.asp' }
+    ],
+    quiz: [
+      { q: 'Asymmetric risk/reward means:', options: ['Equal probability of gain and loss', 'The upside potential significantly exceeds the defined downside risk', 'Losses and gains that cancel out over time', 'Risk that varies with market conditions'], a: 1 },
+      { q: 'Buying distressed bonds at 30 cents on the dollar represents asymmetric upside because:', options: ['Distressed bonds always recover to par value', 'The downside is floored by real assets while upside can be 2-3x if recovery exceeds the purchase price', 'Distressed bonds are exempt from taxes on gains', 'Regulators guarantee recovery of distressed bonds'], a: 1 },
+      { q: 'LTCM (Long-Term Capital Management) is an example of which risk structure?', options: ['Positively asymmetric — small consistent losses with occasional large gains', 'Negatively asymmetric — small consistent gains with catastrophic tail risk', 'Symmetric — equal upside and downside in all scenarios', 'Pure market risk — correlated only with overall market movements'], a: 1 },
+      { q: 'Growth stocks with massive upside already priced in typically represent:', options: ['Positive asymmetry — limited downside if the thesis is wrong', 'Negative asymmetry — most upside is priced in, while downside can be severe', 'Perfect risk/reward balance at any price', 'Low-risk investments suitable for conservative portfolios'], a: 1 },
+      { q: 'Universa\'s tail hedge strategy generated 4,144% in March 2020 because:', options: ['They predicted the COVID pandemic in advance', 'They had bought cheap put options when volatility was low, creating enormous asymmetry on the upside of a crash', 'They used maximum leverage at the start of 2020', 'They shorted all major stock indices simultaneously'], a: 1 }
+    ]
+  },
+  '3.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Correlation', url: 'https://www.investopedia.com/terms/c/correlation.asp' },
+      { source: 'Investopedia', title: 'Diversification', url: 'https://www.investopedia.com/terms/d/diversification.asp' },
+      { source: 'FRED', title: 'Market Volatility Index (VIX)', url: 'https://fred.stlouisfed.org/series/VIXCLS' }
+    ],
+    quiz: [
+      { q: 'Markowitz\'s core insight was that portfolio risk:', options: ['Always equals the average of individual asset risks', 'Can be reduced below the average of individual risks by combining uncorrelated assets', 'Is minimised by holding only the single safest asset', 'Cannot be mathematically calculated in advance'], a: 1 },
+      { q: 'A correlation of -1 between two assets means:', options: ['They always move in the same direction', 'They have no relationship with each other', 'They move in perfectly opposite directions — maximum diversification benefit', 'One asset is always more volatile than the other'], a: 2 },
+      { q: 'What is the critical failure point of correlation-based diversification?', options: ['Correlations are impossible to calculate accurately', 'Correlations spike toward 1 in crises — diversification disappears when needed most', 'Diversification reduces returns as well as risk', 'Correlation only works for stocks, not bonds'], a: 1 },
+      { q: 'In 2008, the only meaningful diversifiers were US Treasuries because:', options: ['Treasuries yielded the highest returns that year', 'Every other asset class fell simultaneously as liquidity became the universal factor', 'The US government guaranteed Treasury prices', 'Correlation between Treasuries and equities is always negative'], a: 1 },
+      { q: 'The umbrella company / sunscreen company example illustrates:', options: ['That cyclical businesses always outperform defensive ones', 'That combining assets whose risks offset produces more stable results than either alone', 'That diversification only works across different industries', 'That investors should always hedge with weather derivatives'], a: 1 }
+    ]
+  },
+  '3.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Efficient Frontier', url: 'https://www.investopedia.com/terms/e/efficientfrontier.asp' },
+      { source: 'Investopedia', title: 'Modern Portfolio Theory', url: 'https://www.investopedia.com/terms/m/modernportfoliotheory.asp' },
+      { source: 'Investopedia', title: 'Risk Tolerance', url: 'https://www.investopedia.com/terms/r/risktolerance.asp' }
+    ],
+    quiz: [
+      { q: 'A portfolio on the efficient frontier is defined as:', options: ['One that has never suffered a drawdown', 'One that offers the highest expected return for a given level of risk', 'A portfolio of exclusively government bonds', 'One that has beaten the S&P 500 for at least 10 years'], a: 1 },
+      { q: 'An inefficient portfolio (below the efficient frontier) means:', options: ['The portfolio has delivered negative returns', 'Same risk but lower expected return — you\'re not being compensated adequately', 'The portfolio holds too many positions to manage', 'The portfolio has a beta greater than 1.0'], a: 1 },
+      { q: 'The main practical limitation of efficient frontier theory is:', options: ['It is too complex for individual investors to understand', 'It requires precise knowledge of future returns, variances, and correlations — which are unknowable', 'Regulators prohibit individuals from applying the theory directly', 'It only applies to portfolios of more than 100 securities'], a: 1 },
+      { q: 'Where you sit on the efficient frontier should primarily reflect:', options: ['The current market environment and which assets are trending', 'Your actual risk tolerance and time horizon, not your aspirational one', 'What your financial advisor recommends regardless of personal situation', 'The strategy with the highest Sharpe ratio in the last 12 months'], a: 1 },
+      { q: 'Target-date retirement funds implement efficient frontier thinking by:', options: ['Selecting the highest-returning assets regardless of risk', 'Automatically shifting from high-risk/high-return assets to lower-risk assets as retirement approaches', 'Maintaining a fixed 60/40 stock/bond ratio permanently', 'Investing only in guaranteed government bonds near retirement'], a: 1 }
+    ]
+  },
+  '3.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Beta', url: 'https://www.investopedia.com/terms/b/beta.asp' },
+      { source: 'Investopedia', title: 'Fama-French Three-Factor Model', url: 'https://www.investopedia.com/terms/f/famaandfrenchthreefactormodel.asp' },
+      { source: 'Investopedia', title: 'Factor Investing', url: 'https://www.investopedia.com/terms/f/factor-investing.asp' }
+    ],
+    quiz: [
+      { q: 'A stock with a beta of 1.5 would be expected to:', options: ['Move exactly with the market at all times', 'Move 50% more than the market in both directions', 'Move 50% less than the market', 'Have 50% less risk than the overall market'], a: 1 },
+      { q: 'What did Fama-French research reveal that CAPM missed?', options: ['That beta is the only relevant measure of risk', 'That additional factors (size, value, profitability) explain returns beyond market exposure', 'That diversification does not reduce risk', 'That stock returns are entirely random'], a: 1 },
+      { q: 'True alpha (genuine outperformance) is rare because:', options: ['Most active managers are not intelligent enough to generate it', 'It requires a differentiated edge that isn\'t explained by any known systematic factor', 'Alpha is a mathematical impossibility in efficient markets', 'Regulations cap the returns active managers can earn'], a: 1 },
+      { q: 'The value factor massively underperformed from ~2007 to 2020. This means:', options: ['Value investing is permanently broken', 'Factors cycle — long underperformance doesn\'t mean a factor has stopped working', 'Value stocks have no theoretical basis for outperformance', 'Investors should permanently avoid value-tilted portfolios'], a: 1 },
+      { q: 'A "factor-neutral" portfolio means:', options: ['A portfolio with zero risk', 'A portfolio with equal exposure to all factors', 'A portfolio where all systematic factor exposures have been hedged out, leaving only stock-specific alpha', 'A portfolio that does not use any quantitative analysis'], a: 2 }
+    ]
+  },
+  '3.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Value at Risk (VaR)', url: 'https://www.investopedia.com/terms/v/var.asp' },
+      { source: 'Investopedia', title: 'Fat-Tail Risk', url: 'https://www.investopedia.com/terms/f/fattail.asp' },
+      { source: 'Investopedia', title: 'LTCM Collapse', url: 'https://www.investopedia.com/terms/l/ltcm.asp' }
+    ],
+    quiz: [
+      { q: 'Why are returns NOT normally distributed in practice?', options: ['Market exchanges round prices to two decimal places', 'Returns have fat tails — extreme events occur far more frequently than a bell curve predicts', 'Normal distributions only apply to bond markets', 'Stock returns are capped by regulatory circuit breakers'], a: 1 },
+      { q: 'LTCM\'s models predicted maximum daily loss of $35M. They actually lost $500M in one day because:', options: ['Their models had an arithmetic calculation error', 'The models were correct for normal conditions but catastrophically wrong about correlated tail events', 'They violated regulatory position limits', 'A rogue trader made unauthorised bets'], a: 1 },
+      { q: 'Historical correlations breaking down in a crisis is most dangerous for portfolios because:', options: ['It increases trading costs significantly', 'Investors built their diversification based on those correlations — it disappears precisely when needed', 'Historical correlations are illegal to use in portfolio construction', 'Portfolio software cannot calculate correlation during crises'], a: 1 },
+      { q: 'The proper use of MPT is:', options: ['As a precise optimisation recipe for building the perfect portfolio', 'As a conceptual framework for thinking about diversification — not a precise calculation', 'Only applicable to portfolios managed by quantitative hedge funds', 'As a method for predicting future asset price movements'], a: 1 },
+      { q: 'Stress-testing against historical crises (2008, 2020) reveals:', options: ['Exactly what will happen in the next crisis', 'The true correlation structure under stress, which differs from normal-market assumptions', 'That diversified portfolios always outperform concentrated ones in crises', 'That bonds are always the best safe haven in all crisis environments'], a: 1 }
+    ]
+  },
+  '4.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Equity Explained', url: 'https://www.investopedia.com/terms/e/equity.asp' },
+      { source: 'Investopedia', title: 'Growth vs Value Stocks', url: 'https://www.investopedia.com/articles/professionals/072415/growth-vs-value-how-pick-strategy.asp' },
+      { source: 'Yahoo Finance', title: 'US Markets Overview', url: 'https://finance.yahoo.com/markets/' }
+    ],
+    quiz: [
+      { q: 'Equity holders are described as "last in the capital structure." This means:', options: ['They are the last to buy shares in an IPO', 'They are paid only after all creditors in bankruptcy — highest risk, highest required return', 'They receive dividend payments before bondholders', 'They have the most voting rights of any security class'], a: 1 },
+      { q: 'Small-cap stocks have a higher probability of mispricing than large-caps because:', options: ['Small companies are less profitable on average', 'They are less covered by analysts, less liquid, and therefore less efficiently priced', 'Regulators restrict institutional investors from buying small-caps', 'Small-cap stocks have lower beta by definition'], a: 1 },
+      { q: 'Growth stocks are particularly sensitive to rising interest rates because:', options: ['Growth companies borrow more money than value companies', 'Most of their value comes from distant future cash flows, which are discounted more heavily when rates rise', 'Rising rates reduce consumer spending on growth company products', 'Growth stocks have shorter duration than bonds'], a: 1 },
+      { q: 'Amazon trading at a $330M market cap in 2001 despite $1.1B in revenue was an opportunity because:', options: ['Amazon had guaranteed government contracts', 'The market was pricing it as a failing dot-com despite strong underlying economics', 'Revenue always equals market cap in efficient markets', 'Jeff Bezos had signalled he would buy back shares'], a: 1 },
+      { q: 'The most interesting equity opportunities are typically found in:', options: ['Large-cap stocks with 40+ analyst reports', 'The most liquid, heavily-traded securities on major exchanges', 'Small-caps, spin-offs, post-bankruptcy equities, and neglected corners with low institutional attention', 'The most recent IPOs with the strongest first-day performance'], a: 2 }
+    ]
+  },
+  '4.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Bond Basics', url: 'https://www.investopedia.com/terms/b/bond.asp' },
+      { source: 'Investopedia', title: 'Duration', url: 'https://www.investopedia.com/terms/d/duration.asp' },
+      { source: 'FRED', title: '10-Year Treasury Yield', url: 'https://fred.stlouisfed.org/series/DGS10' }
+    ],
+    quiz: [
+      { q: 'When interest rates rise, existing bond prices:', options: ['Rise proportionally with rates', 'Remain unchanged because coupon payments are fixed', 'Fall — the fixed coupon is less attractive relative to new higher-yielding bonds', 'Double in value as compensation for the rate increase'], a: 2 },
+      { q: 'Duration measures:', options: ['How long until a bond matures and repays principal', 'A bond\'s sensitivity to interest rate changes — longer duration means larger price moves per 1% rate change', 'The average time between coupon payments', 'The credit quality of the bond issuer'], a: 1 },
+      { q: 'A credit spread of 5% between a corporate bond and a government bond represents:', options: ['A guaranteed extra return of 5% annually', 'The market\'s pricing of the company\'s default risk — your job is to assess if it\'s adequate compensation', 'A regulatory fee charged by rating agencies', 'The liquidity premium for holding an illiquid bond'], a: 1 },
+      { q: 'When a bond is downgraded from BBB to BB, what predictable market event occurs?', options: ['The bond price immediately rises as it offers higher yield', 'Institutions with investment-grade mandates must sell, creating forced selling and mispricing', 'The bond is automatically redeemed by the issuer at par', 'Trading in the bond is halted for 30 days'], a: 1 },
+      { q: 'In 2009, GM bonds trading at 10-15 cents on the dollar created an opportunity because:', options: ['GM had secretly agreed to repurchase the bonds at par', 'The forced selling by institutions that couldn\'t hold distressed bonds disconnected price from fundamental value', 'GM bonds were guaranteed by the US government', 'Bond prices always return to par within 12 months of default'], a: 1 }
+    ]
+  },
+  '4.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Private Equity', url: 'https://www.investopedia.com/terms/p/privateequity.asp' },
+      { source: 'Investopedia', title: 'Venture Capital', url: 'https://www.investopedia.com/terms/v/venturecapital.asp' },
+      { source: 'Investopedia', title: 'Private Credit', url: 'https://www.investopedia.com/terms/p/private-credit.asp' }
+    ],
+    quiz: [
+      { q: 'Private equity firms primarily generate returns through:', options: ['Dividends paid by portfolio companies', 'Operational improvement, leverage amplification, and multiple expansion', 'Short-term trading of minority equity stakes', 'Government subsidies for buyout activity'], a: 1 },
+      { q: 'Venture capital returns follow a "power law" which means:', options: ['Returns grow exponentially as the fund matures', 'A small number of exceptional investments generate the majority of total fund returns', 'All investments return approximately the same multiple', 'Returns are proportional to the amount invested in each company'], a: 1 },
+      { q: 'Private equity\'s reported return advantage over public markets is partly explained by:', options: ['PE managers being superior stock pickers', 'Leverage amplification and stale pricing creating an illusion of lower volatility', 'PE companies having better corporate governance', 'PE funds having access to government-guaranteed financing'], a: 1 },
+      { q: 'Private credit funds expanded significantly after 2008 because:', options: ['Interest rates were too low for traditional bond investors', 'Banks pulled back from middle-market lending, creating a gap for non-bank lenders', 'Regulators required companies to borrow from non-bank sources', 'Private credit generates higher fees than public bonds'], a: 1 },
+      { q: 'Sequoia\'s Stripe investment illustrates the VC power law because:', options: ['All of Sequoia\'s investments in that fund returned 10x or more', 'One extraordinary investment justified the entire fund many times over despite other losses', 'Stripe was the only company Sequoia invested in that year', 'Sequoia predicted Stripe\'s success with certainty before investing'], a: 1 }
+    ]
+  },
+  '4.4': {
+    resources: [
+      { source: 'SEC EDGAR', title: 'Search S-1 Filings', url: 'https://efts.sec.gov/LATEST/search-index?q=%22prospectus%22&forms=S-1' },
+      { source: 'Investopedia', title: 'IPO Underpricing', url: 'https://www.investopedia.com/terms/u/underpricing.asp' },
+      { source: 'Investopedia', title: 'Winner\'s Curse', url: 'https://www.investopedia.com/terms/w/winnerscurse.asp' }
+    ],
+    quiz: [
+      { q: 'Why do investment banks typically underprice IPOs?', options: ['To comply with SEC regulations on maximum IPO pricing', 'To benefit institutional clients with allocations by leaving money on the table — generating first-day excitement', 'Because they cannot accurately value early-stage companies', 'To make the IPO accessible to retail investors'], a: 1 },
+      { q: 'The "winner\'s curse" in IPOs means:', options: ['Winning IPO allocations leads to guaranteed profits', 'Easy access to a hot IPO is a negative signal — it means institutional money didn\'t want it', 'IPO winners always outperform the market long-term', 'Only the first investor to apply receives allocation'], a: 1 },
+      { q: 'WeWork\'s 2019 IPO was pulled because:', options: ['WeWork was too small to qualify for a public listing', 'The S-1 revealed chaotic governance, massive losses, and a business model that couldn\'t justify the valuation', 'Regulators blocked the listing due to accounting irregularities', 'WeWork\'s management chose to remain private'], a: 1 },
+      { q: 'The "Use of Proceeds" section of an S-1 tells you:', options: ['How the company plans to use marketing budget', 'How much of the IPO money goes to the company vs. to existing shareholders selling their shares', 'The company\'s projected future revenues', 'Which investment bank is managing the offering'], a: 1 },
+      { q: 'Retail investors in IPOs are at a structural disadvantage because:', options: ['They cannot buy IPO shares until after institutional investors', 'They are last in the information hierarchy and often participate in deals institutional money avoided', 'IPOs are legally restricted to investors with $1M+ in assets', 'Retail investors pay higher commissions on IPO purchases'], a: 1 }
+    ]
+  },
+  '5.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Business Model Analysis', url: 'https://www.investopedia.com/terms/b/businessmodel.asp' },
+      { source: 'Investopedia', title: 'Unit Economics', url: 'https://www.investopedia.com/terms/u/unit-economics.asp' },
+      { source: 'Investopedia', title: 'LTV/CAC Ratio', url: 'https://www.investopedia.com/terms/c/customer-acquisition-cost.asp' }
+    ],
+    quiz: [
+      { q: 'The single biggest mistake investors make regarding stocks is:', options: ['Holding too many positions simultaneously', 'Treating stocks as trading objects rather than ownership stakes in real businesses', 'Not using stop-loss orders consistently', 'Investing in companies they don\'t personally use'], a: 1 },
+      { q: 'LTV/CAC above 3 is a healthy benchmark because:', options: ['It is required by accounting standards', 'A customer generates at least 3x their acquisition cost — unit economics are sustainably profitable', 'It guarantees the company will be profitable', 'Investors demand a minimum 3x return on all investments'], a: 1 },
+      { q: 'Salesforce\'s subscription revenue model is worth a higher valuation multiple than a one-time software sale because:', options: ['Salesforce is a larger company', 'Recurring revenue is predictable and harder to churn — it justifies paying for future cash flows with confidence', 'Subscription models always grow faster than one-time sale models', 'Regulations require subscription software to trade at premium multiples'], a: 1 },
+      { q: 'The "PE question" for evaluating a public stock asks:', options: ['What is the price-to-earnings ratio?', 'If I owned 100% of this business for 5 years, what would determine the outcome?', 'What do private equity firms value this company at?', 'What is the earnings yield compared to the risk-free rate?'], a: 1 },
+      { q: 'Recurring revenue is worth more than one-time revenue because:', options: ['It is taxed at a lower rate', 'It is more predictable — investors can value predictable cash flows with higher confidence and lower risk premium', 'Regulatory rules require it to be valued higher', 'Recurring revenue always grows faster'], a: 1 }
+    ]
+  },
+  '5.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Economic Moat', url: 'https://www.investopedia.com/terms/e/economicmoat.asp' },
+      { source: 'Investopedia', title: 'Network Effect', url: 'https://www.investopedia.com/terms/n/network-effect.asp' },
+      { source: 'Investopedia', title: 'Switching Costs', url: 'https://www.investopedia.com/terms/s/switchingcosts.asp' }
+    ],
+    quiz: [
+      { q: 'A competitive moat must be structural because:', options: ['Products can be copied — only structural advantages embedded in business economics are durable', 'Regulatory requirements mandate structural advantages', 'Product-based advantages generate higher profit margins', 'Structural advantages cannot be patented by competitors'], a: 0 },
+      { q: 'A network effect moat means:', options: ['The company has built the largest physical network infrastructure', 'The product becomes more valuable as more people use it — creating a self-reinforcing competitive advantage', 'The company uses its network of relationships to win deals', 'The company\'s products operate across multiple technology networks'], a: 1 },
+      { q: 'Oracle\'s enterprise software has a switching cost moat because:', options: ['Oracle spends heavily on sales and marketing', 'Migrating a core ERP system is a multi-year, nine-figure project — making switching practically impossible', 'Oracle\'s software is technically superior to all alternatives', 'Oracle has regulatory approval that competitors cannot obtain'], a: 1 },
+      { q: 'Blockbuster\'s collapse illustrates that:', options: ['Physical retail is always inferior to digital', 'A dominant market position without a structural moat is vulnerable to competitive disruption', 'Scale alone is sufficient to protect a business long-term', 'Brand recognition is the most important moat type'], a: 1 },
+      { q: 'A company\'s profitability moat durability is most accurately assessed by examining:', options: ['Its current gross margin and net income', 'Its return on invested capital over multiple years — sustained ROIC above cost of capital signals a real moat', 'Its number of patents filed in the last year', 'The opinions of management in annual shareholder letters'], a: 1 }
+    ]
+  },
+  '5.3': {
+    resources: [
+      { source: 'SEC EDGAR', title: 'Search Annual Reports (10-K)', url: 'https://efts.sec.gov/LATEST/search-index?q=%2210-K%22&forms=10-K' },
+      { source: 'Investopedia', title: 'How to Read a 10-K', url: 'https://www.investopedia.com/articles/fundamental/04/010404.asp' },
+      { source: 'Investopedia', title: 'MD&A Section Explained', url: 'https://www.investopedia.com/terms/m/mdanalysis.asp' }
+    ],
+    quiz: [
+      { q: 'Why does reading a 10-K create a persistent information edge?', options: ['10-Ks contain non-public financial projections', 'It requires time and attention that most market participants are unwilling to invest', '10-Ks are only available to institutional investors', 'The SEC provides analysis summaries alongside 10-K filings'], a: 1 },
+      { q: 'The Risk Factors section (1A) is most useful for identifying:', options: ['The company\'s growth strategy for the next year', 'Changes year-over-year — new or modified risks often precede bad news', 'Guaranteed disclosures of all material lawsuits', 'Management\'s earnings forecast for the next quarter'], a: 1 },
+      { q: 'Enron\'s collapse was partially visible in its 10-K because:', options: ['The 10-K clearly stated that revenues were fabricated', 'Careful footnote readers could see Enron guaranteeing debts of supposedly independent SPEs', 'Enron filed late 10-Ks — a clear warning signal', 'The income statement showed consistent losses'], a: 1 },
+      { q: 'The MD&A section is valuable because:', options: ['It contains auditor-verified financial projections', 'Management explains results in their own words — candor or evasiveness reveals a great deal about culture', 'It lists all insider transactions for the year', 'It is the only section required by SEC regulations'], a: 1 },
+      { q: 'Why is the most important information often in the footnotes?', options: ['Footnotes contain forward-looking financial projections', 'Management prefers you don\'t focus on these disclosures — they contain what doesn\'t fit in the main body', 'Footnotes are written by independent auditors rather than management', 'Footnotes are required to disclose all illegal activities'], a: 1 }
+    ]
+  },
+  '5.4': {
+    resources: [
+      { source: 'SEC EDGAR', title: 'Insider Transactions (Form 4)', url: 'https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&type=4&dateb=&owner=include&count=40' },
+      { source: 'Investopedia', title: 'Capital Allocation', url: 'https://www.investopedia.com/terms/c/capitalallocation.asp' },
+      { source: 'Investopedia', title: 'Insider Ownership', url: 'https://www.investopedia.com/terms/i/insider-ownership.asp' }
+    ],
+    quiz: [
+      { q: 'High insider ownership (management owns actual shares, not just options) is a positive signal because:', options: ['Insiders always make better investment decisions than outsiders', 'Their financial interests directly align with outside shareholders — they suffer when the stock falls', 'Insider ownership is required for S&P 500 inclusion', 'Companies with high insider ownership receive preferential tax treatment'], a: 1 },
+      { q: 'The most important job of a CEO in terms of long-term value creation is:', options: ['Developing compelling product marketing strategies', 'Building strong relationships with institutional investors', 'Allocating capital — deciding where to deploy free cash flow', 'Maintaining positive earnings surprises each quarter'], a: 2 },
+      { q: 'Henry Singleton of Teledyne is famous for:', options: ['Building the largest conglomerate in US history by revenue', 'Being the first CEO to conduct a hostile takeover', 'Buying back 90% of shares over 12 years at disciplined prices — exceptional capital allocation', 'Creating the leveraged buyout as a financing technique'], a: 2 },
+      { q: 'Empirical research on large acquisitions shows:', options: ['Most large acquisitions create significant shareholder value', 'Acquisitions are value-neutral on average', 'Most large acquisitions destroy shareholder value — synergies are overestimated, integration is underestimated', 'Value creation depends entirely on the industry of the acquired company'], a: 2 },
+      { q: 'Open market insider stock purchases (where executives buy with their own money) are a more meaningful signal than option grants because:', options: ['Options are always granted at below-market prices', 'Buying with personal cash represents genuine conviction — they bear real downside risk', 'SEC regulations restrict option grants to profitable companies', 'Open market purchases are exempt from capital gains taxes'], a: 1 }
+    ]
+  },
+  '6.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Income Statement Guide', url: 'https://www.investopedia.com/terms/i/incomestatement.asp' },
+      { source: 'Investopedia', title: 'Gross Profit Margin', url: 'https://www.investopedia.com/terms/g/gross_profit_margin.asp' },
+      { source: 'Investopedia', title: 'Revenue Recognition', url: 'https://www.investopedia.com/terms/r/revenuerecognition.asp' }
+    ],
+    quiz: [
+      { q: 'Gross margin = (Revenue − COGS) / Revenue. What does a high gross margin indicate?', options: ['The company has low operating expenses', 'Strong pricing power and competitive position — most revenue survives after direct production costs', 'The company has high debt relative to equity', 'Management is compensated primarily through stock options'], a: 1 },
+      { q: 'Why is net income more easily manipulated than other financial metrics?', options: ['Net income is not audited by external accountants', 'It can be significantly affected by accounting choices — depreciation, revenue timing, one-time items', 'Net income excludes interest and tax payments', 'Regulations allow companies to calculate net income differently each year'], a: 1 },
+      { q: 'Channel stuffing is a form of revenue manipulation where:', options: ['Companies pay distributors to promote their products', 'Companies load distributors with inventory customers haven\'t ordered, inflating current-period revenue', 'Companies record revenue from future contracts prematurely', 'Companies acquire competitors solely to increase reported revenue'], a: 1 },
+      { q: 'EBITDA is widely used as a proxy for cash generation, but its key limitation is:', options: ['It is not accepted by accounting standards', 'It excludes the very real economic costs of capital investment and working capital changes', 'It can only be calculated for manufacturing businesses', 'EBITDA always exceeds actual cash generation'], a: 1 },
+      { q: 'Wirecard\'s income statement looked excellent while being fraudulent. The first red flag was visible in:', options: ['A sudden change in auditor firms', 'Strong operating cash flow consistently diverging upward from reported revenues', 'A persistent gap between reported profits and actual cash generation', 'Unusually high management compensation relative to peers'], a: 2 }
+    ]
+  },
+  '6.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Balance Sheet Explained', url: 'https://www.investopedia.com/terms/b/balancesheet.asp' },
+      { source: 'Investopedia', title: 'Return on Invested Capital', url: 'https://www.investopedia.com/terms/r/returnoninvestmentcapital.asp' },
+      { source: 'Investopedia', title: 'Goodwill in Accounting', url: 'https://www.investopedia.com/terms/g/goodwill.asp' }
+    ],
+    quiz: [
+      { q: 'The fundamental balance sheet equation is:', options: ['Revenue = Expenses + Profit', 'Assets = Liabilities + Shareholders\' Equity', 'Cash Flow = Net Income + Depreciation', 'Market Cap = Book Value + Goodwill'], a: 1 },
+      { q: 'Goodwill on a balance sheet represents:', options: ['The estimated value of the company\'s brand', 'The premium paid above book value in an acquisition — an accounting entry, not a real productive asset', 'Future earnings the company expects to generate', 'The current market value of all intangible assets'], a: 1 },
+      { q: 'A goodwill impairment charge signals:', options: ['The company has successfully integrated an acquisition', 'The acquisition has not generated the expected returns — management acknowledges value was destroyed', 'The company\'s brand has increased in value', 'A positive accounting adjustment required by new regulations'], a: 1 },
+      { q: 'Return on Invested Capital (ROIC) is the most important capital efficiency metric because:', options: ['It is the metric most closely correlated with short-term stock price', 'It measures whether the company earns returns above its cost of capital — determining if growth creates or destroys value', 'It is the simplest metric to calculate from public filings', 'Regulators require ROIC disclosure in all annual reports'], a: 1 },
+      { q: 'Why were Sears Holdings\' $7B+ in assets misleading as a floor for the stock price?', options: ['Sears had hidden liabilities that exceeded its assets', 'Assets were valued at historical cost, not current market value — the real estate and inventory were worth far less', 'Sears had pledged all assets as collateral for debt', 'The balance sheet included goodwill from historic acquisitions at full cost'], a: 1 }
+    ]
+  },
+  '6.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Cash Flow Statement Guide', url: 'https://www.investopedia.com/investing/what-is-a-cash-flow-statement/' },
+      { source: 'Investopedia', title: 'Free Cash Flow', url: 'https://www.investopedia.com/terms/f/freecashflow.asp' },
+      { source: 'Investopedia', title: 'Operating vs Free Cash Flow', url: 'https://www.investopedia.com/ask/answers/033015/what-difference-between-operating-cash-flow-and-free-cash-flow.asp' }
+    ],
+    quiz: [
+      { q: 'Why is the cash flow statement considered the most reliable financial statement?', options: ['It is prepared by an independent third party', 'Cash is cash — it either exists in bank accounts or it doesn\'t, making it harder to fabricate than profit entries', 'Regulators audit cash flow statements more rigorously', 'It is the only statement required for all public companies'], a: 1 },
+      { q: 'Free cash flow is calculated as:', options: ['Net Income minus Taxes', 'Operating Cash Flow minus Capital Expenditures', 'Revenue minus All Operating Expenses', 'EBITDA minus Interest Payments'], a: 1 },
+      { q: 'Amazon reported minimal net income for 20 years but was actually highly valuable because:', options: ['Amazon had government subsidies that didn\'t appear in net income', 'Its free cash flow was consistently strong — reinvested into new businesses that became enormously valuable', 'Net income is irrelevant for technology companies', 'Amazon\'s stock price appreciation replaced the need for profits'], a: 1 },
+      { q: 'A company with strong net income but persistently weak operating cash flow is:', options: ['A sign of a very efficient business model', 'A red flag — profits are not converting to real cash, warranting investigation', 'Normal for capital-intensive manufacturing businesses', 'Evidence that the company is over-investing for growth'], a: 1 },
+      { q: 'Luckin Coffee\'s fraud was first detectable in the cash flow statement because:', options: ['Cash flow statements must be audited separately from income statements', 'Cash actually moving through bank accounts is harder to fabricate — the gap between revenue and cash was visible', 'Luckin had negative net income despite claiming profitability', 'Chinese accounting regulations require separate cash flow audits'], a: 1 }
+    ]
+  },
+  '6.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Owner Earnings Explained', url: 'https://www.investopedia.com/terms/o/owner_earnings_run_rate.asp' },
+      { source: 'Investopedia', title: 'Working Capital', url: 'https://www.investopedia.com/terms/w/workingcapital.asp' },
+      { source: 'Investopedia', title: 'Capital Expenditure', url: 'https://www.investopedia.com/terms/c/capitalexpenditure.asp' }
+    ],
+    quiz: [
+      { q: 'The key distinction between maintenance CapEx and growth CapEx is:', options: ['Maintenance CapEx is tax-deductible; growth CapEx is not', 'Maintenance CapEx is a real economic cost to keep the business running; growth CapEx is an investment', 'Growth CapEx always generates higher returns than maintenance CapEx', 'They are treated identically in all valuation models'], a: 1 },
+      { q: 'Buffett\'s "owner earnings" formula improves on GAAP earnings by:', options: ['Adding back all non-cash charges regardless of type', 'Adding back D&A and subtracting only maintenance CapEx — the actual cash a business owner can extract', 'Excluding all depreciation to show the true growth potential', 'Using market values for assets instead of historical cost'], a: 1 },
+      { q: 'A business that collects from customers before paying suppliers has:', options: ['Poor cash management and should negotiate better payment terms', 'A negative working capital advantage — it funds its own growth without external capital', 'Higher default risk due to customer concentration', 'Lower gross margins than businesses with positive working capital'], a: 1 },
+      { q: 'Berkshire Hathaway\'s insurance float is a structural FCF advantage because:', options: ['Insurance premiums are exempt from corporate income tax', 'Premium payments received before claims must be paid act as free capital Buffett can invest', 'Insurance businesses have higher profit margins than other industries', 'Berkshire uses insurance float to fund share buybacks exclusively'], a: 1 },
+      { q: 'DCF valuation ultimately comes back to free cash flow because:', options: ['Free cash flow is required by accounting regulations for DCF inputs', 'A business is worth the present value of all future free cash flows — every other method approximates this', 'Free cash flow is the easiest metric to project accurately', 'Regulators require DCF for all acquisition valuations'], a: 1 }
+    ]
+  },
+  '7.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Intrinsic Value', url: 'https://www.investopedia.com/terms/i/intrinsicvalue.asp' },
+      { source: 'Investopedia', title: 'Margin of Safety', url: 'https://www.investopedia.com/terms/m/marginofsafety.asp' },
+      { source: 'Investopedia', title: 'Mr. Market Concept', url: 'https://www.investopedia.com/terms/m/mr-market.asp' }
+    ],
+    quiz: [
+      { q: 'The distinction between price and value is central to investing because:', options: ['Prices are always wrong in the short term', 'Price and value diverge regularly — the gap is where investment opportunity lives', 'Value is set by regulators; price is set by markets', 'Understanding the distinction allows investors to time market cycles perfectly'], a: 1 },
+      { q: 'In the long run, stock prices converge toward intrinsic value because:', options: ['Regulators force corrections when prices diverge', 'Value is ultimately determined by cash flows, which are real — sentiment cannot permanently override reality', 'Institutional investors always correct mispricings within 90 days', 'Market indices rebalance to fair value annually'], a: 1 },
+      { q: 'Benjamin Graham\'s "Mr. Market" metaphor illustrates:', options: ['That market participants are always rational', 'That the market offers prices daily that you can accept or ignore — your job is to know the business\'s real value', 'That markets are controlled by a small group of powerful investors', 'That stock prices follow predictable weekly patterns'], a: 1 },
+      { q: 'The margin of safety concept protects investors by:', options: ['Guaranteeing a minimum return on every investment', 'Buying significantly below intrinsic value — creating a buffer that converts analytical uncertainty into investment safety', 'Limiting position sizes to reduce portfolio volatility', 'Ensuring the portfolio never loses more than 10% in any year'], a: 1 },
+      { q: 'In 2000-2002, the S&P 500 fell 49% even though underlying businesses remained largely intact because:', options: ['The economy entered a severe depression with mass unemployment', 'The premium the market was paying above intrinsic value collapsed — price reverted to value', 'The government raised taxes significantly on equity investments', 'Accounting fraud was discovered at most S&P 500 companies'], a: 1 }
+    ]
+  },
+  '7.2': {
+    resources: [
+      { source: 'Investopedia', title: 'DCF Analysis', url: 'https://www.investopedia.com/terms/d/dcf.asp' },
+      { source: 'Investopedia', title: 'Terminal Value', url: 'https://www.investopedia.com/terms/t/terminalvalue.asp' },
+      { source: 'Investopedia', title: 'Discount Rate', url: 'https://www.investopedia.com/terms/d/discountrate.asp' }
+    ],
+    quiz: [
+      { q: 'Why is a dollar today worth more than a dollar in the future?', options: ['Inflation always reduces purchasing power', 'You can invest the dollar today and have more than a dollar in the future — time value of money', 'Future dollars carry higher tax rates', 'Markets become less predictable over time'], a: 1 },
+      { q: 'Higher risk in a DCF is reflected by:', options: ['A lower projected growth rate', 'A higher discount rate — which reduces the present value of future cash flows', 'Using EBITDA instead of free cash flow', 'A shorter forecast period'], a: 1 },
+      { q: 'Why does the terminal value typically dominate a DCF (60-80% of total value)?', options: ['Terminal growth assumptions are always the most accurate', 'Most of a going concern\'s cash flows lie beyond the 5-10 year explicit forecast — so long-term assumptions matter most', 'The terminal period has the highest discount rates', 'Analysts apply higher multiples to terminal cash flows by convention'], a: 1 },
+      { q: 'The most useful way to use a DCF model is:', options: ['As a precise calculation of exact intrinsic value', 'To reverse-engineer what the current price implies about growth — then assess if those assumptions are reasonable', 'To predict the exact date the stock will reach your target price', 'To set a limit order price based on the model output'], a: 1 },
+      { q: 'In 2007, DCF models for Citigroup failed because:', options: ['The DCF formula was applied incorrectly', 'Inputs reflected fictional earnings from toxic mortgage-backed securities — garbage in, garbage out', 'Discount rates used were far too high', 'Terminal growth assumptions were too conservative'], a: 1 }
+    ]
+  },
+  '7.3': {
+    resources: [
+      { source: 'Investopedia', title: 'P/E Ratio', url: 'https://www.investopedia.com/terms/p/price-earningsratio.asp' },
+      { source: 'Investopedia', title: 'EV/EBITDA Multiple', url: 'https://www.investopedia.com/terms/e/ebitda-ev-multiple.asp' },
+      { source: 'Investopedia', title: 'PEG Ratio', url: 'https://www.investopedia.com/terms/p/pegratio.asp' }
+    ],
+    quiz: [
+      { q: 'EV/EBITDA is preferred over P/E for comparing capital-intensive businesses because:', options: ['EBITDA is always higher than net income', 'It is not affected by financing decisions (debt levels) or tax rates — allowing cleaner comparison', 'It is the only multiple accepted by investment banks', 'EV/EBITDA always gives lower valuations than P/E'], a: 1 },
+      { q: 'Enterprise Value (EV) = Market Cap + Net Debt. Why add debt?', options: ['Debt increases the company\'s operational capacity', 'A buyer acquiring the company assumes both equity and debt — EV represents the total acquisition price', 'Accounting rules require debt to be added to market cap', 'Debt holders receive returns before equity holders, inflating total value'], a: 1 },
+      { q: 'A 30x P/E ratio could be cheap if:', options: ['The company is in a defensive, recession-resistant sector', 'Earnings are growing at 40%+ annually — making the forward multiple much lower', 'The company has no debt on its balance sheet', 'The stock has recently hit a new 52-week high'], a: 1 },
+      { q: 'Software companies trading at 30-50x revenue in 2020-2021 fell 70-80% in 2022 because:', options: ['Their businesses fundamentally deteriorated', 'Rising interest rates compressed valuation multiples — the multiple was carrying most of the value', 'Accounting fraud was discovered at many software companies', 'Governments introduced new software regulations'], a: 1 },
+      { q: 'Multiples are most useful for:', options: ['Establishing the precise intrinsic value of a business', 'Identifying relative mispricings within a peer group — not for absolute value', 'Timing exactly when to buy and sell', 'Replacing DCF analysis for complex businesses'], a: 1 }
+    ]
+  },
+  '7.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Valuation Methods', url: 'https://www.investopedia.com/terms/v/valuation.asp' },
+      { source: 'Investopedia', title: 'Investment Catalysts', url: 'https://www.investopedia.com/terms/c/catalyst.asp' },
+      { source: 'Investopedia', title: 'Value Trap Warning Signs', url: 'https://www.investopedia.com/terms/v/valuetrap.asp' }
+    ],
+    quiz: [
+      { q: 'Why might a cheap stock remain cheap for years without a catalyst?', options: ['Markets are always inefficient over short periods', 'Price converges to value only when a specific event causes the market to recognise the mispricing', 'Cheap stocks always require regulatory approval before rising', 'Investors simply haven\'t discovered the stock yet'], a: 1 },
+      { q: 'The most important valuation question is:', options: ['What is the highest analyst price target for this stock?', 'What does the current price imply about the future — and are those implied assumptions reasonable?', 'What is the P/E ratio relative to the 5-year historical average?', 'What percentage of the company do institutional investors hold?'], a: 1 },
+      { q: 'Netflix at $7 per share in 2012 was misunderstood because:', options: ['Netflix was losing money on every streaming subscriber', 'The market was pricing it as a dying DVD company, missing the streaming platform opportunity', 'Reed Hastings had announced plans to shut down the streaming service', 'DVD rental was still growing rapidly in 2012'], a: 1 },
+      { q: '"Cheap without a reason" is often a value trap because:', options: ['Value traps are always small-cap companies', 'Fundamental deterioration can make a "cheap" stock get cheaper indefinitely', 'Regulators restrict investing in genuine value traps', 'Value traps only exist in commodity industries'], a: 1 },
+      { q: 'Precision in valuation is less important than order-of-magnitude accuracy because:', options: ['Investors don\'t have time to build precise models', 'A wide margin of safety doesn\'t require a precise target — it requires knowing the rough range and whether price is far below it', 'Precise models are only available to institutional investors', 'Stock prices move too quickly for precise models to be useful'], a: 1 }
+    ]
+  },
+  '8.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Interest Rates & Investing', url: 'https://www.investopedia.com/articles/investing/052814/how-interest-rates-affect-stock-market.asp' },
+      { source: 'FRED', title: 'Federal Funds Rate', url: 'https://fred.stlouisfed.org/series/FEDFUNDS' },
+      { source: 'FRED', title: '10-Year Treasury Yield', url: 'https://fred.stlouisfed.org/series/DGS10' }
+    ],
+    quiz: [
+      { q: 'Why are interest rates called "the price of money"?', options: ['Governments literally charge a fee for using their currency', 'They are the cost of borrowing and the return on lending — the foundational rate for all financial assets', 'Interest rates are set by stock market participants', 'They represent the inflation rate of the economy'], a: 1 },
+      { q: 'When interest rates rise by 1%, long-duration bonds (duration = 15) will fall approximately:', options: ['1% in price', '5% in price', '15% in price', '0.15% in price'], a: 2 },
+      { q: 'Growth stocks are more sensitive to interest rate increases than value stocks because:', options: ['Growth companies have more debt than value companies', 'Most of their value comes from distant future cash flows — discounted more heavily when rates rise', 'Value stocks have lower beta and are thus less affected by macro factors', 'Growth stocks are primarily held by retail investors who react to rate changes emotionally'], a: 1 },
+      { q: '"Don\'t fight the Fed" means:', options: ['Never invest contrary to government policy recommendations', 'When monetary policy is tightening aggressively, the headwind to asset prices is real and powerful', 'Federal Reserve decisions should be ignored by long-term investors', 'All investment decisions should be approved by the Federal Reserve'], a: 1 },
+      { q: 'In 2022-2023, the 500bp rate hiking cycle caused NASDAQ to fall 33% because:', options: ['Technology companies reported severely disappointing earnings', 'Rising discount rates reduced the present value of long-duration growth stock cash flows', 'The Federal Reserve specifically targeted technology stocks', 'International investors sold US technology stocks due to dollar strength'], a: 1 }
+    ]
+  },
+  '8.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Inflation', url: 'https://www.investopedia.com/terms/i/inflation.asp' },
+      { source: 'FRED', title: 'Consumer Price Index (CPI)', url: 'https://fred.stlouisfed.org/series/CPIAUCSL' },
+      { source: 'Investopedia', title: 'TIPS — Inflation-Protected Bonds', url: 'https://www.investopedia.com/terms/t/tips.asp' }
+    ],
+    quiz: [
+      { q: 'Central banks target roughly 2% annual inflation because:', options: ['2% is the rate at which governments can repay debt most efficiently', 'Moderate stable inflation encourages spending and investment — too low risks deflation, too high causes instability', 'Financial models only work when inflation is exactly 2%', 'International agreements require all central banks to maintain 2% inflation'], a: 1 },
+      { q: 'Which asset class is most directly harmed by unexpected high inflation?', options: ['Real estate', 'Commodities', 'Fixed-rate bonds', 'Equities with pricing power'], a: 2 },
+      { q: 'Inflation expectations matter as much as actual inflation because:', options: ['Expectations determine how politicians vote on fiscal policy', 'Markets reprice based on what is expected — forward-looking prices adjust before inflation materialises', 'Central banks only respond to inflation expectations, not actual data', 'Expectations are more accurate than actual inflation measurements'], a: 1 },
+      { q: 'Companies that weather inflationary environments best typically have:', options: ['High debt levels that inflate away in real terms', 'Pricing power — the ability to raise prices at least as fast as input cost increases', 'Minimal physical assets that don\'t need to be replaced at higher costs', 'Government contracts with inflation escalation clauses'], a: 1 },
+      { q: 'The 1970s stagflation was uniquely devastating to traditional portfolios because:', options: ['Both stocks and bonds lost real value simultaneously — the 60/40 correlation assumption failed', 'Taxes on investment returns were dramatically increased', 'Inflation caused stock markets to close temporarily', 'Bonds were banned from 60/40 portfolios by regulation'], a: 0 }
+    ]
+  },
+  '8.3': {
+    resources: [
+      { source: 'Fed Reserve', title: 'FOMC Meeting Statements', url: 'https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm' },
+      { source: 'Investopedia', title: 'Quantitative Easing', url: 'https://www.investopedia.com/terms/q/quantitative-easing.asp' },
+      { source: 'FRED', title: 'Federal Funds Rate History', url: 'https://fred.stlouisfed.org/series/FEDFUNDS' }
+    ],
+    quiz: [
+      { q: 'The Federal Reserve\'s dual mandate consists of:', options: ['Maximum employment and stable currency exchange rates', 'Price stability (2% inflation) and maximum employment', 'Economic growth and financial system stability', 'Low interest rates and government debt management'], a: 1 },
+      { q: 'Quantitative Easing (QE) works by:', options: ['Directly giving cash payments to consumers', 'The Fed buying government bonds to inject money into the financial system and push long-term rates lower', 'Reducing bank reserve requirements to encourage more lending', 'Setting a negative interest rate on bank deposits'], a: 1 },
+      { q: 'The 2013 "Taper Tantrum" is important because it shows:', options: ['That the Fed never actually tapers its bond purchases', 'That forward guidance — a word about a hypothetical future action — can reprice global assets before any policy change', 'That emerging market currencies are disconnected from US monetary policy', 'That bond yields always fall when the Fed mentions tapering'], a: 1 },
+      { q: 'When a Fed rate hike is fully expected by markets, what happens on the announcement day?', options: ['Stocks always fall sharply because rates have risen', 'Very little — the move was already priced in, so the announcement itself has minimal incremental impact', 'Bond prices rise significantly as investors celebrate certainty', 'The dollar weakens because of the higher rate environment'], a: 1 },
+      { q: 'Bernanke\'s 2010 Jackson Hole speech moved markets before any QE action because:', options: ['He announced specific stock purchases the Fed would make', 'Participants repriced based on expected future policy — the signal, not the action, drove the initial move', 'He revealed secret economic data not in public releases', 'Markets had been expecting him to announce rate increases'], a: 1 }
+    ]
+  },
+  '8.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Credit Cycle', url: 'https://www.investopedia.com/terms/c/credit-cycle.asp' },
+      { source: 'FRED', title: 'High Yield OAS Spread', url: 'https://fred.stlouisfed.org/series/BAMLH0A0HYM2' },
+      { source: 'Investopedia', title: 'Howard Marks and Oaktree', url: 'https://www.investopedia.com/terms/o/oaktree-capital-management.asp' }
+    ],
+    quiz: [
+      { q: 'The credit cycle amplifies economic cycles because:', options: ['Central banks always raise rates during credit expansions', 'Leverage amplifies both booms (more borrowing fuels growth) and busts (forced repayment accelerates decline)', 'Credit is the only source of funding for economic activity', 'Credit cycles are mandated by banking regulations to prevent excess growth'], a: 1 },
+      { q: 'Tight credit spreads (near historical lows) signal:', options: ['An excellent time to load up on credit risk — spreads will only widen from here', 'Risk is underpriced — the credit cycle is likely in a late, vulnerable phase', 'The economy is in a healthy mid-cycle expansion', 'Central banks have successfully eliminated default risk'], a: 1 },
+      { q: 'Wide credit spreads (near historical highs) signal:', options: ['Permanent impairment of the credit market', 'Risk is overpriced — expected returns on credit are high for unconstrained capital willing to step in', 'Banks have stopped lending permanently', 'Inflation has made fixed income unattractive'], a: 1 },
+      { q: 'Howard Marks\'s approach at Oaktree exploits the credit cycle by:', options: ['Predicting exactly when crises will occur', 'Being conservative when spreads are tight and aggressively deploying capital when spreads are wide', 'Always maintaining 50% cash to deploy at cycle turns', 'Using leverage at the peak of credit cycles to maximise returns'], a: 1 },
+      { q: 'The 2008 financial crisis exemplified the credit cycle because:', options: ['A global pandemic caused simultaneous credit defaults', 'Years of credit expansion (loose standards, high leverage, tight spreads) preceded a violent contraction when conditions reversed', 'Government spending triggered a credit bubble', 'Interest rates were set too high before the crisis'], a: 1 }
+    ]
+  },
+  '9.1': {
+    resources: [
+      { source: 'Investopedia', title: 'Efficient Market Hypothesis', url: 'https://www.investopedia.com/terms/e/efficientmarkethypothesis.asp' },
+      { source: 'Investopedia', title: 'Special Situations Investing', url: 'https://www.investopedia.com/terms/s/specialsituations.asp' },
+      { source: 'Investopedia', title: 'Spin-Offs', url: 'https://www.investopedia.com/terms/s/spinoff.asp' }
+    ],
+    quiz: [
+      { q: 'The Efficient Market Hypothesis states that:', options: ['Markets are always correct and mispricing is impossible', 'Prices reflect all available information — making consistent outperformance difficult but not impossible', 'Only institutional investors can outperform the market', 'Markets are random and analysis has no value'], a: 1 },
+      { q: 'The most reliable source of investment edge is described as:', options: ['Having better analytical models than competitors', 'Structural — being in markets where most capital cannot or will not go', 'Trading on non-public information legally obtained', 'Having faster access to market data than other investors'], a: 1 },
+      { q: 'Why do published investment strategies tend to lose their edge over time?', options: ['Markets become less efficient as technology improves', 'Known edges get arbitraged as more capital pursues them — the advantage migrates to complex, neglected situations', 'Regulators eventually ban successful strategies', 'Published strategies contain deliberate errors to protect the author'], a: 1 },
+      { q: 'Spin-offs consistently generate above-market returns primarily because:', options: ['Spin-off companies are always more profitable than their parents', 'Institutional investors often sell them automatically — forced selling creates mispricing in complex, neglected situations', 'Spin-off management teams are superior to parent company management', 'Regulators offer tax benefits for spin-off investments'], a: 1 },
+      { q: 'Joel Greenblatt\'s Magic Formula began losing edge after 2005 because:', options: ['The strategy had fundamental flaws that only appeared over time', 'Publishing the strategy caused widespread adoption that arbitraged the excess return', 'Regulators changed accounting rules that the formula relied on', 'The value factor permanently stopped working after 2005'], a: 1 }
+    ]
+  },
+  '9.2': {
+    resources: [
+      { source: 'Investopedia', title: 'Scenario Analysis', url: 'https://www.investopedia.com/terms/s/scenario_analysis.asp' },
+      { source: 'Investopedia', title: 'Bull and Bear Cases', url: 'https://www.investopedia.com/terms/b/bullmarket.asp' },
+      { source: 'Investopedia', title: 'Risk/Reward Ratio', url: 'https://www.investopedia.com/terms/r/riskrewardratio.asp' }
+    ],
+    quiz: [
+      { q: 'Why are single-point price predictions intellectually dishonest?', options: ['Price targets are legally prohibited in most countries', 'The future is uncertain — a single prediction papers over that uncertainty rather than reflecting it honestly', 'Single predictions require complex mathematical models', 'Only institutional investors are permitted to make price predictions'], a: 1 },
+      { q: 'A rigorous bear case is the most important scenario to develop because:', options: ['Bear cases always prove correct in practice', 'Most investment disasters originate from not honestly engaging with how the thesis could be completely wrong', 'Regulators require formal bear case documentation', 'Bear cases determine the appropriate tax treatment of an investment'], a: 1 },
+      { q: 'Theranos investors failed at scenario analysis because:', options: ['They lacked access to the company\'s financial statements', 'They never seriously engaged with the bear case: what if the technology simply doesn\'t work?', 'The SEC prevented due diligence on private companies', 'Theranos\'s valuation was too small for serious analysis'], a: 1 },
+      { q: 'Scenario analysis and position sizing must be done together because:', options: ['Regulators require linked scenario/sizing documentation', 'The bear case determines the maximum loss, which determines how much you can safely allocate', 'Position sizing formulas require scenario probabilities as inputs', 'Both steps require the same information from the company\'s 10-K'], a: 1 },
+      { q: 'A probability-weighted expected value calculation requires:', options: ['Exact future price predictions for each scenario', 'Explicit probabilities assigned to each scenario multiplied by their respective outcomes, then summed', 'Analyst consensus price targets as inputs', 'At least 10 scenarios to be statistically meaningful'], a: 1 }
+    ]
+  },
+  '9.3': {
+    resources: [
+      { source: 'Investopedia', title: 'Investment Framework', url: 'https://www.investopedia.com/terms/i/investmentstrategy.asp' },
+      { source: 'Investopedia', title: 'Circle of Competence', url: 'https://www.investopedia.com/terms/c/circle-of-competence.asp' },
+      { source: 'Investopedia', title: 'Seth Klarman and Baupost', url: 'https://www.investopedia.com/terms/b/baupost-group.asp' }
+    ],
+    quiz: [
+      { q: 'An investment framework differs from a checklist because:', options: ['Frameworks are longer and more complex than checklists', 'A framework is an integrated, consistent way of thinking — not a series of steps to follow mechanically', 'Frameworks are only used by institutional investors', 'Checklists require more analytical skill to apply'], a: 1 },
+      { q: 'Knowing your "circle of competence" means:', options: ['Understanding every aspect of every industry', 'Knowing which markets and business types you can analyse with genuine edge — and what to ignore', 'Having passed the CFA examination', 'Only investing in industries where you have worked professionally'], a: 1 },
+      { q: 'Seth Klarman\'s Baupost held large cash positions during the dot-com bubble because:', options: ['He was prohibited from investing in technology companies', 'His framework found no investments offering adequate margin of safety — patience was the correct response', 'Baupost had experienced significant losses and was rebuilding capital', 'Cash was yielding unusually high returns during the bubble'], a: 1 },
+      { q: 'Writing investment theses down creates which specific benefit?', options: ['It satisfies regulatory requirements for investment documentation', 'It creates an honest record that prevents selective memory from distorting post-mortems', 'Written theses are legally protected from being copied by competitors', 'It forces the investor to use correct financial terminology'], a: 1 },
+      { q: 'The discipline to hold large cash positions when opportunities are scarce is best described as:', options: ['Risk aversion and fear of missing out', 'A fundamental component of a rational framework — the framework determines the appropriate response to each environment', 'Evidence of poor investment skill', 'A violation of fiduciary duty to investors'], a: 1 }
+    ]
+  },
+  '9.4': {
+    resources: [
+      { source: 'Investopedia', title: 'Investment Decision Making', url: 'https://www.investopedia.com/terms/i/investmentstrategy.asp' },
+      { source: 'Investopedia', title: 'Charlie Munger Mental Models', url: 'https://www.investopedia.com/terms/m/mental-accounting.asp' },
+      { source: 'Yahoo Finance', title: 'Markets & Research', url: 'https://finance.yahoo.com/markets/' }
+    ],
+    quiz: [
+      { q: 'Charlie Munger\'s "Invert, always invert" habit primarily counters which cognitive error?', options: ['Loss aversion — by accepting losses before they happen', 'Overconfidence and confirmation bias — by forcing you to generate disconfirming evidence first', 'Anchoring — by removing price from the initial analysis', 'Recency bias — by reviewing long-term historical data'], a: 1 },
+      { q: 'The Investment Decision Checklist question "What am I getting wrong?" specifically targets:', options: ['Mathematical errors in the DCF model', 'Confirmation bias — forcing you to engage seriously with the opposing view', 'Anchoring to the purchase price', 'Loss aversion in the exit decision'], a: 1 },
+      { q: 'The statement "the market transfers money from the impatient to the patient" means:', options: ['Slow-moving markets always outperform fast-moving ones', 'A longer time horizon is itself a competitive advantage — most market participants cannot or will not hold through volatility', 'Patience is more important than analytical skill', 'Patient investors never experience portfolio drawdowns'], a: 1 },
+      { q: 'Li Lu\'s process of "I read. I think. I wait." describes:', options: ['A passive, low-effort approach to index investing', 'Intensive business understanding + rigorous thesis development + disciplined patience for the right price', 'A short-term trading strategy based on news catalysts', 'A quantitative process that removes human judgment from decisions'], a: 1 },
+      { q: 'You are not trying to predict the future. You are trying to:', options: ['Identify the stocks with the highest analyst price targets', 'Find situations where the odds are in your favour and position appropriately — then let compounding do the work', 'Predict market turning points before they happen', 'Build a portfolio that never declines in any market environment'], a: 1 }
+    ]
+  }
+};
+
 // ============================================================
 const ALL_LESSONS = [];
 COURSE.forEach(mod => {
@@ -1484,9 +2308,9 @@ function updateProgress() {
   const c = getCompleted();
   const modsComplete = new Set();
   c.forEach(num => { const [m] = num.split('.'); modsComplete.add(parseInt(m)); });
-  const pct = Math.round((modsComplete.size / 9) * 100);
+  const pct = Math.round((modsComplete.size / 10) * 100);
   document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = modsComplete.size + ' / 9 Modules';
+  document.getElementById('progress-text').textContent = modsComplete.size + ' / 10 Modules';
 }
 
 // ============================================================
@@ -1570,6 +2394,40 @@ function showLesson(idx) {
     bodyHtml += `</ol></div>`;
   }
 
+  // Merge LESSON_DATA (external quiz/resources for modules 1-9)
+  const ld = (typeof LESSON_DATA !== 'undefined' && LESSON_DATA[les.num]) || {};
+  if (!les.resources && ld.resources) les = Object.assign({}, les, { resources: ld.resources });
+  if (!les.quiz && ld.quiz) les = Object.assign({}, les, { quiz: ld.quiz });
+
+  // Resources
+  if (les.resources && les.resources.length) {
+    bodyHtml += `<div class="resources"><div class="resources-label">Further Reading &amp; Tools</div>`;
+    les.resources.forEach(r => {
+      bodyHtml += `<a class="resource-link" href="${r.url}" target="_blank" rel="noopener"><span class="resource-source">${r.source}</span><span class="resource-title">${r.title}</span><span class="resource-arrow">↗</span></a>`;
+    });
+    bodyHtml += `</div>`;
+  }
+
+  // Notes
+  const savedNote = localStorage.getItem('tif_note_' + les.num) || '';
+  const noteId = 'note-' + les.num.replace('.', '-');
+  bodyHtml += `<div class="notes-wrap"><div class="notes-header"><span class="notes-label">My Notes</span><span class="notes-saved" id="saved-${noteId}">Saved ✓</span></div><textarea class="notes-textarea" id="${noteId}" placeholder="Type your notes here — saved automatically to your browser..." oninput="saveNote('${les.num}','${noteId}')">${savedNote}</textarea></div>`;
+
+  // Quiz
+  if (les.quiz && les.quiz.length) {
+    const letters = ['A','B','C','D'];
+    bodyHtml += `<div class="quiz-wrap"><div class="quiz-header"><span class="quiz-badge">Knowledge Check</span><span class="quiz-subtitle">${les.quiz.length} Questions</span></div><div class="quiz-body">`;
+    les.quiz.forEach((q, qi) => {
+      const qid = les.num.replace('.', '-') + '-' + qi;
+      bodyHtml += `<div class="quiz-qwrap"><div class="quiz-qnum">Question ${qi + 1}</div><div class="quiz-qtext">${q.q}</div><div class="quiz-opts">`;
+      q.options.forEach((opt, oi) => {
+        bodyHtml += `<button class="quiz-opt" id="qo-${qid}-${oi}" onclick="answerQ('${les.num}',${qi},${oi},${q.a})">${letters[oi]}. ${opt}</button>`;
+      });
+      bodyHtml += `</div><div class="quiz-fb" id="qf-${qid}"></div></div>`;
+    });
+    bodyHtml += `</div><div class="quiz-result" id="qr-${les.num.replace('.', '-')}"><div><div class="quiz-result-score" id="qs-${les.num.replace('.', '-')}"></div><div class="quiz-result-label">correct answers</div></div><button class="quiz-retry" onclick="retryQ('${les.num}')">Retry →</button></div></div>`;
+  }
+
   document.getElementById('lv-body').innerHTML = bodyHtml;
 
   // Bottom nav
@@ -1610,18 +2468,88 @@ function startCourse() { showLesson(0); }
 // ============================================================
 function showCompletion() {
   document.getElementById('lesson-view').innerHTML = `
-    <div style="text-align:center;padding:60px 0;">
+    <div style="text-align:center;padding:60px 0 40px;">
       <div style="font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#C9A84C;margin-bottom:20px;">Course Complete</div>
       <h2 class="serif" style="font-size:clamp(30px,4vw,48px);font-weight:700;line-height:1.1;letter-spacing:-0.02em;color:#F0EDE6;margin-bottom:28px;">
         Think Deeper.<br>Invest Better.<br>Live Freer.
       </h2>
       <div style="height:1px;background:linear-gradient(90deg,transparent,#C9A84C,transparent);margin:36px auto;width:120px;"></div>
       <p style="font-size:16px;line-height:1.85;color:#8A8880;max-width:520px;margin:0 auto 44px;">
-        You've completed all nine modules. The frameworks you've built here compound quietly in every financial decision you make from this point forward.
+        You've completed all modules. The frameworks you've built here compound quietly in every financial decision you make from this point forward.
       </p>
-      <p style="font-size:13px;color:#4A4A48;letter-spacing:0.12em;text-transform:uppercase;">The Investment Framework · 2026</p>
+      <div style="max-width:420px;margin:0 auto;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#4A4A48;margin-bottom:12px;">Generate Your Certificate</p>
+        <input id="cert-name-input" type="text" placeholder="Enter your full name" style="width:100%;background:#141414;border:1px solid #2A2A2A;color:#F0EDE6;font-family:'Montserrat',sans-serif;font-size:14px;padding:14px 18px;outline:none;margin-bottom:12px;transition:border-color 0.2s ease;" onfocus="this.style.borderColor='#C9A84C'" onblur="this.style.borderColor='#2A2A2A'" onkeydown="if(event.key==='Enter')generateCert()">
+        <button onclick="generateCert()" style="width:100%;background:linear-gradient(135deg,#C9A84C 0%,#E8D08A 50%,#C9A84C 100%);color:#080808;font-family:'Montserrat',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;padding:16px;border:none;cursor:pointer;">Generate Certificate →</button>
+      </div>
+      <p style="font-size:13px;color:#3A3A38;letter-spacing:0.12em;text-transform:uppercase;margin-top:48px;">The Investment Framework · 2026</p>
     </div>`;
   document.getElementById('bottom-nav').style.display = 'none';
+}
+
+function generateCert() {
+  const name = document.getElementById('cert-name-input').value.trim();
+  if (!name) { document.getElementById('cert-name-input').focus(); return; }
+  document.getElementById('cert-student-name').textContent = name;
+  document.getElementById('cert-date').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  document.getElementById('cert-overlay').classList.add('show');
+}
+
+function saveNote(lesNum, elId) {
+  const val = document.getElementById(elId).value;
+  localStorage.setItem('tif_note_' + lesNum, val);
+  const saved = document.getElementById('saved-' + elId);
+  if (saved) { saved.classList.add('show'); setTimeout(() => saved.classList.remove('show'), 1800); }
+}
+
+function answerQ(lesNum, qi, chosen, correct) {
+  const lid = lesNum.replace('.', '-');
+  const qid = lid + '-' + qi;
+  const les = ALL_LESSONS.find(x => x.les.num === lesNum);
+  if (!les) return;
+  const total = les.les.quiz.length;
+  les.les.quiz[qi].options.forEach((_, oi) => {
+    const btn = document.getElementById('qo-' + qid + '-' + oi);
+    if (!btn) return;
+    btn.setAttribute('disabled', true);
+    btn.onclick = null;
+    if (oi === correct) btn.classList.add('correct');
+    else if (oi === chosen) btn.classList.add('wrong');
+  });
+  const fb = document.getElementById('qf-' + qid);
+  if (fb) {
+    if (chosen === correct) { fb.className = 'quiz-fb correct'; fb.textContent = '✓ Correct.'; }
+    else { fb.className = 'quiz-fb wrong'; fb.textContent = '✗ Incorrect — the correct answer is ' + ['A','B','C','D'][correct] + '.'; }
+  }
+  let answered = 0, score = 0;
+  for (let i = 0; i < total; i++) {
+    const fb2 = document.getElementById('qf-' + lid + '-' + i);
+    if (fb2 && fb2.className.includes('quiz-fb correct') || fb2 && fb2.className.includes('quiz-fb wrong')) answered++;
+    if (fb2 && fb2.className.includes('quiz-fb correct')) score++;
+  }
+  if (answered === total) {
+    const res = document.getElementById('qr-' + lid);
+    const sc = document.getElementById('qs-' + lid);
+    if (res) res.classList.add('show');
+    if (sc) sc.textContent = score + ' / ' + total;
+  }
+}
+
+function retryQ(lesNum) {
+  const les = ALL_LESSONS.find(x => x.les.num === lesNum);
+  if (!les || !les.les.quiz) return;
+  const lid = lesNum.replace('.', '-');
+  les.les.quiz.forEach((q, qi) => {
+    const qid = lid + '-' + qi;
+    q.options.forEach((_, oi) => {
+      const btn = document.getElementById('qo-' + qid + '-' + oi);
+      if (btn) { btn.className = 'quiz-opt'; btn.removeAttribute('disabled'); btn.onclick = () => answerQ(lesNum, qi, oi, q.a); }
+    });
+    const fb = document.getElementById('qf-' + qid);
+    if (fb) { fb.className = 'quiz-fb'; fb.textContent = ''; }
+  });
+  const res = document.getElementById('qr-' + lid);
+  if (res) res.classList.remove('show');
 }
 
 // ============================================================
