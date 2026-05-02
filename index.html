@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Investment Framework — Master How Markets Actually Work</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -276,7 +275,6 @@
         0 40px 80px rgba(0, 0, 0, 0.5);
     }
 
-    #dotted-bg canvas { display:block; }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 4px; }
@@ -324,7 +322,6 @@
 <body>
 
   <!-- ===================== DOTTED SURFACE BACKGROUND ===================== -->
-  <div id="dotted-bg" style="position:fixed;inset:0;z-index:-2;pointer-events:none;overflow:hidden;"></div>
 
   <!-- ===================== NAVIGATION ===================== -->
   <nav id="nav" style="position:fixed;top:0;left:0;right:0;z-index:500;padding:22px 48px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(8,8,8,0.96) 0%,rgba(8,8,8,0) 100%);backdrop-filter:blur(16px);">
@@ -1164,98 +1161,6 @@
     }
   </script>
 
-  <!-- Dotted Surface (Three.js) — ported from React component -->
-  <script>
-  (function () {
-    const container = document.getElementById('dotted-bg');
-    if (!container || typeof THREE === 'undefined') return;
-
-    const SEPARATION = 150;
-    const AMOUNTX   = 40;
-    const AMOUNTY   = 60;
-
-    // Scene
-    const scene = new THREE.Scene();
-
-    // Camera
-    const camera = new THREE.PerspectiveCamera(
-      60,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
-    camera.position.set(0, 355, 1220);
-
-    // Renderer — transparent so page background shows through
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0x000000, 0);
-    container.appendChild(renderer.domElement);
-
-    // Build dot grid
-    const positions = [];
-    const colors    = [];
-
-    for (let ix = 0; ix < AMOUNTX; ix++) {
-      for (let iy = 0; iy < AMOUNTY; iy++) {
-        positions.push(
-          ix * SEPARATION - (AMOUNTX * SEPARATION) / 2,
-          0,
-          iy * SEPARATION - (AMOUNTY * SEPARATION) / 2
-        );
-        // Bright metallic gold: rgb ≈ (0.79, 0.66, 0.30)
-        colors.push(0.79, 0.66, 0.30);
-      }
-    }
-
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    geometry.setAttribute('color',    new THREE.Float32BufferAttribute(colors,    3));
-
-    const material = new THREE.PointsMaterial({
-      size:         7,
-      vertexColors: true,
-      transparent:  true,
-      opacity:      0.45,
-      sizeAttenuation: true,
-    });
-
-    const points = new THREE.Points(geometry, material);
-    scene.add(points);
-
-    let count = 0;
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      const posAttr = geometry.attributes.position;
-      const pos     = posAttr.array;
-
-      let i = 0;
-      for (let ix = 0; ix < AMOUNTX; ix++) {
-        for (let iy = 0; iy < AMOUNTY; iy++) {
-          pos[i * 3 + 1] =
-            Math.sin((ix + count) * 0.3) * 50 +
-            Math.sin((iy + count) * 0.5) * 50;
-          i++;
-        }
-      }
-
-      posAttr.needsUpdate = true;
-      renderer.render(scene, camera);
-      count += 0.1;
-    }
-
-    animate();
-
-    window.addEventListener('resize', function () {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-  })();
-  </script>
 
 </body>
 </html>
