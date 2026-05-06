@@ -279,6 +279,37 @@
       #bottom-nav { padding: 20px 24px; }
       #intro-screen { padding: 36px 24px; }
     }
+    /* ---- NOTES PANEL ---- */
+    #notes-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:7999; }
+    #notes-overlay.open { display:block; }
+    #notes-panel {
+      position:fixed; top:0; right:-440px; bottom:0; width:420px; z-index:8000;
+      background:var(--s1); border-left:1px solid var(--border);
+      overflow-y:auto; display:flex; flex-direction:column;
+      transition:right 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    #notes-panel.open { right:0; }
+    .np-hdr {
+      position:sticky; top:0; z-index:1;
+      padding:20px 24px; border-bottom:1px solid var(--border);
+      background:var(--s1); display:flex; align-items:center; justify-content:space-between;
+    }
+    .np-title { font-size:10px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); }
+    .np-close { background:none; border:none; color:var(--tm); cursor:pointer; font-size:18px; padding:4px 8px; transition:color 0.2s; }
+    .np-close:hover { color:var(--tp); }
+    .np-empty { padding:52px 24px; text-align:center; font-size:13px; color:var(--tm); line-height:1.75; }
+    .np-entry { padding:20px 24px; border-bottom:1px solid var(--border); }
+    .np-meta { font-size:9px; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
+    .np-lesson-title { font-size:12px; font-weight:600; color:var(--tp); margin-bottom:10px; }
+    .np-text { font-size:12px; line-height:1.72; color:var(--ts); white-space:pre-wrap; }
+    .np-edit-btn {
+      margin-top:10px; font-size:9px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+      color:var(--tm); background:none; border:1px solid var(--border); padding:5px 12px; cursor:pointer;
+      font-family:'Montserrat',sans-serif; transition:color 0.2s, border-color 0.2s;
+    }
+    .np-edit-btn:hover { color:var(--gold); border-color:var(--gold); }
+    @media (max-width:900px) { #notes-panel { width:100%; right:-100%; } }
+
     /* ---- PASSWORD GATE ---- */
     #pw-gate {
       position: fixed; inset: 0; z-index: 9999;
@@ -340,7 +371,7 @@
   }
   window.checkPw = function() {
     const val = document.getElementById('pw-input').value;
-    if (val === 'Theinvestmentframework2026$') {
+    if (val === 'Theinvestmentframework2026') {
       sessionStorage.setItem('tif_auth', 'true');
       document.getElementById('pw-gate').style.display = 'none';
     } else {
@@ -361,7 +392,7 @@
     <div class="cert-title">The Investment<br>Framework</div>
     <div class="cert-presents">This certifies that</div>
     <div class="cert-name" id="cert-student-name"></div>
-    <div class="cert-body">has successfully completed all nine modules of</div>
+    <div class="cert-body">has successfully completed all ten modules of</div>
     <div class="cert-course">The Investment Framework — 2026</div>
     <div class="cert-divider"></div>
     <div class="cert-date" id="cert-date"></div>
@@ -370,6 +401,16 @@
     <div class="cert-sig-label">Founder & Instructor</div>
     <button class="cert-print" onclick="window.print()">Print / Save as PDF</button>
   </div>
+</div>
+
+<!-- ===================== NOTES PANEL ===================== -->
+<div id="notes-overlay" onclick="closeNotes()"></div>
+<div id="notes-panel">
+  <div class="np-hdr">
+    <span class="np-title">My Notes</span>
+    <button class="np-close" onclick="closeNotes()">✕</button>
+  </div>
+  <div id="notes-panel-body"></div>
 </div>
 
 <!-- ===================== TOP NAV ===================== -->
@@ -398,6 +439,7 @@
         <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
       </div>
     </div>
+    <button onclick="openNotes()" style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#3A3A38;background:none;border:1px solid #1E1E1E;padding:6px 16px;cursor:pointer;font-family:'Montserrat',sans-serif;font-weight:600;transition:color 0.2s,border-color 0.2s;" onmouseover="this.style.color='#C9A84C';this.style.borderColor='#C9A84C'" onmouseout="this.style.color='#3A3A38';this.style.borderColor='#1E1E1E'">My Notes</button>
     <a href="index.html" style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#3A3A38;text-decoration:none;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#3A3A38'">← Home</a>
   </div>
 </nav>
@@ -425,6 +467,7 @@
       <p>By the end, you won't think like a student of finance. You'll think like someone who manages money professionally — permanently skeptical of consensus, obsessed with the gap between price and value, and deeply aware that the market is a machine for transferring money from the impatient to the patient.</p>
       <p>Welcome. Let's begin."</p>
     </div>
+    <div id="course-overview" style="width:100%;margin-bottom:44px;"></div>
     <button class="btn-begin" onclick="startCourse()">Begin Course →</button>
   </div>
 
@@ -2281,6 +2324,17 @@ const LESSON_DATA = {
   }
 };
 
+// Pre-merge LESSON_DATA into every lesson object so all lessons are complete
+COURSE.forEach(mod => {
+  mod.lessons.forEach(les => {
+    const ld = LESSON_DATA[les.num];
+    if (ld) {
+      if (!les.resources && ld.resources) les.resources = ld.resources;
+      if (!les.quiz && ld.quiz) les.quiz = ld.quiz;
+    }
+  });
+});
+
 // ============================================================
 const ALL_LESSONS = [];
 COURSE.forEach(mod => {
@@ -2301,16 +2355,15 @@ function markComplete(lessonNum) {
   const c = getCompleted();
   if (!c.includes(lessonNum)) { c.push(lessonNum); localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); }
   updateProgress();
-  updateSidebar();
+  renderSidebar();
 }
 
 function updateProgress() {
   const c = getCompleted();
-  const modsComplete = new Set();
-  c.forEach(num => { const [m] = num.split('.'); modsComplete.add(parseInt(m)); });
-  const pct = Math.round((modsComplete.size / 10) * 100);
+  const total = ALL_LESSONS.length;
+  const pct = Math.round((c.length / total) * 100);
   document.getElementById('progress-bar').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = modsComplete.size + ' / 10 Modules';
+  document.getElementById('progress-text').textContent = c.length + ' / ' + total + ' Lessons';
 }
 
 // ============================================================
@@ -2320,15 +2373,15 @@ function renderSidebar() {
   const c = getCompleted();
   let html = '';
   COURSE.forEach((mod, mi) => {
-    const isOpen = currentIdx >= 0 && ALL_LESSONS[currentIdx].mod.num === mod.num;
+    const isActive = currentIdx >= 0 && ALL_LESSONS[currentIdx].mod.num === mod.num;
     html += `
       <div>
-        <button class="mod-btn ${isOpen ? 'open active-mod' : ''}" onclick="toggleModule(${mi})" id="mod-btn-${mi}">
+        <button class="mod-btn ${isActive ? 'open active-mod' : ''}" onclick="toggleModule(${mi})" id="mod-btn-${mi}">
           <span class="mod-num">${String(mod.num).padStart(2,'0')}</span>
           <span class="mod-title">${mod.title}</span>
           <span class="mod-chevron">›</span>
         </button>
-        <div class="lesson-list ${isOpen ? 'open' : ''}" id="lesson-list-${mi}">`;
+        <div class="lesson-list ${isActive ? 'open' : ''}" id="lesson-list-${mi}">`;
     mod.lessons.forEach(les => {
       const globalIdx = ALL_LESSONS.findIndex(x => x.les.num === les.num);
       const isActive = currentIdx === globalIdx;
@@ -2359,7 +2412,6 @@ function toggleModule(mi) {
 // SHOW LESSON
 // ============================================================
 function showLesson(idx) {
-  if (currentIdx >= 0) markComplete(ALL_LESSONS[currentIdx].les.num);
   currentIdx = idx;
   const { mod, les } = ALL_LESSONS[idx];
 
@@ -2393,11 +2445,6 @@ function showLesson(idx) {
     les.activity.steps.forEach(s => { bodyHtml += `<li>${s}</li>`; });
     bodyHtml += `</ol></div>`;
   }
-
-  // Merge LESSON_DATA (external quiz/resources for modules 1-9)
-  const ld = (typeof LESSON_DATA !== 'undefined' && LESSON_DATA[les.num]) || {};
-  if (!les.resources && ld.resources) les = Object.assign({}, les, { resources: ld.resources });
-  if (!les.quiz && ld.quiz) les = Object.assign({}, les, { quiz: ld.quiz });
 
   // Resources
   if (les.resources && les.resources.length) {
@@ -2454,7 +2501,6 @@ function navigate(dir) {
   const next = currentIdx + dir;
   if (next < 0) return;
   if (next >= ALL_LESSONS.length) {
-    markComplete(ALL_LESSONS[currentIdx].les.num);
     showCompletion();
     return;
   }
@@ -2502,13 +2548,18 @@ function saveNote(lesNum, elId) {
   if (saved) { saved.classList.add('show'); setTimeout(() => saved.classList.remove('show'), 1800); }
 }
 
+function getQuiz(lesNum) {
+  const lesObj = ALL_LESSONS.find(x => x.les.num === lesNum);
+  return lesObj ? (lesObj.les.quiz || []) : [];
+}
+
 function answerQ(lesNum, qi, chosen, correct) {
   const lid = lesNum.replace('.', '-');
   const qid = lid + '-' + qi;
-  const les = ALL_LESSONS.find(x => x.les.num === lesNum);
-  if (!les) return;
-  const total = les.les.quiz.length;
-  les.les.quiz[qi].options.forEach((_, oi) => {
+  const quiz = getQuiz(lesNum);
+  if (!quiz.length) return;
+  const total = quiz.length;
+  quiz[qi].options.forEach((_, oi) => {
     const btn = document.getElementById('qo-' + qid + '-' + oi);
     if (!btn) return;
     btn.setAttribute('disabled', true);
@@ -2528,6 +2579,7 @@ function answerQ(lesNum, qi, chosen, correct) {
     if (fb2 && fb2.className.includes('quiz-fb correct')) score++;
   }
   if (answered === total) {
+    markComplete(lesNum);
     const res = document.getElementById('qr-' + lid);
     const sc = document.getElementById('qs-' + lid);
     if (res) res.classList.add('show');
@@ -2536,10 +2588,10 @@ function answerQ(lesNum, qi, chosen, correct) {
 }
 
 function retryQ(lesNum) {
-  const les = ALL_LESSONS.find(x => x.les.num === lesNum);
-  if (!les || !les.les.quiz) return;
+  const quiz = getQuiz(lesNum);
+  if (!quiz.length) return;
   const lid = lesNum.replace('.', '-');
-  les.les.quiz.forEach((q, qi) => {
+  quiz.forEach((q, qi) => {
     const qid = lid + '-' + qi;
     q.options.forEach((_, oi) => {
       const btn = document.getElementById('qo-' + qid + '-' + oi);
@@ -2550,6 +2602,57 @@ function retryQ(lesNum) {
   });
   const res = document.getElementById('qr-' + lid);
   if (res) res.classList.remove('show');
+}
+
+// ============================================================
+// NOTES PANEL
+// ============================================================
+function openNotes() {
+  populateNotes();
+  document.getElementById('notes-panel').classList.add('open');
+  document.getElementById('notes-overlay').classList.add('open');
+}
+function closeNotes() {
+  document.getElementById('notes-panel').classList.remove('open');
+  document.getElementById('notes-overlay').classList.remove('open');
+}
+function populateNotes() {
+  const body = document.getElementById('notes-panel-body');
+  const entries = [];
+  ALL_LESSONS.forEach(({ mod, les }) => {
+    const text = localStorage.getItem('tif_note_' + les.num);
+    if (text && text.trim()) entries.push({ mod, les, text: text.trim() });
+  });
+  if (!entries.length) {
+    body.innerHTML = '<div class="np-empty">No notes saved yet.<br>As you work through lessons, your notes will appear here.</div>';
+    return;
+  }
+  body.innerHTML = entries.map(({ mod, les, text }) => `
+    <div class="np-entry">
+      <div class="np-meta">Module ${String(mod.num).padStart(2,'0')} · Lesson ${les.num}</div>
+      <div class="np-lesson-title">${les.title}</div>
+      <div class="np-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      <button class="np-edit-btn" onclick="closeNotes();showLesson(${ALL_LESSONS.findIndex(x=>x.les.num===les.num)})">Go to lesson →</button>
+    </div>`).join('');
+}
+
+// ============================================================
+// COURSE OVERVIEW
+// ============================================================
+function buildOverview() {
+  const el = document.getElementById('course-overview');
+  if (!el) return;
+  let html = '<div style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#4A4A48;margin-bottom:16px;">10 Modules · ' + ALL_LESSONS.length + ' Lessons</div>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:8px;">';
+  COURSE.forEach(mod => {
+    html += `<div style="background:var(--s1);padding:14px 16px;">
+      <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;color:var(--gold);margin-bottom:4px;">${String(mod.num).padStart(2,'0')}</div>
+      <div style="font-size:11px;font-weight:600;color:var(--tp);line-height:1.3;margin-bottom:3px;">${mod.title}</div>
+      <div style="font-size:10px;color:var(--tm);line-height:1.3;">${mod.subtitle}</div>
+    </div>`;
+  });
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 // ============================================================
@@ -2571,6 +2674,7 @@ function closeSidebar() {
 // ============================================================
 renderSidebar();
 updateProgress();
+buildOverview();
 </script>
 
 </body>
