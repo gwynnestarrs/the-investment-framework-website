@@ -18,7 +18,7 @@ export async function GET() {
   // Auto-bypass the internal password gate — auth is now handled by Next.js middleware
   html = html.replace(
     '</head>',
-    `<script>sessionStorage.setItem('tif_auth','1');</script></head>`,
+    `<script>sessionStorage.setItem('tif_auth','true');</script></head>`,
   )
 
   return new Response(html, {
