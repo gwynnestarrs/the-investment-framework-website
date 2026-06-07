@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>The Investment Framework — Master How Markets Actually Work</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -173,17 +175,10 @@
       background: var(--s1);
       border: 1px solid var(--border);
       padding: 36px 32px;
+      will-change: transform;
       transition:
         border-color 0.3s ease,
-        transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
         box-shadow 0.35s ease;
-    }
-    .mod-card:hover {
-      border-color: rgba(201, 168, 76, 0.45);
-      transform: translateY(-5px);
-      box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.45),
-        0 0 0 1px rgba(201, 168, 76, 0.08);
     }
 
     /* Who card */
@@ -276,7 +271,81 @@
     }
 
 
-    /* Scrollbar */
+    /* ── CINEMATIC FOOTER ───────────────────────────────────────── */
+    @keyframes cf-breathe {
+      0%   { transform: translate(-50%,-50%) scale(1);   opacity: 0.5; }
+      100% { transform: translate(-50%,-50%) scale(1.12); opacity: 0.85; }
+    }
+    @keyframes cf-marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @keyframes cf-heartbeat {
+      0%,100% { transform: scale(1);   }
+      15%,45% { transform: scale(1.25); }
+      30%     { transform: scale(1);   }
+    }
+
+    .cf-aurora {
+      background: radial-gradient(circle at 50% 50%,
+        rgba(201,168,76,0.14) 0%,
+        rgba(139,105,20,0.08) 40%,
+        transparent 70%);
+      animation: cf-breathe 8s ease-in-out infinite alternate;
+    }
+
+    .cf-grid {
+      background-size: 60px 60px;
+      background-image:
+        linear-gradient(to right, rgba(201,168,76,0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(201,168,76,0.05) 1px, transparent 1px);
+      mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+      -webkit-mask-image: linear-gradient(to bottom, transparent, black 30%, black 70%, transparent);
+    }
+
+    .cf-giant {
+      font-size: 24vw;
+      line-height: 0.75;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(201,168,76,0.07);
+      background: linear-gradient(180deg, rgba(201,168,76,0.12) 0%, transparent 60%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      font-family: 'Playfair Display', serif;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .cf-heading-glow {
+      background: linear-gradient(180deg, #F0EDE6 0%, rgba(201,168,76,0.6) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 28px rgba(201,168,76,0.18));
+    }
+
+    .cf-pill {
+      background: linear-gradient(145deg, rgba(201,168,76,0.06) 0%, rgba(201,168,76,0.02) 100%);
+      border: 1px solid rgba(201,168,76,0.14);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5), inset 0 1px 1px rgba(201,168,76,0.08);
+      transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+      cursor: pointer;
+    }
+    .cf-pill:hover {
+      background: linear-gradient(145deg, rgba(201,168,76,0.14) 0%, rgba(201,168,76,0.04) 100%);
+      border-color: rgba(201,168,76,0.38);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6), inset 0 1px 1px rgba(201,168,76,0.18);
+      color: #F0EDE6;
+    }
+
+    .cf-marquee-track { animation: cf-marquee 38s linear infinite; }
+    .cf-heartbeat     { animation: cf-heartbeat 2s cubic-bezier(0.25,1,0.5,1) infinite; }
+
+    /* ── SCROLLBAR ───────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: var(--black); }
     ::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
@@ -364,14 +433,14 @@
 
 
   <!-- ===================== HERO ===================== -->
-  <section style="min-height:100vh;position:relative;display:flex;align-items:center;padding:0 48px;overflow:hidden;">
+  <section id="hero-section" style="min-height:100vh;position:relative;display:flex;align-items:center;padding:0 48px;overflow:hidden;">
 
     <!-- Radial glows -->
     <div class="glow" style="width:700px;height:700px;background:radial-gradient(circle,rgba(201,168,76,0.07) 0%,transparent 68%);top:-15%;right:-8%;"></div>
     <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,0.04) 0%,transparent 70%);bottom:5%;left:0%;"></div>
     <div class="glow" style="width:900px;height:250px;background:radial-gradient(ellipse,rgba(201,168,76,0.035) 0%,transparent 70%);top:55%;left:15%;"></div>
 
-    <div style="max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;padding-top:96px;" class="hero-grid">
+    <div style="max-width:1240px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:96px;align-items:center;padding-top:96px;position:relative;z-index:1;" class="hero-grid">
 
       <!-- LEFT: Copy -->
       <div>
@@ -393,13 +462,13 @@
         </div>
 
         <!-- Stats -->
-        <div class="fu fu-5" style="display:flex;gap:48px;margin-top:60px;padding-top:44px;border-top:1px solid #1A1A1A;flex-wrap:wrap;">
+        <div id="hero-stats" class="fu fu-5" style="display:flex;gap:48px;margin-top:60px;padding-top:44px;border-top:1px solid #1A1A1A;flex-wrap:wrap;">
           <div>
-            <div class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">9</div>
+            <div id="stat-modules" class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">9</div>
             <div style="font-size:10px;letter-spacing:0.14em;color:#4A4A48;text-transform:uppercase;margin-top:6px;">Core Modules</div>
           </div>
           <div>
-            <div class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">47+</div>
+            <div id="stat-hours" class="serif" style="font-size:32px;font-weight:700;color:#C9A84C;line-height:1;">47+</div>
             <div style="font-size:10px;letter-spacing:0.14em;color:#4A4A48;text-transform:uppercase;margin-top:6px;">Hours of Depth</div>
           </div>
           <div>
@@ -410,7 +479,7 @@
       </div>
 
       <!-- RIGHT: Financial Chart -->
-      <div class="fu fu-3" style="position:relative;">
+      <div id="hero-chart" class="fu fu-3" style="position:relative;">
         <svg viewBox="0 0 580 420" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;filter:drop-shadow(0 0 40px rgba(201,168,76,0.06));">
           <defs>
             <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
@@ -427,8 +496,6 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-
-          <!-- Grid -->
           <line x1="0" y1="84" x2="580" y2="84" stroke="#151515" stroke-width="1"/>
           <line x1="0" y1="168" x2="580" y2="168" stroke="#151515" stroke-width="1"/>
           <line x1="0" y1="252" x2="580" y2="252" stroke="#151515" stroke-width="1"/>
@@ -437,51 +504,104 @@
           <line x1="207" y1="0" x2="207" y2="420" stroke="#151515" stroke-width="1"/>
           <line x1="331" y1="0" x2="331" y2="420" stroke="#151515" stroke-width="1"/>
           <line x1="455" y1="0" x2="455" y2="420" stroke="#151515" stroke-width="1"/>
-
-          <!-- Axis labels -->
           <text x="4" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q1</text>
           <text x="128" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q2</text>
           <text x="252" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q3</text>
           <text x="376" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q4</text>
           <text x="500" y="415" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" letter-spacing="0.06em">Q5</text>
-
-          <!-- Area fill -->
           <path d="M0,358 C50,344 100,322 148,298 C196,274 216,288 258,264 C300,240 322,218 366,176 C410,134 434,146 470,112 C500,84 530,62 580,48 L580,420 L0,420 Z" fill="url(#areaGrad)"/>
-
-          <!-- Secondary dashed trendline -->
           <path d="M0,355 C80,330 160,302 240,268 C320,234 400,198 480,158 C520,138 550,120 580,104" stroke="#C9A84C" stroke-width="1" fill="none" opacity="0.18" stroke-dasharray="5 7"/>
-
-          <!-- Main line -->
           <path class="chart-line" d="M0,358 C50,344 100,322 148,298 C196,274 216,288 258,264 C300,240 322,218 366,176 C410,134 434,146 470,112 C500,84 530,62 580,48" stroke="url(#lineGrad)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-
-          <!-- Data points -->
           <circle cx="0" cy="358" r="3.5" fill="#8B6914"/>
           <circle cx="148" cy="298" r="4" fill="#C9A84C"/>
           <circle cx="258" cy="264" r="4" fill="#C9A84C"/>
           <circle cx="366" cy="176" r="4.5" fill="#C9A84C"/>
           <circle cx="470" cy="112" r="5" fill="#DFC47A" filter="url(#glow)"/>
           <circle cx="580" cy="48" r="6" fill="#E8D08A" filter="url(#glow)"/>
-
-          <!-- Price callout -->
           <rect x="484" y="20" width="88" height="26" rx="2" fill="#111" stroke="#C9A84C" stroke-width="0.7"/>
           <text x="528" y="37" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" fill="#C9A84C" text-anchor="middle" letter-spacing="0.04em">+247.3%</text>
-
-          <!-- Y-axis labels -->
           <text x="570" y="92" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" text-anchor="end">HIGH</text>
           <text x="570" y="344" font-family="Montserrat,sans-serif" font-size="9" fill="#282828" text-anchor="end">BASE</text>
         </svg>
-
-        <!-- Decorative offset border -->
         <div style="position:absolute;top:-14px;right:-14px;bottom:14px;left:14px;border:1px solid rgba(201,168,76,0.1);pointer-events:none;z-index:-1;"></div>
       </div>
     </div>
 
     <!-- Scroll cue -->
-    <div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.35;">
+    <div style="position:absolute;bottom:52px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0.35;z-index:1;">
       <span style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#555;">Scroll</span>
       <div style="width:1px;height:44px;background:linear-gradient(180deg,#C9A84C,transparent);"></div>
     </div>
   </section>
+
+
+  <!-- ===================== CONTAINER SCROLL ANIMATION ===================== -->
+  <section id="scroll-anim" style="background:#060606;padding:80px 48px 0;position:relative;overflow:hidden;">
+    <div class="glow" style="width:800px;height:400px;background:radial-gradient(ellipse,rgba(201,168,76,0.05) 0%,transparent 70%);top:0;left:50%;transform:translateX(-50%);pointer-events:none;"></div>
+
+    <!-- Title -->
+    <div id="csa-title" style="text-align:center;margin-bottom:48px;will-change:transform;">
+      <div class="label" style="margin-bottom:16px;">See Inside</div>
+      <h2 class="serif" style="font-size:clamp(30px,3.8vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">
+        A complete system for<br><em class="gold-text" style="font-style:italic;">thinking about markets.</em>
+      </h2>
+    </div>
+
+    <!-- Perspective wrapper -->
+    <div style="perspective:1000px;">
+      <div id="csa-card" style="width:100%;max-width:1100px;margin:0 auto;transform:rotateX(20deg) scale(1.05);transform-origin:top center;will-change:transform;border:1px solid rgba(201,168,76,0.18);border-radius:16px;overflow:hidden;box-shadow:0 0 #0000004d,0 9px 20px #0000004a,0 37px 37px #00000042,0 84px 50px #00000026,0 149px 60px #0000000a;">
+
+        <!-- Window chrome -->
+        <div style="background:#080808;display:flex;align-items:center;gap:8px;padding:14px 22px;border-bottom:1px solid #111;">
+          <div style="width:10px;height:10px;border-radius:50%;background:#1E1E1E;"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:#1E1E1E;"></div>
+          <div style="width:10px;height:10px;border-radius:50%;background:rgba(201,168,76,0.5);"></div>
+          <div style="flex:1;height:24px;background:#0D0D0D;border-radius:4px;margin:0 10px;display:flex;align-items:center;padding:0 12px;">
+            <span style="font-size:9px;letter-spacing:0.08em;color:#2A2A2A;">the-investment-framework.vercel.app/study</span>
+          </div>
+        </div>
+
+        <!-- App layout -->
+        <div style="display:grid;grid-template-columns:220px 1fr;background:#080808;height:420px;">
+          <!-- Sidebar -->
+          <div style="border-right:1px solid #111;">
+            <div style="padding:20px;border-bottom:1px solid #111;">
+              <div style="font-size:8px;font-weight:700;letter-spacing:0.2em;color:#C9A84C;text-transform:uppercase;margin-bottom:10px;">Your Progress</div>
+              <div style="height:3px;background:#111;border-radius:2px;overflow:hidden;margin-bottom:6px;"><div style="height:100%;width:20%;background:linear-gradient(90deg,#C9A84C,#E8D08A);border-radius:2px;"></div></div>
+              <div style="font-size:10px;color:#2E2E2E;">2 of 10 modules complete</div>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;background:rgba(201,168,76,0.07);border-left:2px solid #C9A84C;"><div style="width:16px;height:16px;border-radius:50%;background:#C9A84C;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#080808" stroke-width="3.5" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div><span style="font-size:11px;font-weight:600;color:#F0EDE6;">Markets &amp; Systems</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #C9A84C;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="#C9A84C" stroke-width="3.5" stroke-linecap="round"><polyline points="20,6 9,17 4,12"/></svg></div><span style="font-size:11px;color:#6A6A68;">Risk &amp; Return</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Portfolio Strategy</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Asset Classes</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Business Analysis</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Financial Statements</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Valuation</span></div>
+              <div style="display:flex;align-items:center;gap:10px;padding:12px 20px;border-left:2px solid transparent;"><div style="width:16px;height:16px;border-radius:50%;border:1px solid #222;flex-shrink:0;"></div><span style="font-size:11px;color:#2E2E2E;">Macro</span></div>
+            </div>
+          </div>
+          <!-- Main content -->
+          <div style="padding:28px 32px;overflow:hidden;">
+            <div style="font-size:8px;font-weight:700;letter-spacing:0.22em;color:#C9A84C;text-transform:uppercase;margin-bottom:8px;">Module 01 — Active</div>
+            <h3 style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#F0EDE6;margin-bottom:20px;line-height:1.2;">Markets &amp; Financial Systems</h3>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;">
+              <div style="background:#0D0D0D;border:1px solid #1A1A1A;padding:14px;"><div style="font-size:7px;font-weight:700;letter-spacing:0.18em;color:#C9A84C;text-transform:uppercase;margin-bottom:8px;">Capital Formation</div><div style="font-size:11px;line-height:1.6;color:#4A4A48;">How savings become productive investments through markets</div></div>
+              <div style="background:#0D0D0D;border:1px solid #1A1A1A;padding:14px;"><div style="font-size:7px;font-weight:700;letter-spacing:0.18em;color:#C9A84C;text-transform:uppercase;margin-bottom:8px;">Price Signals</div><div style="font-size:11px;line-height:1.6;color:#4A4A48;">Why prices communicate information better than plans</div></div>
+              <div style="background:#0D0D0D;border:1px solid #1A1A1A;padding:14px;"><div style="font-size:7px;font-weight:700;letter-spacing:0.18em;color:#C9A84C;text-transform:uppercase;margin-bottom:8px;">Liquidity</div><div style="font-size:11px;line-height:1.6;color:#4A4A48;">The invisible quality that determines risk in all markets</div></div>
+            </div>
+            <div style="background:#0D0D0D;border:1px solid #1A1A1A;padding:16px 20px;">
+              <div style="font-size:8px;font-weight:700;letter-spacing:0.16em;color:#2A2A2A;text-transform:uppercase;margin-bottom:12px;">Market Flow Model — Lesson 3</div>
+              <div style="display:flex;align-items:flex-end;gap:4px;height:64px;">
+                <div style="flex:1;background:#1A1A1A;height:35%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:#1E1E1E;height:55%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:#1A1A1A;height:42%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:rgba(201,168,76,0.25);height:68%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:rgba(201,168,76,0.4);height:52%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:rgba(201,168,76,0.6);height:80%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:#C9A84C;height:100%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:rgba(201,168,76,0.85);height:92%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:rgba(201,168,76,0.7);height:76%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:#C9A84C;height:100%;border-radius:1px 1px 0 0;"></div><div style="flex:1;background:#E8D08A;height:100%;border-radius:1px 1px 0 0;filter:drop-shadow(0 0 6px rgba(201,168,76,0.5));"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
 
   <!-- ===================== DIFFERENTIATION ===================== -->
@@ -935,66 +1055,61 @@
   </section>
 
 
-  <!-- ===================== TESTIMONIALS ===================== -->
-  <section style="padding:128px 48px;background:#0A0A0A;">
-    <div style="max-width:1240px;margin:0 auto;">
-      <div style="text-align:center;margin-bottom:80px;">
-        <div class="label" style="margin-bottom:18px;">Students</div>
-        <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">What they're saying</h2>
-      </div>
+  <!-- ===================== TESTIMONIALS — ANIMATED CARD STACK ===================== -->
+  <section style="background:#0A0A0A;">
 
-      <div class="testi-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1A1A1A;">
-
-        <div class="testi-card">
-          <div style="display:flex;gap:3px;margin-bottom:24px;">
-            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;I've read Buffett, Lynch, Dalio — and this synthesized it all into something I could actually use. The valuation module alone was worth the price.&rdquo;</p>
-          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
-            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:13px;font-weight:700;color:#C9A84C;">A</span>
-            </div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Alex M.</div>
-              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Portfolio Manager</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testi-card">
-          <div style="display:flex;gap:3px;margin-bottom:24px;">
-            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;This is what I wish I'd had before entering finance. It doesn't just teach you what — it teaches you why. That's a completely different level.&rdquo;</p>
-          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
-            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:13px;font-weight:700;color:#C9A84C;">S</span>
-            </div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Sarah K.</div>
-              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Investment Analyst</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="testi-card">
-          <div style="display:flex;gap:3px;margin-bottom:24px;">
-            <span style="color:#C9A84C;font-size:12px;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-          </div>
-          <p class="serif" style="font-size:17px;line-height:1.68;color:#D0CCC4;margin-bottom:28px;font-style:italic;">&ldquo;As a founder, understanding valuation from the investor's perspective changed how I make every financial decision. This isn't a finance course — it's an edge.&rdquo;</p>
-          <div style="display:flex;align-items:center;gap:16px;padding-top:20px;border-top:1px solid #1A1A1A;">
-            <div style="width:42px;height:42px;background:#131313;border:1px solid #222;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-              <span style="font-size:13px;font-weight:700;color:#C9A84C;">J</span>
-            </div>
-            <div>
-              <div style="font-size:12px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">James R.</div>
-              <div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:3px;">Founder &amp; CEO</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
+    <!-- Section header (above sticky zone) -->
+    <div style="text-align:center;padding:128px 48px 64px;">
+      <div class="label" style="margin-bottom:18px;">Students</div>
+      <h2 class="serif" style="font-size:clamp(34px,4.2vw,54px);font-weight:700;line-height:1.1;letter-spacing:-0.025em;color:#F0EDE6;">What they're saying</h2>
     </div>
+
+    <!-- 300vh scroll container — cards are sticky inside -->
+    <div id="testi-scroll" style="height:300vh;position:relative;">
+      <div style="position:sticky;top:0;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+
+        <!-- Perspective wrapper for 3D stack -->
+        <div style="perspective:1000px;width:400px;height:520px;position:relative;">
+
+          <!-- Card 2 — back (James R.) -->
+          <div class="tcs-card" id="tcs-2" style="position:absolute;inset:0;z-index:1;transform:rotate(-8deg) translateY(16px);transform-style:preserve-3d;will-change:transform;background:#0D0D0D;border:1px solid rgba(201,168,76,0.12);border-radius:20px;padding:44px;display:flex;flex-direction:column;justify-content:space-between;backdrop-filter:blur(12px);">
+            <div>
+              <div style="display:flex;gap:4px;margin-bottom:28px;color:#C9A84C;font-size:14px;">★★★★★</div>
+              <p class="serif" style="font-size:18px;line-height:1.72;color:#D0CCC4;font-style:italic;">&ldquo;As a founder, understanding valuation from the investor's perspective changed how I make every financial decision. This isn't a finance course — it's an edge.&rdquo;</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid #1A1A1A;">
+              <div style="width:46px;height:46px;background:#111;border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:14px;font-weight:700;color:#C9A84C;">J</span></div>
+              <div><div style="font-size:13px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">James R.</div><div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Founder &amp; CEO</div></div>
+            </div>
+          </div>
+
+          <!-- Card 1 — middle (Sarah K.) -->
+          <div class="tcs-card" id="tcs-1" style="position:absolute;inset:0;z-index:2;transform:rotate(-4deg) translateY(8px);transform-style:preserve-3d;will-change:transform;background:#0F0F0F;border:1px solid rgba(201,168,76,0.18);border-radius:20px;padding:44px;display:flex;flex-direction:column;justify-content:space-between;backdrop-filter:blur(12px);">
+            <div>
+              <div style="display:flex;gap:4px;margin-bottom:28px;color:#C9A84C;font-size:14px;">★★★★★</div>
+              <p class="serif" style="font-size:18px;line-height:1.72;color:#D0CCC4;font-style:italic;">&ldquo;This is what I wish I'd had before entering finance. It doesn't just teach you what — it teaches you why. That's a completely different level.&rdquo;</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid #1A1A1A;">
+              <div style="width:46px;height:46px;background:#111;border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:14px;font-weight:700;color:#C9A84C;">S</span></div>
+              <div><div style="font-size:13px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Sarah K.</div><div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Investment Analyst</div></div>
+            </div>
+          </div>
+
+          <!-- Card 0 — front (Alex M.) -->
+          <div class="tcs-card" id="tcs-0" style="position:absolute;inset:0;z-index:3;transform:rotate(0deg) translateY(0px);transform-style:preserve-3d;will-change:transform;background:#111;border:1px solid rgba(201,168,76,0.28);border-radius:20px;padding:44px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 24px 64px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.06);backdrop-filter:blur(12px);">
+            <div>
+              <div style="display:flex;gap:4px;margin-bottom:28px;color:#C9A84C;font-size:14px;">★★★★★</div>
+              <p class="serif" style="font-size:18px;line-height:1.72;color:#D0CCC4;font-style:italic;">&ldquo;I've read Buffett, Lynch, Dalio — and this synthesized it all into something I could actually use. The valuation module alone was worth the price.&rdquo;</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;padding-top:24px;border-top:1px solid #1A1A1A;">
+              <div style="width:46px;height:46px;background:#111;border:1px solid rgba(201,168,76,0.25);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><span style="font-size:14px;font-weight:700;color:#C9A84C;">A</span></div>
+              <div><div style="font-size:13px;font-weight:700;color:#F0EDE6;letter-spacing:0.06em;">Alex M.</div><div style="font-size:10px;color:#4A4A48;letter-spacing:0.1em;text-transform:uppercase;margin-top:4px;">Portfolio Manager</div></div>
+            </div>
+          </div>
+
+        </div><!-- end perspective wrapper -->
+      </div><!-- end sticky inner -->
+    </div><!-- end 300vh scroll container -->
   </section>
 
 
@@ -1143,24 +1258,94 @@
   </section>
 
 
-  <!-- ===================== FOOTER ===================== -->
-  <footer style="padding:44px 48px;background:#060606;border-top:1px solid #111;">
-    <div style="max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:24px;">
-      <div style="display:flex;align-items:center;gap:14px;">
-        <svg width="30" height="30" viewBox="0 0 40 40" fill="none">
-          <rect x="1" y="1" width="38" height="38" stroke="#C9A84C" stroke-width="0.8" opacity="0.4"/>
-          <text x="20" y="26" font-family="Playfair Display,serif" font-size="15" font-weight="700" fill="#C9A84C" text-anchor="middle" opacity="0.4">IF</text>
-        </svg>
-        <span style="font-size:10px;letter-spacing:0.14em;color:#282828;text-transform:uppercase;">The Investment Framework &copy; 2026</span>
-      </div>
-      <div style="display:flex;gap:28px;">
-        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Privacy</a>
-        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Terms</a>
-        <a href="#" style="font-size:10px;letter-spacing:0.1em;color:#282828;text-decoration:none;text-transform:uppercase;transition:color 0.2s ease;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='#282828'">Contact</a>
-      </div>
-    </div>
-  </footer>
+  <!-- ===================== CINEMATIC FOOTER ===================== -->
+  <div id="cf-wrapper" style="position:relative;height:100vh;width:100%;clip-path:polygon(0% 0,100% 0%,100% 100%,0 100%);">
+    <footer id="cf-footer" style="position:fixed;bottom:0;left:0;width:100%;height:100vh;background:#060606;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;">
 
+      <!-- Aurora glow -->
+      <div class="cf-aurora" style="position:absolute;left:50%;top:50%;width:80vw;height:60vh;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0;"></div>
+
+      <!-- Grid -->
+      <div class="cf-grid" style="position:absolute;inset:0;z-index:0;pointer-events:none;"></div>
+
+      <!-- Giant background text -->
+      <div id="cf-giant" class="cf-giant" style="position:absolute;bottom:-4vh;left:50%;transform:translateX(-50%);white-space:nowrap;z-index:0;opacity:0;">MARKETS</div>
+
+      <!-- 1. Diagonal marquee -->
+      <div style="position:absolute;top:48px;left:0;width:100%;overflow:hidden;border-top:1px solid rgba(201,168,76,0.08);border-bottom:1px solid rgba(201,168,76,0.08);background:rgba(6,6,6,0.7);backdrop-filter:blur(12px);padding:14px 0;z-index:10;transform:rotate(-1.5deg) scaleX(1.1);">
+        <div class="cf-marquee-track" style="display:flex;width:max-content;gap:0;">
+          <!-- Track repeated twice for seamless loop -->
+          <div style="display:flex;align-items:center;gap:48px;padding:0 24px;font-size:10px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:#3A3A38;white-space:nowrap;">
+            <span>Institutional-Grade Education</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>10 Core Modules</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Framework Thinking</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Lifetime Access</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Think Differently</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Invest Intelligently</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:48px;padding:0 24px;font-size:10px;font-weight:700;letter-spacing:0.28em;text-transform:uppercase;color:#3A3A38;white-space:nowrap;">
+            <span>Institutional-Grade Education</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>10 Core Modules</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Framework Thinking</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Lifetime Access</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Think Differently</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+            <span>Invest Intelligently</span><span style="color:#C9A84C;opacity:0.5;">✦</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Main center content -->
+      <div style="position:relative;z-index:10;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 48px;margin-top:80px;">
+
+        <h2 id="cf-heading" class="serif cf-heading-glow" style="font-size:clamp(44px,7vw,96px);font-weight:700;line-height:1.04;letter-spacing:-0.03em;text-align:center;margin-bottom:52px;opacity:0;">
+          Ready to think<br>differently?
+        </h2>
+
+        <!-- Primary CTA pill -->
+        <div id="cf-links" style="display:flex;flex-direction:column;align-items:center;gap:20px;opacity:0;">
+          <a href="https://buy.stripe.com/8x25kDeNd2xxfro8S808g01" class="cf-pill btn-gold" style="padding:20px 56px;font-size:12px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;color:#080808;display:inline-block;">
+            Enroll Now — $300
+          </a>
+
+          <!-- Secondary pills row -->
+          <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:8px;">
+            <a href="#curriculum" class="cf-pill" style="padding:12px 24px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;color:#6A6A68;">View Curriculum</a>
+            <a href="#pricing" class="cf-pill" style="padding:12px 24px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;color:#6A6A68;">Pricing</a>
+            <a href="#philosophy" class="cf-pill" style="padding:12px 24px;border-radius:100px;font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;text-decoration:none;color:#6A6A68;">Philosophy</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Bottom bar -->
+      <div style="position:relative;z-index:20;padding:28px 48px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-top:1px solid #0F0F0F;">
+
+        <!-- Copyright -->
+        <span style="font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#1E1E1E;">
+          &copy; 2026 The Investment Framework. All rights reserved.
+        </span>
+
+        <!-- Crafted badge -->
+        <div class="cf-pill" style="padding:10px 20px;border-radius:100px;display:flex;align-items:center;gap:8px;">
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#3A3A38;">Crafted with</span>
+          <span class="cf-heartbeat" style="font-size:13px;color:#C9A84C;display:inline-block;">♦</span>
+          <span style="font-size:9px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#3A3A38;">by</span>
+          <span style="font-size:10px;font-weight:800;letter-spacing:0.08em;color:#C9A84C;">Gwynne Starrs</span>
+        </div>
+
+        <!-- Back to top -->
+        <button id="cf-top-btn" class="cf-pill" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(201,168,76,0.14);cursor:pointer;" aria-label="Back to top">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6A6A68" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+          </svg>
+        </button>
+      </div>
+
+    </footer>
+  </div>
+
+
+  <!-- Spotlight canvas — below grain (z 9999), above content -->
+  <canvas id="spotlight" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9997;"></canvas>
 
   <script>
     // Accordion
@@ -1188,6 +1373,230 @@
       const mn = document.getElementById('mobile-nav');
       mn.style.display = mn.style.display === 'flex' ? 'none' : 'flex';
     }
+
+
+    // ── SPOTLIGHT CURSOR ──────────────────────────────────────────
+    (function () {
+      const canvas = document.getElementById('spotlight');
+      const ctx = canvas.getContext('2d');
+      let mx = -2000, my = -2000;
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+      window.addEventListener('mouseleave', () => { mx = -2000; my = -2000; });
+      resize();
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (mx > -1000) {
+          const g = ctx.createRadialGradient(mx, my, 0, mx, my, 420);
+          g.addColorStop(0,   'rgba(201,168,76,0.10)');
+          g.addColorStop(0.35,'rgba(201,168,76,0.045)');
+          g.addColorStop(1,   'rgba(0,0,0,0)');
+          ctx.fillStyle = g;
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ── MODULE CARD 3D TILT ───────────────────────────────────────
+    document.querySelectorAll('.mod-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        card.style.transition = 'border-color 0.3s ease, box-shadow 0.35s ease';
+      });
+
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = `perspective(700px) rotateX(${-y * 9}deg) rotateY(${x * 9}deg) translateZ(10px) translateY(-4px)`;
+        card.style.borderColor = 'rgba(201,168,76,0.5)';
+        card.style.boxShadow = '0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1)';
+      }, { passive: true });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.65s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s ease, box-shadow 0.4s ease';
+        card.style.transform = '';
+        card.style.borderColor = '';
+        card.style.boxShadow = '';
+      });
+    });
+
+    // ── STATS COUNTER ─────────────────────────────────────────────
+    (function () {
+      const statsEl = document.getElementById('hero-stats');
+      if (!statsEl) return;
+      let done = false;
+
+      function countUp(el, target, suffix) {
+        let current = 0;
+        const tick = () => {
+          current = Math.min(current + target / 60, target);
+          el.textContent = Math.floor(current) + suffix;
+          if (current < target) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }
+
+      new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && !done) {
+          done = true;
+          const m = document.getElementById('stat-modules');
+          const h = document.getElementById('stat-hours');
+          if (m) countUp(m, 10, '');
+          if (h) countUp(h, 47, '+');
+        }
+      }, { threshold: 0.6 }).observe(statsEl);
+    })();
+
+    // ── TESTIMONIAL CARD STACK ────────────────────────────────────
+    (function () {
+      if (typeof gsap === 'undefined') return;
+
+      const section = document.getElementById('testi-scroll');
+      if (!section) return;
+
+      // Front→back: card 0 is front (flies first), card 2 is back
+      const cards = [
+        { el: document.getElementById('tcs-0'), initRot:  0,  initY:  0 },
+        { el: document.getElementById('tcs-1'), initRot: -4,  initY:  8 },
+        { el: document.getElementById('tcs-2'), initRot: -8,  initY: 16 },
+      ];
+
+      // One master ScrollTrigger; onUpdate drives all cards
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top top',
+        end:   'bottom top',
+        scrub: 1.2,
+        onUpdate(self) {
+          const p = self.progress; // 0 → 1
+          const n = cards.length;
+
+          cards.forEach((c, i) => {
+            if (!c.el) return;
+
+            // Each card occupies 1/n of total progress
+            const cStart = i / n;
+            const cEnd   = (i + 0.82) / n;
+            const cp     = Math.max(0, Math.min(1, (p - cStart) / (cEnd - cStart)));
+
+            const flyY  = -180 * cp;              // fly upward
+            const rot   = c.initRot * (1 - cp);   // straighten as it leaves
+            const baseY = c.initY  * (1 - cp);    // collapse stack offset
+
+            gsap.set(c.el, {
+              y:      `${flyY + baseY}%`,
+              rotate: rot,
+              opacity: cp > 0.92 ? 0 : 1,
+            });
+
+            // As card above peels, card below eases to front position
+            if (i > 0 && p > (i - 1) / n) {
+              const reveal = Math.min(1, (p - (i - 1) / n) / (1 / n));
+              gsap.set(c.el, {
+                rotate: c.initRot * (1 - reveal * 0.5),
+              });
+            }
+          });
+        },
+      });
+    })();
+
+    // ── CONTAINER SCROLL ANIMATION ───────────────────────────────
+    (function () {
+      if (typeof gsap === 'undefined') return;
+      const card  = document.getElementById('csa-card');
+      const title = document.getElementById('csa-title');
+      const sect  = document.getElementById('scroll-anim');
+      if (!card || !sect) return;
+
+      gsap.fromTo(card,
+        { rotateX: 20, scale: 1.05 },
+        { rotateX: 0,  scale: 1,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: sect,
+            start: 'top 80%',
+            end:   'bottom 60%',
+            scrub: 1.4,
+          }
+        }
+      );
+
+      if (title) {
+        gsap.fromTo(title,
+          { y: 0, opacity: 1 },
+          { y: -60, opacity: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: sect,
+              start: 'top 40%',
+              end:   'top top',
+              scrub: 1,
+            }
+          }
+        );
+      }
+    })();
+
+    // ── CINEMATIC FOOTER (GSAP) ───────────────────────────────────
+    (function () {
+      if (typeof gsap === 'undefined') return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const wrapper = document.getElementById('cf-wrapper');
+      const giant   = document.getElementById('cf-giant');
+      const heading = document.getElementById('cf-heading');
+      const links   = document.getElementById('cf-links');
+      if (!wrapper) return;
+
+      // Giant text parallax + fade in
+      gsap.fromTo(giant,
+        { y: '12vh', scale: 0.85, opacity: 0 },
+        { y: '0vh',  scale: 1,    opacity: 1,
+          ease: 'power1.out',
+          scrollTrigger: { trigger: wrapper, start: 'top 85%', end: 'bottom bottom', scrub: 1.2 }
+        }
+      );
+
+      // Heading + links staggered reveal
+      gsap.fromTo([heading, links],
+        { y: 60, opacity: 0 },
+        { y: 0,  opacity: 1, stagger: 0.18, ease: 'power3.out',
+          scrollTrigger: { trigger: wrapper, start: 'top 45%', end: 'center center', scrub: 1 }
+        }
+      );
+
+      // ── Magnetic button effect on cf-pills ──
+      document.querySelectorAll('.cf-pill[href], #cf-top-btn').forEach(el => {
+        el.addEventListener('mousemove', e => {
+          const r  = el.getBoundingClientRect();
+          const x  = e.clientX - r.left - r.width  / 2;
+          const y  = e.clientY - r.top  - r.height / 2;
+          gsap.to(el, {
+            x: x * 0.35, y: y * 0.35,
+            rotationX: -y * 0.12, rotationY: x * 0.12,
+            scale: 1.06,
+            ease: 'power2.out', duration: 0.4,
+          });
+        });
+        el.addEventListener('mouseleave', () => {
+          gsap.to(el, {
+            x: 0, y: 0, rotationX: 0, rotationY: 0, scale: 1,
+            ease: 'elastic.out(1, 0.35)', duration: 1.2,
+          });
+        });
+      });
+    })();
+
   </script>
 
 
